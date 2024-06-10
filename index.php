@@ -18,7 +18,7 @@ a<?php
  *
  *
  * @package     local_stoodle
- * @copyright   2024 Your Name <you@example.com>
+ * @copyright   2024 Jonathan Kong-Shi kongshij@wit.edu, Myles R. Sullivan sullivanm22@wit.edu, Jhonathan Deandrade deandradej@wit.edu
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
