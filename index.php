@@ -32,8 +32,9 @@ $PAGE->set_url(new moodle_url('/local/stoodle/index.php'));
 $PAGE->set_pagelayout('standard');
 $PAGE->set_title(get_string('pluginname', 'local_stoodle'));
 $PAGE->set_heading(get_string('pluginname', 'local_stoodle'));
-$baseurl = $PAGE->url;
-$nextitemurl = new moodle_url($PAGE->url, ['item' => $nextitemid]);
+
 echo $OUTPUT->header();
+
+
 
 echo $OUTPUT->footer();
