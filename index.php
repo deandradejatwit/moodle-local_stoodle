@@ -1,4 +1,4 @@
-a<?php
+<?php
 // This file is part of Moodle - https://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -18,11 +18,15 @@ a<?php
  *
  *
  * @package     local_stoodle
- * @copyright   2024 Jonathan Kong-Shi kongshij@wit.edu, Myles R. Sullivan sullivanm22@wit.edu, Jhonathan Deandrade deandradej@wit.edu
+ * @copyright   2024 Jonathan Kong-Shi kongshij@wit.edu,
+ *              Myles R. Sullivan sullivanm22@wit.edu,
+ *              Jhonathan Deandrade deandradej@wit.edu
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 require_once('../../config.php');
+require_login();
+
 $PAGE->set_context(context_system::instance());
 $PAGE->set_url(new moodle_url('/local/stoodle/index.php'));
 $PAGE->set_pagelayout('standard');
