@@ -34,7 +34,20 @@ $PAGE->set_title(get_string('pluginname', 'local_stoodle'));
 $PAGE->set_heading(get_string('pluginname', 'local_stoodle'));
 
 echo $OUTPUT->header();
+?>
 
+<a href="flashcard.php"><button type="button">Flashcards</button>
+<a href="quiz.php"><button type="button">Quiz</button>
 
-
+<?php
+/**
+ *
+ *
+ * @package     local_stoodle
+ * @copyright   2024 Jonathan Kong-Shi kongshij@wit.edu,
+ *              Myles R. Sullivan sullivanm22@wit.edu,
+ *              Jhonathan Deandrade deandradej@wit.edu
+ * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 echo $OUTPUT->footer();
+
