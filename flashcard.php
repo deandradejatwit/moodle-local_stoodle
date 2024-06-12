@@ -48,6 +48,7 @@ echo $OUTPUT->header(); ?>
     </div>
     
     <a href="index.php"><button>Back</button></a>
+    <a href="flashcard_activity.php"><button>Activity Test</button></a>
     
 </body>
 </html>
