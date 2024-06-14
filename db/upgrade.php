@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
- * Plugin version and other meta-data are defined here.
+ * This file is used to upgarde the database for stoodle.
  *
  * @package     local_stoodle
  * @copyright   2024 Jonathan Kong-Shi kongshij@wit.edu,
@@ -26,8 +26,26 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'local_stoodle';
-$plugin->release = '0.1.0';
-$plugin->version = 2024061408;
-$plugin->requires = 2022112800;
-$plugin->maturity = MATURITY_ALPHA;
+ /**
+  * This function updates the database of the local plugin.
+  *
+  * @param mixed $oldversion
+  *
+  * @return bool
+  */
+function xmldb_local_stoodle_upgrade($oldversion): bool {
+    global $CFG, $DB;
+    $dbman = $DB->get_manager();
+    if ($oldversion < 2024061408) {
+        // Define field test to be added to flashcard_test.
+        $table = new xmldb_table('flashcard_test');
+        $field = new xmldb_field('test', XMLDB_TYPE_INTEGER, '1', null, null, null, null, 'flashcard_answer');
+        // Conditionally launch add field test.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+        // Stoodle savepoint reached.
+        upgrade_plugin_savepoint(true, 2024061408, 'local', 'stoodle');
+    }
+    return true;
+}
