@@ -39,7 +39,6 @@ $templatecontext = (object)[
     'texttodisplay' => 'here is some text',
 ];
 
-echo $OUTPUT->render_from_template('local_stoodle/flashcard_create', $templatecontext);
 $createcardsform->display();
 
 echo $OUTPUT->footer();
