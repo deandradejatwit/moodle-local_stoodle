@@ -35,3 +35,9 @@
 
 <h1>Hello World!</h1>
 <p>{{texttodisplay}}</p>
+
+{{#js}}
+require(['local_stoodle/script'], function(Script) {
+    Script.init();
+});
+{{/js}}
