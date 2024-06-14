@@ -24,3 +24,17 @@
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+require_once('../../config.php');
+require_login();
+
+$PAGE->set_context(context_system::instance());
+$PAGE->set_url(new moodle_url('/local/stoodle/flashcard_activity.php'));
+$PAGE->set_pagelayout('standard');
+$PAGE->set_title('Flashcards');
+$PAGE->set_heading('Flashcards');
+
+echo $OUTPUT->header();
+
+
+
+echo $OUTPUT->footer();
