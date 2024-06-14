@@ -23,4 +23,23 @@
  *              Jhonathan Deandrade deandradej@wit.edu
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+require_once('../../config.php');
+require_login();
 
+$PAGE->set_context(context_system::instance());
+$PAGE->set_url(new moodle_url('/local/flashcard_create/index.php'));
+$PAGE->set_pagelayout('standard');
+$PAGE->set_title(get_string('flashcardcreate', 'local_stoodle'));
+$PAGE->set_heading(get_string('flashcardcreate', 'local_stoodle'));
+
+$createcardsform = new \local_stoodle\form\create_cards();
+echo $OUTPUT->header();
+
+$templatecontext = (object)[
+    'texttodisplay' => 'here is some text',
+];
+
+echo $OUTPUT->render_from_template('local_stoodle/flashcard_create', $templatecontext);
+$createcardsform->display();
+
+echo $OUTPUT->footer();
