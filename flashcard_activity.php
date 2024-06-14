@@ -35,6 +35,9 @@ $PAGE->set_heading('Flashcards');
 
 echo $OUTPUT->header();
 
-
+$templatecontext = (object)[
+    'texttodisplay' => 'This is some text that will be displayed',
+];
+echo $OUTPUT->render_from_template('local_stoodle/flashcard_activity', $templatecontext);
 
 echo $OUTPUT->footer();
