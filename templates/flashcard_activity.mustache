@@ -33,11 +33,26 @@
     }
 }}
 
-<h1>Hello World!</h1>
-<p>{{texttodisplay}}</p>
+<div style="height: 100px;
+            width: 300px;
+            border: 1px solid black;
+" onclick="doThing()">
+    <p style="padding: 25px 10px 25px 100px;">This is a card</p>
+</div>
+
+<script>
+    function doThing() {
+        let cardText = document.querySelector('p');
+        if (cardText.innerHTML === 'This is a card') {
+            cardText.innerHTML = 'This is an answer';
+        } else {
+            cardText.innerHTML = 'This is a card';
+        }
+    }
+</script>
 
 {{#js}}
 require(['local_stoodle/script'], function(Script) {
     Script.init();
 });
-{{/js}}
+{{/js }}
