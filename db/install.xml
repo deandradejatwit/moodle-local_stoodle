@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="local/stoodle/db" VERSION="20240614" COMMENT="XMLDB file for Moodle local/stoodle"
+<XMLDB PATH="local/stoodle/db" VERSION="2024061601" COMMENT="XMLDB file for Moodle local/stoodle"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
