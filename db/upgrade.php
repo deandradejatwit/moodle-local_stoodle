@@ -36,16 +36,32 @@ defined('MOODLE_INTERNAL') || die();
 function xmldb_local_stoodle_upgrade($oldversion): bool {
     global $CFG, $DB;
     $dbman = $DB->get_manager();
-    if ($oldversion < 2024061408) {
-        // Define field test to be added to flashcard_test.
+    if ($oldversion < 2024061601) {
+        // Define table local_stoodle to be created.
+        $table = new xmldb_table('local_stoodle');
+        // Adding fields to table local_stoodle.
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+        // Adding keys to table local_stoodle.
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, ['id']);
+        // Conditionally launch create table for local_stoodle.
+        if (!$dbman->table_exists($table)) {
+            $dbman->create_table($table);
+        }
+        // Define table flashcard_test to be created.
         $table = new xmldb_table('flashcard_test');
-        $field = new xmldb_field('test', XMLDB_TYPE_INTEGER, '1', null, null, null, null, 'flashcard_answer');
-        // Conditionally launch add field test.
-        if (!$dbman->field_exists($table, $field)) {
-            $dbman->add_field($table, $field);
+        // Adding fields to table flashcard_test.
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+        $table->add_field('flashcard_question', XMLDB_TYPE_TEXT, null, null, XMLDB_NOTNULL, null, null);
+        $table->add_field('flashcard_answer', XMLDB_TYPE_CHAR, '258', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('test', XMLDB_TYPE_INTEGER, '1', null, null, null, null);
+        // Adding keys to table flashcard_test.
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, ['id']);
+        // Conditionally launch create table for flashcard_test.
+        if (!$dbman->table_exists($table)) {
+            $dbman->create_table($table);
         }
         // Stoodle savepoint reached.
-        upgrade_plugin_savepoint(true, 2024061408, 'local', 'stoodle');
+        upgrade_plugin_savepoint(true, 2024061601, 'local', 'stoodle');
     }
     return true;
 }
