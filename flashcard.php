@@ -44,12 +44,12 @@ echo $OUTPUT->header(); ?>
             <option value="option2"> Option 2 </option>
         </select>
         <a href=""><button type="submit">Submit</button></a>
-        <a href=""><button>Create New Set</button></a>
+        <a href="flashcard_create.php"><button>Create New Set</button></a>
     </div>
-    
+
     <a href="index.php"><button>Back</button></a>
     <a href="flashcard_activity.php"><button>Activity Test</button></a>
-    
+
 </body>
 </html>
 
