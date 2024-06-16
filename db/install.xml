@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<XMLDB PATH="local/stoodle/db" VERSION="2024061601" COMMENT="XMLDB file for Moodle local/stoodle"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
+>
+  <TABLES>
+    <TABLE NAME="local_stoodle" COMMENT="Default comment for local_stoodle, please edit me">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="flashcard_test" COMMENT="test table for flashcards">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="flashcard_question" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="flashcard front side question"/>
+        <FIELD NAME="flashcard_answer" TYPE="char" LENGTH="258" NOTNULL="true" SEQUENCE="false" COMMENT="flashcard back side answer"/>
+        <FIELD NAME="test" TYPE="int" LENGTH="1" NOTNULL="false" SEQUENCE="false" COMMENT="test update"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+    </TABLE>
+  </TABLES>
+</XMLDB>
