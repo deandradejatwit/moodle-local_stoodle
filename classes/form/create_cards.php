@@ -46,12 +46,7 @@ class create_cards extends \moodleform {
         ];
 
 
-        if ($this->_instance){
-            $repeatno = $DB->count_records('choice_options', ['choiceid' => $this->_instance]);
-            $repeatno += 2;
-        } else {
-            $repeatno = 3;
-        }
+        $repeatno = 3;
 
         $repeateloptions = [
             'question'=> [],
