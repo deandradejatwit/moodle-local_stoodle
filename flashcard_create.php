@@ -1,4 +1,5 @@
 <?php
+use Seld\JsonLint\Undefined;
 // This file is part of Moodle - https://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -33,12 +34,36 @@ $PAGE->set_title(get_string('flashcardcreate', 'local_stoodle'));
 $PAGE->set_heading(get_string('flashcardcreate', 'local_stoodle'));
 
 $createcardsform = new \local_stoodle\form\create_cards();
+if ($data = $createcardsform->get_data()) {
+    $question = required_param_array('question', PARAM_TEXT);
+    $answer = required_param_array('answer', PARAM_TEXT);
+    if (!empty($question)&&!empty($answer)) {
+        $record = new stdClass;
+        for ($i=0; $i<=count($question)-1; $i++) {
+            $record->flashcard_question = $question[$i];
+            $record->flashcard_answer = $answer[$i];
+            $DB->insert_record('flashcard_test', $record);
+        }
+    }
+    $url = new moodle_url('/local/stoodle/flashcard.php');
+    redirect($url);
+}
 echo $OUTPUT->header();
+?>
+<html lang="en">
+<body>
+    <div>
+        Set:
+        <select>
+            <option value="option1"> Option 1 </option>
+            <option value="option2"> Option 2 </option>
+        </select>
+        <a href=""><button type="submit">Submit</button></a>
+    </div>
+</body>
+</html>
 
-$templatecontext = (object)[
-    'texttodisplay' => 'here is some text',
-];
-
+<?php
 $createcardsform->display();
 
 echo $OUTPUT->footer();
