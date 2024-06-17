@@ -32,10 +32,17 @@ $PAGE->set_pagelayout('standard');
 $PAGE->set_title('Flashcards');
 $PAGE->set_heading('Flashcards');
 
+global $DB;
+$question1 = $DB->get_field_sql('SELECT flashcard_question FROM {flashcard_test} WHERE id = 1;');
+$answer1 = $DB->get_field_sql('SELECT flashcard_answer FROM {flashcard_test} WHERE id = 1;');
+
 echo $OUTPUT->header();
 
 $templatecontext = (object)[
     'texttodisplay' => 'This is some text that will be displayed',
+    'question1' => $question1,
+    'answer1' => $answer1,
+
 ];
 echo $OUTPUT->render_from_template('local_stoodle/flashcard_activity', $templatecontext);
 

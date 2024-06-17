@@ -36,7 +36,7 @@ defined('MOODLE_INTERNAL') || die();
 function xmldb_local_stoodle_upgrade($oldversion): bool {
     global $CFG, $DB;
     $dbman = $DB->get_manager();
-    if ($oldversion < 2024061601) {
+    if ($oldversion < 2024061603) {
         // Define table local_stoodle to be created.
         $table = new xmldb_table('local_stoodle');
         // Adding fields to table local_stoodle.
@@ -60,8 +60,41 @@ function xmldb_local_stoodle_upgrade($oldversion): bool {
         if (!$dbman->table_exists($table)) {
             $dbman->create_table($table);
         }
+        // Define table flashcard_set to be created.
+        $table = new xmldb_table('flashcard_set');
+
+        // Adding fields to table flashcard_set.
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+        $table->add_field('set_name', XMLDB_TYPE_TEXT, null, null, XMLDB_NOTNULL, null, null);
+        $table->add_field('timemodified', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
+
+        // Adding keys to table flashcard_set.
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, ['id']);
+
+        // Conditionally launch create table for flashcard_set.
+        if (!$dbman->table_exists($table)) {
+            $dbman->create_table($table);
+        }
+        // Define table flashcard_card to be created.
+        $table = new xmldb_table('flashcard_card');
+
+        // Adding fields to table flashcard_card.
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+        $table->add_field('flashcard_set', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
+        $table->add_field('question', XMLDB_TYPE_TEXT, null, null, XMLDB_NOTNULL, null, null);
+        $table->add_field('answer', XMLDB_TYPE_TEXT, null, null, XMLDB_NOTNULL, null, null);
+        $table->add_field('timemodified', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
+
+        // Adding keys to table flashcard_card.
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, ['id']);
+        $table->add_key('foreign', XMLDB_KEY_FOREIGN, ['flashcard_set'], 'flashcard_set', ['id']);
+
+        // Conditionally launch create table for flashcard_card.
+        if (!$dbman->table_exists($table)) {
+            $dbman->create_table($table);
+        }
         // Stoodle savepoint reached.
-        upgrade_plugin_savepoint(true, 2024061601, 'local', 'stoodle');
+        upgrade_plugin_savepoint(true, 2024061603, 'local', 'stoodle');
     }
     return true;
 }
