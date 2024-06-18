@@ -23,6 +23,11 @@
  *              Jhonathan Deandrade deandradej@wit.edu
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+     /**
+     * add stoodle to moodle's secondary tab on the frontpage.
+     *
+     * @param navigation_node $frontpage %frontpage moodle front page.
+     */
 function local_stoodle_extend_navigation_frontpage(navigation_node $frontpage) {
     $frontpage->add(
         get_string('pluginname', 'local_stoodle'),

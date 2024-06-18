@@ -33,7 +33,12 @@ $PAGE->set_pagelayout('standard');
 $PAGE->set_title(get_string('pluginname', 'local_stoodle'));
 $PAGE->set_heading("Flashcard Menu");  // Replace with get_string.
 
-echo $OUTPUT->header(); ?>
+$select = new \local_stoodle\form\select_form();
+
+echo $OUTPUT->header();
+$select -> display();
+
+?>
 
 <html lang="en">
 <body>

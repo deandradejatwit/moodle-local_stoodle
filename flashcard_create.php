@@ -1,5 +1,4 @@
 <?php
-use Seld\JsonLint\Undefined;
 // This file is part of Moodle - https://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -34,36 +33,36 @@ $PAGE->set_title(get_string('flashcardcreate', 'local_stoodle'));
 $PAGE->set_heading(get_string('flashcardcreate', 'local_stoodle'));
 
 $createcardsform = new \local_stoodle\form\create_cards();
+
 if ($data = $createcardsform->get_data()) {
+    $set = required_param('set', PARAM_TEXT);
     $question = required_param_array('question', PARAM_TEXT);
     $answer = required_param_array('answer', PARAM_TEXT);
     if (!empty($question)&&!empty($answer)) {
+        $recordset = new stdClass;
         $record = new stdClass;
+
+        $recordset->set_name=$set;
+        //$recordset->timemodified=time();
+
+        $DB->insert_record('flashcard_set', $recordset);
+        $currentset = $DB->get_records('flashcard_set', null,'',$set);
+
         for ($i=0; $i<=count($question)-1; $i++) {
-            $record->flashcard_question = $question[$i];
-            $record->flashcard_answer = $answer[$i];
-            $DB->insert_record('flashcard_test', $record);
+            $record->flashcard_set=$currentset->id;
+            $record->question = $question[$i];
+            $record->answer = $answer[$i];
+            //$record->timemodified = time();
+            $DB->insert_record('flashcard_card', $record);
         }
+    } else {
+        // need to put error message.
     }
     $url = new moodle_url('/local/stoodle/flashcard.php');
     redirect($url);
 }
 echo $OUTPUT->header();
-?>
-<html lang="en">
-<body>
-    <div>
-        Set:
-        <select>
-            <option value="option1"> Option 1 </option>
-            <option value="option2"> Option 2 </option>
-        </select>
-        <a href=""><button type="submit">Submit</button></a>
-    </div>
-</body>
-</html>
 
-<?php
 $createcardsform->display();
 
 echo $OUTPUT->footer();
