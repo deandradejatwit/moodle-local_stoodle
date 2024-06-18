@@ -46,14 +46,17 @@ if ($data = $createcardsform->get_data()) {
         //$recordset->timemodified=time();
 
         $DB->insert_record('flashcard_set', $recordset);
-        $currentset = $DB->get_records('flashcard_set', null,'',$set);
+        $test = $DB->get_record_select('flashcard_set', 'set_name = ?', array($set));
+
 
         for ($i=0; $i<=count($question)-1; $i++) {
-            $record->flashcard_set=$currentset->id;
-            $record->question = $question[$i];
-            $record->answer = $answer[$i];
-            //$record->timemodified = time();
-            $DB->insert_record('flashcard_card', $record);
+            if(!empty($question[$i])&&!empty($answer[$i])){
+                $record->flashcard_set=$test->id;
+                $record->question = $question[$i];
+                $record->answer = $answer[$i];
+                //$record->timemodified = time();
+                $DB->insert_record('flashcard_card', $record);
+            }
         }
     } else {
         // need to put error message.

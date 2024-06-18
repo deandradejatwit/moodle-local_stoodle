@@ -36,7 +36,7 @@ require_once($CFG->libdir . '/formslib.php');
         $choices = array();
         $choices['-1'] = 'None';
         foreach ($sets as $set) {
-            $choices[$count->id] = $set->set_name;
+            $choices[$count] = $set->set_name;
             $count++;
         }
         $mform -> addElement('select','card_sets', get_string('selectstr','local_stoodle'), $choices);
