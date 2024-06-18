@@ -42,24 +42,24 @@ if ($data = $createcardsform->get_data()) {
         $recordset = new stdClass;
         $record = new stdClass;
 
-        $recordset->set_name=$set;
-        //$recordset->timemodified=time();
+        $recordset->set_name = $set;
+        $recordset->timemodified = time();
 
         $DB->insert_record('flashcard_set', $recordset);
         $test = $DB->get_record_select('flashcard_set', 'set_name = ?', array($set));
 
 
-        for ($i=0; $i<=count($question)-1; $i++) {
-            if(!empty($question[$i])&&!empty($answer[$i])){
-                $record->flashcard_set=$test->id;
+        for ($i = 0; $i <= count($question) - 1; $i++) {
+            if (!empty($question[$i])&&!empty($answer[$i])) {
+                $record->flashcard_set = $test->id;
                 $record->question = $question[$i];
                 $record->answer = $answer[$i];
-                //$record->timemodified = time();
+                $record->timemodified = time();
                 $DB->insert_record('flashcard_card', $record);
             }
         }
     } else {
-        // need to put error message.
+        // Need to put error message.
     }
     $url = new moodle_url('/local/stoodle/flashcard.php');
     redirect($url);

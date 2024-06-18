@@ -26,14 +26,19 @@
 namespace local_stoodle\form;
 defined('MOODLE_INTERNAL') || die();
 require_once($CFG->libdir . '/formslib.php');
-     /**
-     * create repeating flashcard form.
+
+/**
+ * create repeating flashcard form.
+ *
+ */
+class create_cards extends \moodleform {
+    /**
+     * defining the functionality and structure of form
      *
      */
-class create_cards extends \moodleform {
-    public function definition(){
+    public function definition() {
         global $DB;
-        $mform= $this->_form;
+        $mform = $this->_form;
 
         $mform->addElement('textarea', 'set', get_string('setnamestr', 'local_stoodle'));
 
@@ -44,7 +49,7 @@ class create_cards extends \moodleform {
             $mform->createElement('textarea', 'answer', get_string('answerstr', 'local_stoodle')),
         ];
 
-        $repeatarray =[
+        $repeatarray = [
             $mform->createElement('textarea', 'question', get_string('questionstr', 'local_stoodle')),
             $mform->createElement('textarea', 'answer', get_string('answerstr', 'local_stoodle')),
             $mform->createElement('submit', 'delete', get_string('deletestr', 'local_stoodle'), [], false),
@@ -53,8 +58,8 @@ class create_cards extends \moodleform {
         $repeatno = 3;
 
         $repeateloptions = [
-            'question'=> [],
-            'answer'=> [],
+            'question' => [],
+            'answer' => [],
         ];
 
         $mform->setType('set', PARAM_TEXT);

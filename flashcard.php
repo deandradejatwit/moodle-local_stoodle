@@ -36,7 +36,7 @@ $PAGE->set_heading("Flashcard Menu");  // Replace with get_string.
 $select = new \local_stoodle\form\select_form();
 
 echo $OUTPUT->header();
-$select -> display();
+$select->display();
 
 ?>
 

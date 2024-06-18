@@ -26,12 +26,20 @@
 namespace local_stoodle\form;
 defined('MOODLE_INTERNAL') || die();
 require_once($CFG->libdir . '/formslib.php');
- class select_form extends \moodleform{
-    public function definition(){
+/**
+ * create flashcard select form.
+ *
+ */
+class select_form extends \moodleform {
+    /**
+     * defining the functionality and structure of form
+     *
+     */
+    public function definition() {
         global $DB;
-        $mform= $this->_form;
+        $mform = $this->_form;
 
-        $sets = $DB->get_records('flashcard_set',null);
+        $sets = $DB->get_records('flashcard_set', null);
         $count = 0;
         $choices = array();
         $choices['-1'] = 'None';
@@ -39,6 +47,6 @@ require_once($CFG->libdir . '/formslib.php');
             $choices[$count] = $set->set_name;
             $count++;
         }
-        $mform -> addElement('select','card_sets', get_string('selectstr','local_stoodle'), $choices);
+        $mform->addElement('select', 'card_sets', get_string('selectstr', 'local_stoodle'), $choices);
     }
 }
