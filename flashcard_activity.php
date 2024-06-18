@@ -23,8 +23,10 @@
  *              Jhonathan Deandrade deandradej@wit.edu
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
 require_once('../../config.php');
 require_login();
+global $DB;
 
 $PAGE->set_context(context_system::instance());
 $PAGE->set_url(new moodle_url('/local/stoodle/flashcard_activity.php'));
@@ -32,18 +34,16 @@ $PAGE->set_pagelayout('standard');
 $PAGE->set_title('Flashcards');
 $PAGE->set_heading('Flashcards');
 
-global $DB;
-$question1 = $DB->get_field_sql('SELECT flashcard_question FROM {flashcard_test} WHERE id = 1;');
-$answer1 = $DB->get_field_sql('SELECT flashcard_answer FROM {flashcard_test} WHERE id = 1;');
+$question1 = [$DB->get_records('flashcard_card')];
 
 echo $OUTPUT->header();
 
+$PAGE->requires->js_call_amd('local_stoodle/script', 'init', $question1);
+
 $templatecontext = (object)[
     'texttodisplay' => 'This is some text that will be displayed',
-    'question1' => $question1,
-    'answer1' => $answer1,
-
 ];
+
 echo $OUTPUT->render_from_template('local_stoodle/flashcard_activity', $templatecontext);
 
 echo $OUTPUT->footer();

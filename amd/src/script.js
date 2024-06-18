@@ -1,10 +1,5 @@
-export const init = () => {
-    const trueOrFalse = false;
-    window.console.log("Hello World, welcome to Moodle!");
-    const dog = (coolParam) => {
-        if (coolParam) {
-            window.console.log('Woof or something');
-        }
-    };
-    dog(trueOrFalse);
+export const init = (someArray) => {
+    document.querySelector('.js-question').innerHTML = someArray[1].question;
+    document.querySelector('.js-answer').innerHTML = someArray[1].answer;
+    window.console.log(someArray);
 };
