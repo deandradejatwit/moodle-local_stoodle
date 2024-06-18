@@ -33,16 +33,16 @@ $PAGE->set_pagelayout('standard');
 $PAGE->set_title(get_string('pluginname', 'local_stoodle'));
 $PAGE->set_heading("Flashcard Menu");  // Replace with get_string.
 
-echo $OUTPUT->header(); ?>
+$select = new \local_stoodle\form\select_form();
+
+echo $OUTPUT->header();
+$select->display();
+
+?>
 
 <html lang="en">
 <body>
     <div>
-        Set:
-        <select>
-            <option value="option1"> Option 1 </option>
-            <option value="option2"> Option 2 </option>
-        </select>
         <a href=""><button type="submit">Submit</button></a>
         <a href="flashcard_create.php"><button>Create New Set</button></a>
     </div>

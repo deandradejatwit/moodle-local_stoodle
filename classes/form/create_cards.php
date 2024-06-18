@@ -26,18 +26,28 @@
 namespace local_stoodle\form;
 defined('MOODLE_INTERNAL') || die();
 require_once($CFG->libdir . '/formslib.php');
+
+/**
+ * create repeating flashcard form.
+ *
+ */
 class create_cards extends \moodleform {
-    public function definition(){
+    /**
+     * defining the functionality and structure of form
+     *
+     */
+    public function definition() {
         global $DB;
-        $mform= $this->_form;
+        $mform = $this->_form;
 
-        /*$mform->addElement('textarea', 'question', get_string('question', 'local_stoodle'));
-        $mform->setType('question', PARAM_TEXT);
-
-        $mform->addElement('textarea', 'answer', get_string('answer', 'local_stoodle'));
-        $mform->setType('answer', PARAM_TEXT);*/
+        $mform->addElement('textarea', 'set', get_string('setnamestr', 'local_stoodle'));
 
         $submitlabel = get_string('submit');
+
+        $startarray = [
+            $mform->createElement('textarea', 'question', get_string('questionstr', 'local_stoodle')),
+            $mform->createElement('textarea', 'answer', get_string('answerstr', 'local_stoodle')),
+        ];
 
         $repeatarray = [
             $mform->createElement('textarea', 'question', get_string('questionstr', 'local_stoodle')),
@@ -45,19 +55,19 @@ class create_cards extends \moodleform {
             $mform->createElement('submit', 'delete', get_string('deletestr', 'local_stoodle'), [], false),
         ];
 
-
         $repeatno = 3;
 
         $repeateloptions = [
-            'question'=> [],
-            'answer'=> [],
+            'question' => [],
+            'answer' => [],
         ];
 
+        $mform->setType('set', PARAM_TEXT);
         $mform->setType('question', PARAM_TEXT);
         $mform->setType('answer', PARAM_TEXT);
 
         $this->repeat_elements(
-            $repeatarray,
+            $startarray,
             $repeatno,
             $repeateloptions,
             'option_repeats',
@@ -68,7 +78,7 @@ class create_cards extends \moodleform {
             'delete',
         );
 
-        $mform->addElement('submit', 'submitmessage', $submitlabel);
+        $mform->addElement('submit', 'submitcards', $submitlabel);
 
     }
 }

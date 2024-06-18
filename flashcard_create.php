@@ -33,11 +33,38 @@ $PAGE->set_title(get_string('flashcardcreate', 'local_stoodle'));
 $PAGE->set_heading(get_string('flashcardcreate', 'local_stoodle'));
 
 $createcardsform = new \local_stoodle\form\create_cards();
-echo $OUTPUT->header();
 
-$templatecontext = (object)[
-    'texttodisplay' => 'here is some text',
-];
+if ($data = $createcardsform->get_data()) {
+    $set = required_param('set', PARAM_TEXT);
+    $question = required_param_array('question', PARAM_TEXT);
+    $answer = required_param_array('answer', PARAM_TEXT);
+    if (!empty($question)&&!empty($answer)) {
+        $recordset = new stdClass;
+        $record = new stdClass;
+
+        $recordset->set_name = $set;
+        $recordset->timemodified = time();
+
+        $DB->insert_record('flashcard_set', $recordset);
+        $test = $DB->get_record_select('flashcard_set', 'set_name = ?', array($set));
+
+
+        for ($i = 0; $i <= count($question) - 1; $i++) {
+            if (!empty($question[$i])&&!empty($answer[$i])) {
+                $record->flashcard_set = $test->id;
+                $record->question = $question[$i];
+                $record->answer = $answer[$i];
+                $record->timemodified = time();
+                $DB->insert_record('flashcard_card', $record);
+            }
+        }
+    } else {
+        // Need to put error message.
+    }
+    $url = new moodle_url('/local/stoodle/flashcard.php');
+    redirect($url);
+}
+echo $OUTPUT->header();
 
 $createcardsform->display();
 
