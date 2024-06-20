@@ -36,7 +36,11 @@ global $DB;
 $question1 = $DB->get_field_sql('SELECT flashcard_question FROM {flashcard_test} WHERE id = 1;');
 $answer1 = $DB->get_field_sql('SELECT flashcard_answer FROM {flashcard_test} WHERE id = 1;');
 
+$variable = $_SESSION['variable'];
+
 echo $OUTPUT->header();
+
+$selected_set;
 
 $templatecontext = (object)[
     'texttodisplay' => 'This is some text that will be displayed',
@@ -45,5 +49,6 @@ $templatecontext = (object)[
 
 ];
 echo $OUTPUT->render_from_template('local_stoodle/flashcard_activity', $templatecontext);
+echo $variable;
 
 echo $OUTPUT->footer();
