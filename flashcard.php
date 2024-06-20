@@ -26,6 +26,7 @@
 
 require_once('../../config.php');
 require_login();
+global $SESSION;
 
 $PAGE->set_context(context_system::instance());
 $PAGE->set_url(new moodle_url('/local/stoodle/flashcard.php'));
@@ -36,7 +37,7 @@ $PAGE->set_heading("Flashcard Menu");  // Replace with get_string.
 $select = new \local_stoodle\form\select_form();
 if ($data = $select->get_data()) {
     $set = required_param('card_sets', PARAM_TEXT);
-    $_SESSION['variable'] = $set;
+    $SESSION->activity_set_name = $set;
     $url = new moodle_url('/local/stoodle/flashcard_activity.php');
     redirect($url);
 }
