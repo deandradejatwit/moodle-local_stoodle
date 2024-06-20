@@ -47,7 +47,7 @@ class create_cards extends \moodleform {
             $mform->createElement('textarea', 'answer', get_string('answerstr', 'local_stoodle')),
         ];
 
-        $repeatno = 3;
+        $repeatno = 1;
 
         $repeateloptions = [
             'question' => [],
