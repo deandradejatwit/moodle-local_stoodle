@@ -36,11 +36,8 @@ global $DB;
 $question1 = $DB->get_field_sql('SELECT flashcard_question FROM {flashcard_test} WHERE id = 1;');
 $answer1 = $DB->get_field_sql('SELECT flashcard_answer FROM {flashcard_test} WHERE id = 1;');
 
-$variable = $SESSION->activity_set_name;
 
 echo $OUTPUT->header();
-
-$selected_set;
 
 $templatecontext = (object)[
     'texttodisplay' => 'This is some text that will be displayed',
