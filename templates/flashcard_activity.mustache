@@ -32,29 +32,12 @@
     {
     }
 }}
-<p>{{question1}}</p>
-<p>{{answer1}}</p>
+<p class="js-question"></p>
+<p class="js-answer"></p>
 
 <div style="height: 100px;
             width: 300px;
             border: 1px solid black;
-" onclick="doThing()">
-    <p style="padding: 25px 10px 25px 100px;">This is a card</p>
+">
+    <p style="padding: 25px 10px 25px 100px;" class="js-card">This is a card</p>
 </div>
-
-<script>
-    function doThing() {
-        let cardText = document.querySelector('p');
-        if (cardText.innerHTML === 'This is a card') {
-            cardText.innerHTML = 'This is an answer';
-        } else {
-            cardText.innerHTML = 'This is a card';
-        }
-    }
-</script>
-
-{{#js}}
-require(['local_stoodle/script'], function(Script) {
-    Script.init();
-});
-{{/js }}
