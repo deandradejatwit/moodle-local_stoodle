@@ -23,6 +23,7 @@
  *              Jhonathan Deandrade deandradej@wit.edu
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
 require_once('../../config.php');
 require_login();
 
@@ -42,14 +43,14 @@ if ($createcardsform->is_cancelled()) {
     $question = required_param_array('question', PARAM_TEXT);
     $answer = required_param_array('answer', PARAM_TEXT);
 
-    if (!empty($set)&&!empty($question)&&!empty($answer)) {
+    if (!empty($set) && checkEmpty($question, $answer)) {
         $recordset = new stdClass;
         $record = new stdClass;
 
         $recordset->set_name = $set;
         $recordset->timemodified = time();
 
-        if(!$DB->get_record_select('flashcard_set', 'set_name = ?', array($set))){
+        if (!$DB->get_record_select('flashcard_set', 'set_name = ?', array($set))) {
             $DB->insert_record('flashcard_set', $recordset);
             $test = $DB->get_record_select('flashcard_set', 'set_name = ?', array($set));
 
@@ -67,6 +68,16 @@ if ($createcardsform->is_cancelled()) {
     $url = new moodle_url('/local/stoodle/flashcard.php');
     redirect($url);
 }
+
+function checkEmpty($arr1, $arr2) {
+    for ($i = 0; $i < count($arr1); $i++) {
+        if (!(empty($arr1[$i]) || empty($arr2[$i]))) {
+            return true;
+        }
+    }
+    return false;
+}
+
 echo $OUTPUT->header();
 
 $createcardsform->display();
