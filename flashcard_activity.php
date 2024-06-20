@@ -26,7 +26,7 @@
 
 require_once('../../config.php');
 require_login();
-global $DB;
+global $DB, $SESSION;
 
 $PAGE->set_context(context_system::instance());
 $PAGE->set_url(new moodle_url('/local/stoodle/flashcard_activity.php'));
@@ -34,8 +34,8 @@ $PAGE->set_pagelayout('standard');
 $PAGE->set_title('Flashcards');
 $PAGE->set_heading('Flashcards');
 
-$question1 = [$DB->get_records('flashcard_card')];
-
+$variable = $SESSION->activity_set_name;
+$question1 = [$DB->get_records('flashcard_card', ['flashcard_set' => $variable])];
 
 echo $OUTPUT->header();
 
@@ -46,6 +46,5 @@ $templatecontext = (object)[
 ];
 
 echo $OUTPUT->render_from_template('local_stoodle/flashcard_activity', $templatecontext);
-echo $variable;
 
 echo $OUTPUT->footer();
