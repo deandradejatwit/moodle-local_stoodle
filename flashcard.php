@@ -35,7 +35,20 @@ $PAGE->set_title(get_string('pluginname', 'local_stoodle'));
 $PAGE->set_heading("Flashcard Menu");  // Replace with get_string.
 
 $select = new \local_stoodle\form\select_form();
-if ($data = $select->get_data()) {
+if ($select->no_submit_button_pressed()) {
+    $data = $select->get_submitted_data();
+    $set = required_param('card_sets', PARAM_TEXT);
+
+    if($set == -1){
+        $url = new moodle_url('/local/stoodle/flashcard_create.php');
+        redirect($url);
+    }
+
+    $SESSION->edit_set_id = $set;
+
+    $url = new moodle_url('/local/stoodle/flashcard_edit.php');
+    redirect($url);
+} else if ($data = $select->get_data()) {
     $set = required_param('card_sets', PARAM_TEXT);
     if($set == -1){
         $url = new moodle_url('/local/stoodle/flashcard_create.php');

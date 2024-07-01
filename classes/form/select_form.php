@@ -49,6 +49,12 @@ class select_form extends \moodleform {
         $mform->addElement('select', 'card_sets', get_string('selectstr', 'local_stoodle'), $options);
 
         $submitlabel = get_string('submit');
-        $mform->addElement('submit', 'submitform', $submitlabel);
+        $mform->registerNoSubmitButton('editset');
+
+        $align = [
+            $mform->createElement('submit', 'submitform', $submitlabel),
+            $mform->createElement('submit', 'editset', get_string('edit')),
+        ];
+        $mform->addGroup($align,'buttons', '','',false);
     }
 }
