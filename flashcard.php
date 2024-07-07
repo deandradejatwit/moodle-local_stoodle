@@ -34,6 +34,8 @@ $PAGE->set_pagelayout('standard');
 $PAGE->set_title(get_string('pluginname', 'local_stoodle'));
 $PAGE->set_heading("Flashcard Menu");  // Replace with get_string.
 
+$SESSION->currentpage = 'flashcard';
+
 $select = new \local_stoodle\form\select_form();
 if ($select->no_submit_button_pressed()) {
     $data = $select->get_submitted_data();

@@ -24,7 +24,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require('../../config.php');
+require ('../../config.php');
 
 require_login();
 
@@ -40,23 +40,62 @@ $editsetform = new \local_stoodle\form\edit_set();
 if ($editsetform->is_cancelled()) {
     $url = new moodle_url('/local/stoodle/flashcard.php');
     redirect($url);
-} else if ($data = $editsetform->get_data()){
-    $set = required_param('set', PARAM_TEXT);
-    $questions = required_param_array('question', PARAM_TEXT);
-    $answers = required_param_array('answer', PARAM_TEXT);
+} else if ($data = $editsetform->get_data()) {
+    $setid = required_param('setid', PARAM_INT);
+    $cardid = required_param_array('cardid', PARAM_INT);
 
-    foreach ($questions as $question) {
-        # code...
+    $set = required_param('setname', PARAM_TEXT);
+    $questions = required_param_array('questions', PARAM_TEXT);
+    $answers = required_param_array('answers', PARAM_TEXT);
+
+    if (!empty($set)) {
+        $editset = new stdClass;
+
+        $editset->id = $setid;
+        $editset->set_name = $set;
+
+        $DB->update_record('flashcard_set', $editset);
+
+        $url = new moodle_url('/local/stoodle/flashcard.php');
+        redirect($url);
     }
 
-    $DB->update_record("flashcard_set",)
-    $DB->update_record("")
+    if (check_empty($questions, $answers)) {
+
+        for ($i = 0; $i <= count($questions); $i++) {
+            if (!empty($questions[$i]) && !empty($answers[$i])) {
+
+                $edits = new stdClass;
+
+                $edits->id = $cardid[$i];
+                $edits->question = $questions[$i];
+                $edits->answer = $answers[$i];
+                $DB->update_record('flashcard_card', $edits);
+            }
+        }
+
+        $url = new moodle_url('/local/stoodle/flashcard.php');
+        redirect($url);
+    }
+}
+
+/**
+ * Checks if two arrays are empty
+ *
+ * @param array $arr1 First array
+ * @param array $arr2 Second array
+ */
+function check_empty($arr1, $arr2) {
+    for ($i = 0; $i < count($arr1); $i++) {
+        if (!(empty($arr1[$i]) || empty($arr2[$i]))) {
+            return true;
+        }
+    }
+    return false;
 }
 
 echo $OUTPUT->header();
 
 $editsetform->display();
-$test= $SESSION->test;
-var_dump($test);
 
 echo $OUTPUT->footer();
