@@ -39,6 +39,7 @@ $question1 = [$DB->get_records('flashcard_card', ['flashcard_set' => $variable])
 
 echo $OUTPUT->header();
 
+
 $PAGE->requires->js_call_amd('local_stoodle/script', 'init', $question1);
 
 $templatecontext = (object)[
