@@ -52,11 +52,13 @@ class select_form extends \moodleform {
 
         $submitlabel = get_string('submit');
         $mform->registerNoSubmitButton('editset');
+        $mform->_registerCancelButton('delete');
 
         if($priorpage == 'flashcard'){
             $align = [
                 $mform->createElement('submit', 'submitform', $submitlabel),
                 $mform->createElement('submit', 'editset', get_string('edit')),
+                $mform->createElement('cancel', 'delete', get_string('delete'))
             ];
             $mform->addGroup($align,'buttons', '','',false);
         } else if ($priorpage == 'quiz'){
