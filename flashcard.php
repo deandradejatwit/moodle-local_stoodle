@@ -59,8 +59,8 @@ if ($select->no_submit_button_pressed()) {
         redirect($url);
     }
     $SESSION->edit_set_id = $set;
-    $DB->delete_records_select('flashcard_set', 'id = ?', [$set]);
-    $DB->delete_records_select('flashcard_card', 'flashcard_set = ?', [$set]);
+    $DB->delete_records_select('stoodle_flashcard_set', 'id = ?', [$set]);
+    $DB->delete_records_select('stoodle_flashcards', 'stoodle_flashcard_setid = ?', [$set]);
     $url = new moodle_url('/local/stoodle/flashcard.php');
     redirect($url);
 } else if ($data = $select->get_data()) {

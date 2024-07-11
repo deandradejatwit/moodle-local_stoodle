@@ -41,9 +41,9 @@ class select_form extends \moodleform {
 
         $priorpage = $SESSION->currentpage;
 
-        $sets = $DB->get_records('flashcard_set', null);
+        $sets = $DB->get_records('stoodle_flashcard_set', null);
         if (!empty($sets)) {
-            $options = $DB->get_records_menu('flashcard_set', [], 'id', 'id, set_name');
+            $options = $DB->get_records_menu('stoodle_flashcard_set', [], 'id', 'id, name');
         } else {
             $options['-1'] = 'None';
         }

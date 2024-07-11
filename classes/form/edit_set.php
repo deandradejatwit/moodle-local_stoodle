@@ -36,13 +36,13 @@ class edit_set extends \moodleform
         $mform = $this->_form;
 
         $setid = $SESSION->edit_set_id;
-        $set = $DB->get_record('flashcard_set', array('id' => $setid), 'set_name');
-        $setcards = $DB->get_records_list('flashcard_card', 'flashcard_set', array('flashcard_set' => $setid), '', '*');
+        $set = $DB->get_record('stoodle_flashcard_set', array('id' => $setid), 'name');
+        $setcards = $DB->get_records_list('stoodle_flashcards', 'stoodle_flashcard_setid', array('stoodle_flashcard_setid' => $setid), '', '*');
 
         $SESSION->test = $setcards;
 
         $mform->addElement('hidden', 'setid', $setid);
-        $mform->addElement('static', 'priorquestion', get_string('currrentsetname', 'local_stoodle'), $set->set_name);
+        $mform->addElement('static', 'priorquestion', get_string('currrentsetname', 'local_stoodle'), $set->name);
         $mform->addElement('textarea', 'setname', get_string('setnamestr', 'local_stoodle'));
 
         $mform->setType('setname', PARAM_TEXT);
@@ -51,7 +51,7 @@ class edit_set extends \moodleform
         foreach ($setcards as $setcard) {
 
 
-            $cID = $DB->get_record_select('flashcard_card', 'question = ?', [$setcard->question]);
+            $cID = $DB->get_record_select('stoodle_flashcards', 'question = ?', [$setcard->question]);
 
             $mform->addElement('hidden', 'cardid[]', $cID->id);
 
