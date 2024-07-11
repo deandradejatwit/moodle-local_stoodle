@@ -18,9 +18,7 @@
  * Plugin version and other meta-data are defined here.
  *
  * @package     local_stoodle
- * @copyright   2024 Jonathan Kong-Shi kongshij@wit.edu,
- *              Myles R. Sullivan sullivanm22@wit.edu,
- *              Jhonathan Deandrade deandradej@wit.edu
+ * @copyright   2024 Jonathan Kong-Shi kongshij@wit.edu, Myles R. Sullivan sullivanm22@wit.edu, Jhonathan Deandrade deandradej@wit.edu
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -28,6 +26,6 @@ defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'local_stoodle';
 $plugin->release = '0.1.0';
-$plugin->version = 2024062601;
+$plugin->version = 2024061000;
 $plugin->requires = 2022112800;
 $plugin->maturity = MATURITY_ALPHA;
