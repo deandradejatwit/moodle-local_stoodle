@@ -47,21 +47,25 @@ if ($createcardsform->is_cancelled()) {
         $recordset = new stdClass;
         $record = new stdClass;
 
-        $recordset->set_name = $set;
+        $recordset->name = $set;
+        $recordset->usermodified = $USER->id;
+        $recordset->timecreated = time();
         $recordset->timemodified = time();
 
-        if (!$DB->get_record_select('flashcard_set', 'set_name = ?', [$set])) {
-            $DB->insert_record('flashcard_set', $recordset);
-            $test = $DB->get_record_select('flashcard_set', 'set_name = ?', [$set]);
+        if (!$DB->get_record_select('stoodle_flashcard_set', 'name = ?', [$set])) {
+            $DB->insert_record('stoodle_flashcard_set', $recordset);
+            $test = $DB->get_record_select('stoodle_flashcard_set', 'name = ?', [$set]);
 
             for ($i = 0; $i <= count($question) - 1; $i++) {
                 if (!empty($question[$i])&&!empty($answer[$i])) {
-                    $record->flashcard_set = $test->id;
-                    $record->card_number = $i+1;
+                    $record->stoodle_flashcard_setid = $test->id;
+                    $record->flashcard_number = $i+1;
                     $record->question = $question[$i];
                     $record->answer = $answer[$i];
+                    $record->usermodified = $USER->id;
+                    $record->timecreated = time();
                     $record->timemodified = time();
-                    $DB->insert_record('flashcard_card', $record);
+                    $DB->insert_record('stoodle_flashcards', $record);
                 }
             }
         }

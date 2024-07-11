@@ -35,7 +35,7 @@ $PAGE->set_title('Flashcards');
 $PAGE->set_heading('Flashcards');
 
 $variable = $SESSION->activity_set_name;
-$question1 = [$DB->get_records('flashcard_card', ['flashcard_set' => $variable])];
+$question1 = [$DB->get_records('stoodle_flashcards', ['stoodle_flashcard_setid' => $variable])];
 
 echo $OUTPUT->header();
 
