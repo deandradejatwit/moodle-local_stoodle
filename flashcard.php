@@ -34,8 +34,36 @@ $PAGE->set_pagelayout('standard');
 $PAGE->set_title(get_string('pluginname', 'local_stoodle'));
 $PAGE->set_heading("Flashcard Menu");  // Replace with get_string.
 
+$SESSION->currentpage = 'flashcard';
+
 $select = new \local_stoodle\form\select_form();
-if ($data = $select->get_data()) {
+if ($select->no_submit_button_pressed()) {
+    $data = $select->get_submitted_data();
+    $set = required_param('card_sets', PARAM_TEXT);
+
+    if($set == -1){
+        $url = new moodle_url('/local/stoodle/flashcard_create.php');
+        redirect($url);
+    }
+
+    $SESSION->edit_set_id = $set;
+
+    $url = new moodle_url('/local/stoodle/flashcard_edit.php');
+    redirect($url);
+} else if ($select->is_cancelled()) {
+    $data = $select->get_submitted_data();
+    $set = required_param('card_sets', PARAM_TEXT);
+
+    if($set == -1){
+        $url = new moodle_url('/local/stoodle/flashcard_create.php');
+        redirect($url);
+    }
+    $SESSION->edit_set_id = $set;
+    $DB->delete_records_select('flashcard_set', 'id = ?', [$set]);
+    $DB->delete_records_select('flashcard_card', 'flashcard_set = ?', [$set]);
+    $url = new moodle_url('/local/stoodle/flashcard.php');
+    redirect($url);
+} else if ($data = $select->get_data()) {
     $set = required_param('card_sets', PARAM_TEXT);
     if ($set == -1) {
         $url = new moodle_url('/local/stoodle/flashcard_create.php');
@@ -45,7 +73,6 @@ if ($data = $select->get_data()) {
     $url = new moodle_url('/local/stoodle/flashcard_activity.php');
     redirect($url);
 }
-
 
 echo $OUTPUT->header();
 $select->display();

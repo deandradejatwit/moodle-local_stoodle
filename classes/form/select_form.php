@@ -36,8 +36,10 @@ class select_form extends \moodleform {
      *
      */
     public function definition() {
-        global $DB;
+        global $DB, $SESSION;
         $mform = $this->_form;
+
+        $priorpage = $SESSION->currentpage;
 
         $sets = $DB->get_records('flashcard_set', null);
         if (!empty($sets)) {
@@ -49,6 +51,22 @@ class select_form extends \moodleform {
         $mform->addElement('select', 'card_sets', get_string('selectstr', 'local_stoodle'), $options);
 
         $submitlabel = get_string('submit');
-        $mform->addElement('submit', 'submitform', $submitlabel);
+        $mform->registerNoSubmitButton('editset');
+        $mform->_registerCancelButton('delete');
+
+        if($priorpage == 'flashcard'){
+            $align = [
+                $mform->createElement('submit', 'submitform', $submitlabel),
+                $mform->createElement('submit', 'editset', get_string('edit')),
+                $mform->createElement('cancel', 'delete', get_string('delete'))
+            ];
+            $mform->addGroup($align,'buttons', '','',false);
+        } else if ($priorpage == 'quiz'){
+            $align = [
+                $mform->createElement('submit', 'submitform', $submitlabel),
+                $mform->createElement('cancel', 'cancel', get_string('cancel')),
+            ];
+            $mform->addGroup($align,'buttons', '','',false);
+        }
     }
 }
