@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
- * Plugin version and other meta-data are defined here.
+ *
  *
  * @package     local_stoodle
  * @copyright   2024 Jonathan Kong-Shi kongshij@wit.edu,
@@ -23,11 +23,14 @@
  *              Jhonathan Deandrade deandradej@wit.edu
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
-defined('MOODLE_INTERNAL') || die();
-
-$plugin->component = 'local_stoodle';
-$plugin->release = '0.1.0';
-$plugin->version = 2024062601;
-$plugin->requires = 2022112800;
-$plugin->maturity = MATURITY_ALPHA;
+    /**
+     * add stoodle to moodle's secondary tab on the frontpage.
+     *
+     * @param navigation_node $frontpage %frontpage moodle front page.
+     */
+function local_stoodle_extend_navigation_frontpage(navigation_node $frontpage) {
+    $frontpage->add(
+        get_string('pluginname', 'local_stoodle'),
+        new moodle_url('/local/stoodle/index.php')
+    );
+}

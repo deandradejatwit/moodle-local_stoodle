@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
- * Plugin version and other meta-data are defined here.
+ *
  *
  * @package     local_stoodle
  * @copyright   2024 Jonathan Kong-Shi kongshij@wit.edu,
@@ -24,10 +24,27 @@
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
+require_once('../../config.php');
+require_login();
+global $DB, $SESSION;
 
-$plugin->component = 'local_stoodle';
-$plugin->release = '0.1.0';
-$plugin->version = 2024062601;
-$plugin->requires = 2022112800;
-$plugin->maturity = MATURITY_ALPHA;
+$PAGE->set_context(context_system::instance());
+$PAGE->set_url(new moodle_url('/local/stoodle/flashcard_activity.php'));
+$PAGE->set_pagelayout('standard');
+$PAGE->set_title('Flashcards');
+$PAGE->set_heading('Flashcards');
+
+$variable = $SESSION->activity_set_name;
+$question1 = [$DB->get_records('flashcard_card', ['flashcard_set' => $variable])];
+
+echo $OUTPUT->header();
+
+$PAGE->requires->js_call_amd('local_stoodle/script', 'init', $question1);
+
+$templatecontext = (object)[
+    'texttodisplay' => 'This is some text that will be displayed',
+];
+
+echo $OUTPUT->render_from_template('local_stoodle/flashcard_activity', $templatecontext);
+
+echo $OUTPUT->footer();
