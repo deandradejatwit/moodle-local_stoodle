@@ -32,12 +32,88 @@
     {
     }
 }}
+<style>
+    .flashcards {
+        height: 100%;
+        width: 300px;
+        margin: auto;
+        text-align: center;
+    }
 
-<div style="height: 100px; width: 300px; border: 1px solid black;" class="js-card">
-    <p style="padding: 25px 10px 25px 100px;" class="js-content">This is a card</p>
-</div>
+    .js-card {
+        height: 150px;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 5px;
+        background-color: green;
+        position: relative;
+        transition: transform 1s;
+        transform-style: preserve-3d;
+        cursor: pointer;
+        box-shadow: 0px 3px 18px 3px rgba(0, 0, 0, 0.2);
+    }
 
-<button class="js-prev"><</button>
-<button class="js-next">></button>
-<br>
-<a href="flashcard.php"><button>Exit</button></a>
+    .js-card.is-flipped {
+        transform: rotateY(180deg);
+    }
+
+    .js-content {
+        color: white;
+        position: absolute;
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+        overflow: hidden;
+    }
+
+    #card-answer {
+        transform: rotateY(180deg);
+    }
+
+    .lr-buttons {
+        margin-top: 20px;
+    }
+
+    .lr-buttons > button {
+        height: 45px;
+        width: 45px;
+        border: none;
+        border-radius: 100%;
+        background-color: black;
+        color: white;
+        font-size: 18px;
+        font-weight: bold;
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+
+    .lr-buttons > button:hover {
+        cursor: pointer;
+    }
+
+    .exit-button {
+        margin-top: 20px;
+    }
+
+    .js-counter {
+        float: left;
+    }
+</style>
+<div class="flashcards">
+        <p class="js-counter">Flashcard No. </p>
+
+        <div class="js-card">
+            <p id="card-question" class="js-content">This is a card</p>
+            <p id="card-answer" class="js-content">This is a back side card</p>
+        </div>
+        
+        <div class="lr-buttons">
+            <button class="js-prev">&#60;</button>
+            <button class="js-next">&#62;</button>
+        </div>
+
+        <div class="exit-button">
+            <a href="flashcard.php"><button>Exit</button></a>
+        </div>
+    </div>
