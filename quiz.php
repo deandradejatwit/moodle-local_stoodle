@@ -36,7 +36,12 @@ $PAGE->set_heading("Quiz Menu");  // Replace with get_string.
 $SESSION->currentpage = 'quiz';
 
 $select = new \local_stoodle\form\select_form();
-if ($select->is_cancelled()) {
+if ($select->no_submit_button_pressed()) {
+    $SESSION->question_count = 0;
+    $SESSION->quiz_name = null;
+    $url = new moodle_url('/local/stoodle/quiz_create.php');
+    redirect($url);
+} else if ($select->is_cancelled()) {
     $url = new moodle_url('/local/stoodle/index.php');
     redirect($url);
 } else if ($data = $select->get_data()) {

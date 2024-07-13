@@ -24,49 +24,65 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 namespace local_stoodle\form;
+
 defined('MOODLE_INTERNAL') || die();
-require_once($CFG->libdir . '/formslib.php');
+require_once ($CFG->libdir . '/formslib.php');
 /**
  * create flashcard select form.
  *
  */
-class select_form extends \moodleform {
+class select_form extends \moodleform
+{
     /**
      * defining the functionality and structure of form
      *
      */
-    public function definition() {
+    public function definition()
+    {
         global $DB, $SESSION;
         $mform = $this->_form;
 
         $priorpage = $SESSION->currentpage;
 
-        $sets = $DB->get_records('stoodle_flashcard_set', null);
-        if (!empty($sets)) {
-            $options = $DB->get_records_menu('stoodle_flashcard_set', [], 'id', 'id, name');
-        } else {
-            $options['-1'] = 'None';
-        }
-
-        $mform->addElement('select', 'card_sets', get_string('selectstr', 'local_stoodle'), $options);
-
         $submitlabel = get_string('submit');
         $mform->registerNoSubmitButton('editset');
+        $mform->registerNoSubmitButton('createquiz');
         $mform->_registerCancelButton('delete');
 
-        if($priorpage == 'flashcard'){
+        if ($priorpage == 'flashcard') {
+
+            $sets = $DB->get_records('stoodle_flashcard_set', null);
+            if (!empty($sets)) {
+                $options = $DB->get_records_menu('stoodle_flashcard_set', [], 'id', 'id, name');
+            } else {
+                $options['-1'] = 'None';
+            }
+
+            $mform->addElement('select', 'card_sets', get_string('selectsetstr', 'local_stoodle'), $options);
+
             $align = [
                 $mform->createElement('submit', 'submitform', $submitlabel),
                 $mform->createElement('submit', 'editset', get_string('edit')),
                 $mform->createElement('cancel', 'delete', get_string('delete'))
             ];
-            $mform->addGroup($align,'buttons', '','',false);
-        } else if ($priorpage == 'quiz'){
+            $mform->addGroup($align, 'buttons', '', '', false);
+        } else if ($priorpage == 'quiz') {
+
+            $quizes = $DB->get_records('stoodle_quiz', null);
+            if (!empty($quizes)) {
+                $options = $DB->get_records_menu('stoodle_quiz', [], 'id', 'id, name');
+            } else {
+                $options['-1'] = 'None';
+            }
+
+            $mform->addElement('select', 'card_sets', get_string('selectquizstr', 'local_stoodle'), $options);
+
             $align = [
                 $mform->createElement('submit', 'submitform', $submitlabel),
                 $mform->createElement('cancel', 'cancel', get_string('cancel')),
             ];
-            $mform->addGroup($align,'buttons', '','',false);
+            $mform->addGroup($align, 'buttons', '', '', false);
+            $mform->addElement('submit', 'createquiz', get_string('createquiz', 'local_stoodle'));
         }
     }
 }

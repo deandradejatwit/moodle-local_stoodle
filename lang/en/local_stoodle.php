@@ -25,7 +25,12 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+$string['addquestion'] = 'Add Question';
 $string['answerstr'] = 'Enter Answer:';
+$string['correctstr'] = 'Select As Answer';
+$string['createquiz'] = 'Create Quiz';
+$string['createquestion'] = 'Create Question';
+$string['currrentquizname'] = 'Current Quiz Name:';
 $string['currentanswer'] = 'Current Answer:';
 $string['currrentsetname'] = 'Current Set Name:';
 $string['currentquestion'] = 'Current Question:';
@@ -35,5 +40,8 @@ $string['flashcardcreate'] = 'Create Flashcards';
 $string['flashcardedit'] = 'Edit Flashcards';
 $string['pluginname'] = 'Stoodle';
 $string['questionstr'] = 'Enter Question:';
-$string['selectstr'] = 'Select Set';
+$string['selectsetstr'] = 'Select Set';
+$string['selectquizstr'] = 'Select Quiz';
 $string['setnamestr'] = 'Set Name:';
+$string['quizcreate'] = 'Create Quiz';
+$string['quiznamestr'] = 'Set a Quiz Name:';
