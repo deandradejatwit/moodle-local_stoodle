@@ -36,7 +36,6 @@ class create_question extends \moodleform {
 
         $startarray = [
             $mform->createElement('textarea', 'answer', get_string('answerstr', 'local_stoodle')),
-            $mform->createElement('radio','correct', get_string('correctstr','local_stoodle')),
         ];
 
         $repeatno = 1;

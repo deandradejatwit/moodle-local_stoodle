@@ -57,6 +57,12 @@ if ($createquestionform->is_cancelled()) {
         $recordquestion->timecreated = time();
         $recordquestion->timemodified = time();
 
+        if(count($answer) > 1){
+            $recordquestion->is_multiple_choice = 1;
+        } else {
+            $recordquestion->is_multiple_choice = 0;
+        }
+
         if ($DB->get_record_select('stoodle_quiz', 'id = ?', [$quizID]) && !$DB->get_record_select('stoodle_quiz_questions', 'question_text = ?', [$question])) {
             $DB->insert_record('stoodle_quiz_questions', $recordquestion);
             $ques = $DB->get_record_select('stoodle_quiz_questions', 'question_text = ?', [$question]);
