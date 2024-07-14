@@ -35,6 +35,7 @@ $PAGE->set_heading(get_string('quizcreate', 'local_stoodle'));
 
 $createquizform = new \local_stoodle\form\create_quiz();
 if ($createquizform->no_submit_button_pressed()) {
+    $SESSION->question_count += 1;
     $url = new moodle_url('/local/stoodle/question_create.php');
     redirect($url);
 } else if ($createquizform->is_cancelled()) {
@@ -53,9 +54,10 @@ if ($createquizform->no_submit_button_pressed()) {
         $record->timecreated = time();
         $record->timemodified = time();
         $DB->insert_record('stoodle_quiz', $record);
+        redirect(new moodle_url('/local/stoodle/quiz_create.php'));
+    } else {
+        redirect(new moodle_url('/local/stoodle/quiz.php'));
     }
-
-    redirect(new moodle_url('/local/stoodle/quiz_create.php'));
 }
 echo $OUTPUT->header();
 

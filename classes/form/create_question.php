@@ -30,7 +30,6 @@ class create_question extends \moodleform {
     public function definition() {
         global $DB, $SESSION;
         $mform = $this->_form;
-        $SESSION->question_count++;
 
         $mform->addElement('textarea','question', get_string('questionstr','local_stoodle'));
 
@@ -59,6 +58,10 @@ class create_question extends \moodleform {
             'delete',
         );
 
+        $mform->addElement('text','correctanswer', get_string('correctstr','local_stoodle'));
+        $mform->setType('correctanswer', PARAM_INT);
+        $mform->setDefault('correctanswer',0);
+        $mform->addHelpButton('correctanswer', 'entereanswer', 'local_stoodle');
         $this->add_action_buttons();
     }
 }

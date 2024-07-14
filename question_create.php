@@ -36,14 +36,16 @@ $PAGE->set_heading(get_string('createquestion', 'local_stoodle'));
 
 $createquestionform = new \local_stoodle\form\create_question();
 if ($createquestionform->is_cancelled()) {
+    $SESSION->question_count -= 1;
     $url = new moodle_url('/local/stoodle/quiz_create.php');
     redirect($url);
 } else if ($data = $createquestionform->get_data()) {
     $question = required_param('question', PARAM_TEXT);
     $answer = required_param_array('answer', PARAM_TEXT);
+    $correctanswerindex = required_param('correctanswer', PARAM_INT);
 
-    $quizID = $SESSION->quiz_id;
     $question_num = $SESSION->question_count;
+    $quizID = $SESSION->quiz_id;
 
     if (!empty($question) && check_empty($answer)) {
 
@@ -69,10 +71,15 @@ if ($createquestionform->is_cancelled()) {
 
             for ($i = 0; $i <= count($answer) - 1; $i++) {
                 if (!empty($answer[$i])) {
+                    if($i == $correctanswerindex){
+                        $recordanswers->is_correct = 1;
+                    } else {
+                        $recordanswers->is_correct = 0;
+                    }
+
                     $recordanswers->stoodle_quiz_questionsid = $ques->id;
                     $recordanswers->option_number = $i + 1;
                     $recordanswers->option_text = $answer[$i];
-                    $recordanswers->is_correct = 0;
                     $recordanswers->usermodified = $USER->id;
                     $recordanswers->timecreated = time();
                     $recordanswers->timemodified = time();

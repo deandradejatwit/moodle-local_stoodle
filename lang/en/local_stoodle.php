@@ -27,7 +27,7 @@ defined('MOODLE_INTERNAL') || die();
 
 $string['addquestion'] = 'Add Question';
 $string['answerstr'] = 'Enter Answer:';
-$string['correctstr'] = 'Select As Answer';
+$string['correctstr'] = 'Input The Value Of The Correct Answer';
 $string['createquiz'] = 'Create Quiz';
 $string['createquestion'] = 'Create Question';
 $string['currrentquizname'] = 'Current Quiz Name:';
@@ -35,6 +35,8 @@ $string['currentanswer'] = 'Current Answer:';
 $string['currrentsetname'] = 'Current Set Name:';
 $string['currentquestion'] = 'Current Question:';
 $string['deletestr'] = 'Delete';
+$string['entereanswer'] = 'Input Answer Value?';
+$string['entereanswer_help'] = 'Based on the order, the answers were created from (top to bottom) starting from zero. Input the value that correlates with the respective correct answer. ';
 $string['flashcardactivityname'] = 'Flashcards';
 $string['flashcardcreate'] = 'Create Flashcards';
 $string['flashcardedit'] = 'Edit Flashcards';

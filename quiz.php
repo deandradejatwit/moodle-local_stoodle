@@ -37,7 +37,6 @@ $SESSION->currentpage = 'quiz';
 
 $select = new \local_stoodle\form\select_form();
 if ($select->no_submit_button_pressed()) {
-    $SESSION->question_count = 0;
     $SESSION->quiz_name = null;
     $url = new moodle_url('/local/stoodle/quiz_create.php');
     redirect($url);
