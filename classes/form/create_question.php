@@ -35,6 +35,7 @@ class create_question extends \moodleform {
 
         $startarray = [
             $mform->createElement('textarea', 'answer', get_string('answerstr', 'local_stoodle')),
+            $mform->createElement('advcheckbox', 'optradio', get_string('selectanswerstr', 'local_stoodle'), '', array('group' => 1), array(0, 1)),
         ];
 
         $repeatno = 1;
@@ -42,7 +43,7 @@ class create_question extends \moodleform {
         $repeateloptions = [
             'answer' => [],
         ];
-
+        $mform->setType('optradio', PARAM_INT);
         $mform->setType('question', PARAM_TEXT);
         $mform->setType('answer', PARAM_TEXT);
 
@@ -57,11 +58,6 @@ class create_question extends \moodleform {
             true,
             'delete',
         );
-
-        $mform->addElement('text','correctanswer', get_string('correctstr','local_stoodle'));
-        $mform->setType('correctanswer', PARAM_INT);
-        $mform->setDefault('correctanswer',0);
-        $mform->addHelpButton('correctanswer', 'entereanswer', 'local_stoodle');
         $this->add_action_buttons();
     }
 }

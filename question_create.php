@@ -40,14 +40,15 @@ if ($createquestionform->is_cancelled()) {
     $url = new moodle_url('/local/stoodle/quiz_create.php');
     redirect($url);
 } else if ($data = $createquestionform->get_data()) {
+    $optradio = required_param_array('optradio', PARAM_TEXT);
     $question = required_param('question', PARAM_TEXT);
     $answer = required_param_array('answer', PARAM_TEXT);
-    $correctanswerindex = required_param('correctanswer', PARAM_INT);
+    //$correctanswerindex = required_param('correctanswer', PARAM_INT);
 
     $question_num = $SESSION->question_count;
     $quizID = $SESSION->quiz_id;
 
-    if (!empty($question) && check_empty($answer)) {
+    if (!empty($question) && check_empty($answer) && check_empty($optradio)) {
 
         $recordquestion = new stdClass;
         $recordanswers = new stdClass;
@@ -71,12 +72,7 @@ if ($createquestionform->is_cancelled()) {
 
             for ($i = 0; $i <= count($answer) - 1; $i++) {
                 if (!empty($answer[$i])) {
-                    if($i == $correctanswerindex){
-                        $recordanswers->is_correct = 1;
-                    } else {
-                        $recordanswers->is_correct = 0;
-                    }
-
+                    $recordanswers->is_correct = $optradio[$i];
                     $recordanswers->stoodle_quiz_questionsid = $ques->id;
                     $recordanswers->option_number = $i + 1;
                     $recordanswers->option_text = $answer[$i];

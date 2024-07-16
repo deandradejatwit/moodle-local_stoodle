@@ -51,7 +51,11 @@ class create_quiz extends \moodleform {
             if ($DB->get_records_select('stoodle_quiz_questions', 'stoodle_quizid = ?', [$quiz->id])) {
                 $questions  = $DB->get_records_select('stoodle_quiz_questions', 'stoodle_quizid = ?', [$quiz->id]);
                 foreach ($questions as $question) {
-                    $mform->addElement('static','questiontext', get_string('currentquestion', 'local_stoodle'), $question->question_text);
+                    $answers  = $DB->get_records_select('stoodle_quiz_question_options', 'stoodle_quiz_questionsid = ?', [$question->id]);
+                    $mform->addElement('static','questiontext', get_string('quizquestion', 'local_stoodle'), $question->question_text);
+                    foreach ($answers as $answer) {
+                        $mform->addElement('static','answertext', get_string('quizanswer', 'local_stoodle'), $answer->option_text);
+                    }
                 }
             }
 

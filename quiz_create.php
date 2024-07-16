@@ -22,7 +22,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require('../../config.php');
+require ('../../config.php');
 
 require_login();
 
@@ -39,14 +39,32 @@ if ($createquizform->no_submit_button_pressed()) {
     $url = new moodle_url('/local/stoodle/question_create.php');
     redirect($url);
 } else if ($createquizform->is_cancelled()) {
+
+    $quizid = $SESSION->quiz_id;
+
+    if (!empty($quizid)) {
+
+        $DB->delete_records_select('stoodle_quiz', 'id = ?', [$quizid]);
+        $questions = $DB->get_records_select('stoodle_quiz_questions', 'stoodle_quizid = ?', [$quizid]);
+        foreach ($questions as $question) {
+            $DB->delete_records_select('stoodle_quiz_question_options', 'stoodle_quiz_questionsid = ?', [$question->id]);
+        }
+        $DB->delete_records_select('stoodle_quiz_questions', 'stoodle_quizid = ?', [$quizid]);
+
+        $SESSION->question_count = 0;
+        $SESSION->quiz_name = null;
+    }
+
+
     $SESSION->question_count = 0;
     $SESSION->quiz_name = null;
+
     $url = new moodle_url('/local/stoodle/quiz.php');
     redirect($url);
 } else if ($data = $createquizform->get_data()) {
-    $name = optional_param('quiz', '',PARAM_TEXT);
+    $name = optional_param('quiz', '', PARAM_TEXT);
 
-    if(!empty($name) &&  !$DB->get_record_select('stoodle_quiz', 'name = ?', [$name])){
+    if (!empty($name) && !$DB->get_record_select('stoodle_quiz', 'name = ?', [$name])) {
         $SESSION->quiz_name = $name;
         $record = new stdClass;
         $record->name = $name;
