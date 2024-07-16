@@ -44,7 +44,6 @@ if ($createquestionform->is_cancelled()) {
     $optradio = required_param_array('optradio', PARAM_TEXT);
     $question = required_param('question', PARAM_TEXT);
     $answer = required_param_array('answer', PARAM_TEXT);
-    //$correctanswerindex = required_param('correctanswer', PARAM_INT);
 
     $question_num = $SESSION->question_count;
     $quizID = $SESSION->quiz_id;
