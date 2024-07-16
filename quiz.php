@@ -46,7 +46,7 @@ if ($select->no_submit_button_pressed()) {
 } else if ($data = $select->get_data()) {
     $set = required_param('card_sets', PARAM_TEXT);
     if ($set == -1) {
-        $url = new moodle_url('/local/stoodle/flashcard_create.php');
+        $url = new moodle_url('/local/stoodle/quiz.php');
         redirect($url);
     }
     $SESSION->quiz_set_name = $set;
