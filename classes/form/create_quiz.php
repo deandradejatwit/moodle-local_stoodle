@@ -44,6 +44,8 @@ class create_quiz extends \moodleform {
         } else {
             $quiz = $DB->get_record_select('stoodle_quiz', 'name = ?', [$name]);
             $SESSION->quiz_id = $quiz->id;
+            $countO = 1;
+            $countQ = 1;
 
             $front = [ $mform->createElement('static','quizname', get_string('currrentquizname', 'local_stoodle'), $quiz->name)];
             $mform->addElement($front[0]);
@@ -52,10 +54,12 @@ class create_quiz extends \moodleform {
                 $questions  = $DB->get_records_select('stoodle_quiz_questions', 'stoodle_quizid = ?', [$quiz->id]);
                 foreach ($questions as $question) {
                     $answers  = $DB->get_records_select('stoodle_quiz_question_options', 'stoodle_quiz_questionsid = ?', [$question->id]);
-                    $mform->addElement('static','questiontext', get_string('quizquestion', 'local_stoodle'), $question->question_text);
+                    $mform->addElement('static','questiontext', get_string('quizquestion', 'local_stoodle'). ' ' . $countQ . ':', $question->question_text);
                     foreach ($answers as $answer) {
-                        $mform->addElement('static','answertext', get_string('quizanswer', 'local_stoodle'), $answer->option_text);
+                        $mform->addElement('static','optiontext', get_string('quizoption', 'local_stoodle'). ' ' . $countO . ':', $answer->option_text);
+                        $countO++;
                     }
+                    $countQ++;
                 }
             }
 

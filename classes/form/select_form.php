@@ -79,7 +79,7 @@ class select_form extends \moodleform
 
             $align = [
                 $mform->createElement('submit', 'submitform', $submitlabel),
-                $mform->createElement('cancel', 'cancel', get_string('cancel')),
+                $mform->createElement('cancel', 'cancel', get_string('back')),
             ];
             $mform->addGroup($align, 'buttons', '', '', false);
             $mform->addElement('submit', 'createquiz', get_string('createquiz', 'local_stoodle'));

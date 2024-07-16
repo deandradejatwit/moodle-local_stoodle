@@ -53,16 +53,18 @@ if ($createquizform->no_submit_button_pressed()) {
 
         $SESSION->question_count = 0;
         $SESSION->quiz_name = null;
+        $SESSION->quiz_id = null;
     }
 
 
     $SESSION->question_count = 0;
     $SESSION->quiz_name = null;
+    $SESSION->quiz_id = null;
 
     $url = new moodle_url('/local/stoodle/quiz.php');
     redirect($url);
 } else if ($data = $createquizform->get_data()) {
-    $name = optional_param('quiz', '', PARAM_TEXT);
+    $name = required_param('quiz', PARAM_TEXT);
 
     if (!empty($name) && !$DB->get_record_select('stoodle_quiz', 'name = ?', [$name])) {
         $SESSION->quiz_name = $name;
@@ -74,6 +76,9 @@ if ($createquizform->no_submit_button_pressed()) {
         $DB->insert_record('stoodle_quiz', $record);
         redirect(new moodle_url('/local/stoodle/quiz_create.php'));
     } else {
+        $SESSION->question_count = 0;
+        $SESSION->quiz_name = null;
+        $SESSION->quiz_id = null;
         redirect(new moodle_url('/local/stoodle/quiz.php'));
     }
 }
