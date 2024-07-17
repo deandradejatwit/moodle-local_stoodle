@@ -60,6 +60,7 @@ export const init = () => {
         parent.appendChild(radio);
         parent.appendChild(label);
         parent.appendChild(document.createElement("br"));
+        window.console.log("Radio buttons are being created");
     }
 };
 
