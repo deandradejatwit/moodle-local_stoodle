@@ -70,11 +70,13 @@ if ($createcardsform->is_cancelled()) {
                 }
             }
         }
+
+        $url = new moodle_url('/local/stoodle/flashcard.php');
+        redirect($url);
     } else {
         $er = true;
     }
-    $url = new moodle_url('/local/stoodle/flashcard.php');
-    redirect($url);
+
 }
 
 /**
@@ -94,7 +96,7 @@ function check_empty($arr1, $arr2) {
 
 echo $OUTPUT->header();
 if ($er) {
-    echo $OUTPUT->notification(get_string('errquizcreate', 'local_stoodle'), 'error');
+    echo $OUTPUT->notification(get_string('errflashcardcreate', 'local_stoodle'), 'error');
 }
 $createcardsform->display();
 
