@@ -46,12 +46,12 @@ if ($select->no_submit_button_pressed()) {
     $url = new moodle_url('/local/stoodle/index.php');
     redirect($url);
 } else if ($data = $select->get_data()) {
-    $set = required_param('card_sets', PARAM_TEXT);
-    if ($set == -1) {
+    $quiz = required_param('quizzes', PARAM_TEXT);
+    if ($quizzes == -1) {
         $url = new moodle_url('/local/stoodle/quiz.php');
         redirect($url);
     }
-    $SESSION->quiz_set_name = $set;
+    $SESSION->quiz_set_name = $quiz;
     $url = new moodle_url('/local/stoodle/quiz.php');
     redirect($url);
 }
