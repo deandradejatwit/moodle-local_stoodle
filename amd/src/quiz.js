@@ -2,8 +2,8 @@ export const init = () => {
     const questionDiv = document.querySelector(".js-answer-area");
     const questionSet = JSON.parse(document.getElementById("question-set").innerHTML);
     const answerSet = JSON.parse(document.getElementById("answer-set").innerHTML);
-    // window.console.log(questionSet);
-    // window.console.log(answerSet);
+    window.console.log(questionSet);
+    window.console.log(answerSet);
 
     for (const key in Object.values(questionSet)) {
         // Check if it's a multiple choice question
@@ -30,10 +30,11 @@ export const init = () => {
     function createMultipleChoiceQuestion(parent, questionId, answerSet) {
         for (const key in Object.values(answerSet)) {
             // Match answer id to question id
-            if (Object.values(answerSet)[key].question_id === questionId) {
+            const dbId = Object.values(answerSet)[key].stoodle_quiz_questions_id;
+            if (dbId === questionId) {
                 createInputNode(parent, "someid", ("someName" + questionId), Object.values(answerSet)[key].option_text);
             } else {
-                window.console.log("Something wrong");
+                window.console.log("Something wrong: " + dbId + " does not equal " + questionId);
             }
         }
     }
