@@ -52,7 +52,7 @@ if ($select->no_submit_button_pressed()) {
         redirect($url);
     }
     $SESSION->quiz_set_name = $set;
-    $url = new moodle_url('/local/stoodle/quiz.php');
+    $url = new moodle_url('/local/stoodle/quiz_activity.php');
     redirect($url);
 }
 

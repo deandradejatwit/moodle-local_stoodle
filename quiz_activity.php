@@ -34,12 +34,21 @@ $PAGE->set_pagelayout('standard');
 $PAGE->set_title('Quiz');
 $PAGE->set_heading('Quiz');
 
+$variable = $SESSION->quiz_id;
+$questionset = json_encode($DB->get_records('stoodle_quiz_questions', ['stoodle_quizid' => $variable]));
+$answerset = json_encode($DB->get_records('stoodle_quiz_question_options'));
+
+
+
 echo $OUTPUT->header();
+
+// $PAGE->requires->js_call_amd('local_stoodle/quiz', 'init', [$questionset, $answerset]);
+$PAGE->requires->js_call_amd('local_stoodle/quiz', 'other');
 
 $templatecontext = (object)[
     'texttodisplay' => 'This is some text that will be displayed',
 ];
 
-echo $OUTPUT->render_from_template('local_stoodle/flashcard_activity', $templatecontext);
+echo $OUTPUT->render_from_template('local_stoodle/quiz_activity', $templatecontext);
 
 echo $OUTPUT->footer();
