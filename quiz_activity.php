@@ -34,7 +34,7 @@ $PAGE->set_pagelayout('standard');
 $PAGE->set_title('Quiz');
 $PAGE->set_heading('Quiz');
 
-$variable = $SESSION->quiz_id;
+$variable = $SESSION->quiz_set_name;
 $questionset = json_encode($DB->get_records('stoodle_quiz_questions', ['stoodle_quizid' => $variable]));
 $answerset = json_encode($DB->get_records('stoodle_quiz_question_options'));
 
