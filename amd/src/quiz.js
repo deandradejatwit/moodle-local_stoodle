@@ -1,7 +1,9 @@
-export const init = (questionSet, answerSet) => {
-    window.console.log(questionSet);
-    window.console.log(answerSet);
+export const init = () => {
     window.console.log("something");
+    const questionSet = document.getElementById("question-set").innerHTML;
+    const answerSet = document.getElementById("answer-set").innerHTML;
+    window.console.log(JSON.parse(questionSet));
+    window.console.log(JSON.parse(answerSet));
 };
 
 export const other = () => {

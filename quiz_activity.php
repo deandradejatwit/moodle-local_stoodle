@@ -42,11 +42,12 @@ $answerset = json_encode($DB->get_records('stoodle_quiz_question_options'));
 
 echo $OUTPUT->header();
 
-// $PAGE->requires->js_call_amd('local_stoodle/quiz', 'init', [$questionset, $answerset]);
-$PAGE->requires->js_call_amd('local_stoodle/quiz', 'other');
+$PAGE->requires->js_call_amd('local_stoodle/quiz', 'init');
 
 $templatecontext = (object)[
     'texttodisplay' => 'This is some text that will be displayed',
+    'new' => $questionset,
+    'newtoo' => $answerset,
 ];
 
 echo $OUTPUT->render_from_template('local_stoodle/quiz_activity', $templatecontext);
