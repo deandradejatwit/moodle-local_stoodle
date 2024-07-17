@@ -26,6 +26,7 @@
 
 require_once('../../config.php');
 require_login();
+global $er;
 
 $PAGE->set_context(context_system::instance());
 $PAGE->set_url(new moodle_url('/local/flashcard_create/index.php'));
@@ -69,9 +70,13 @@ if ($createcardsform->is_cancelled()) {
                 }
             }
         }
+
+        $url = new moodle_url('/local/stoodle/flashcard.php');
+        redirect($url);
+    } else {
+        $er = true;
     }
-    $url = new moodle_url('/local/stoodle/flashcard.php');
-    redirect($url);
+
 }
 
 /**
@@ -90,7 +95,9 @@ function check_empty($arr1, $arr2) {
 }
 
 echo $OUTPUT->header();
-
+if ($er) {
+    echo $OUTPUT->notification(get_string('errflashcardcreate', 'local_stoodle'), 'error');
+}
 $createcardsform->display();
 
 echo $OUTPUT->footer();
