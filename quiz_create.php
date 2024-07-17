@@ -77,8 +77,6 @@ if ($createquizform->no_submit_button_pressed()) {
         redirect(new moodle_url('/local/stoodle/quiz_create.php'));
     } else {
         $SESSION->question_count = 0;
-        $SESSION->quiz_name = null;
-        $SESSION->quiz_id = null;
         redirect(new moodle_url('/local/stoodle/quiz.php'));
     }
 }
