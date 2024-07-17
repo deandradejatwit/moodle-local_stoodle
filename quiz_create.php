@@ -64,7 +64,7 @@ if ($createquizform->no_submit_button_pressed()) {
     $url = new moodle_url('/local/stoodle/quiz.php');
     redirect($url);
 } else if ($data = $createquizform->get_data()) {
-    $name = required_param('quiz', PARAM_TEXT);
+    $name = optional_param('quiz','', PARAM_TEXT);
 
     if (!empty($name) && !$DB->get_record_select('stoodle_quiz', 'name = ?', [$name])) {
         $SESSION->quiz_name = $name;
