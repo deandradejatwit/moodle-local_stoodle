@@ -27,6 +27,7 @@
 require ('../../config.php');
 
 require_login();
+global $er;
 
 $url = new moodle_url('/local/stoodle/flashcard_edit.php', []);
 $PAGE->set_url($url);
@@ -56,26 +57,27 @@ if ($editsetform->is_cancelled()) {
         $editset->timemodified = time();
 
         $DB->update_record('stoodle_flashcard_set', $editset);
-        if (check_empty($questions, $answers)) {
-
-            for ($i = 0; $i <= count($questions); $i++) {
-                if (!empty($questions[$i]) && !empty($answers[$i])) {
-
-                    $edits = new stdClass;
-
-                    $edits->id = $cardid[$i];
-                    $edits->question = $questions[$i];
-                    $edits->answer = $answers[$i];
-                    $edits->timemodified = time();
-                    $DB->update_record('stoodle_flashcards', $edits);
-                }
-            }
-
-            $url = new moodle_url('/local/stoodle/flashcard.php');
-            redirect($url);
-        }
         $url = new moodle_url('/local/stoodle/flashcard.php');
         redirect($url);
+    } else if (check_empty($questions, $answers)) {
+
+        for ($i = 0; $i <= count($questions); $i++) {
+            if (!empty($questions[$i]) && !empty($answers[$i])) {
+
+                $edits = new stdClass;
+
+                $edits->id = $cardid[$i];
+                $edits->question = $questions[$i];
+                $edits->answer = $answers[$i];
+                $edits->timemodified = time();
+                $DB->update_record('stoodle_flashcards', $edits);
+            }
+        }
+
+        $url = new moodle_url('/local/stoodle/flashcard.php');
+        redirect($url);
+    } else {
+        $er = true;
     }
 }
 
@@ -96,6 +98,9 @@ function check_empty($arr1, $arr2) {
 
 echo $OUTPUT->header();
 
+if ($er) {
+    echo $OUTPUT->notification(get_string('errflashcardedit', 'local_stoodle'), 'error');
+}
 $editsetform->display();
 
 echo $OUTPUT->footer();

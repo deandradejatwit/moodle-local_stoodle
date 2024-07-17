@@ -25,15 +25,31 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+$string['addquestion'] = 'Add Question';
 $string['answerstr'] = 'Enter Answer:';
+$string['correctstr'] = 'Input The Value Of The Correct Answer';
+$string['createquiz'] = 'Create Quiz';
+$string['createquestion'] = 'Create Question';
+$string['currrentquizname'] = 'Current Quiz Name:';
 $string['currentanswer'] = 'Current Answer:';
 $string['currrentsetname'] = 'Current Set Name:';
 $string['currentquestion'] = 'Current Question:';
 $string['deletestr'] = 'Delete';
+$string['errflashcardcreate'] = 'Please fill in the set name and at least one set of question and answer.';
+$string['errflashcardedit'] = 'Please fill at least the set name or a set of question and answer.';
+$string['errquizcreate'] = 'Please fill in all available form inputs and select at least one answer as correct.';
+$string['entereanswer'] = 'Input Answer Value?';
+$string['entereanswer_help'] = 'Starting from one (from top to bottom) enter the value that corresponds to the correct answer within the created answers.';
 $string['flashcardactivityname'] = 'Flashcards';
 $string['flashcardcreate'] = 'Create Flashcards';
 $string['flashcardedit'] = 'Edit Flashcards';
 $string['pluginname'] = 'Stoodle';
 $string['questionstr'] = 'Enter Question:';
-$string['selectstr'] = 'Select Set';
+$string['selectanswerstr'] = 'Select As Correct';
+$string['selectsetstr'] = 'Select Set';
+$string['selectquizstr'] = 'Select Quiz';
 $string['setnamestr'] = 'Set Name:';
+$string['quizoption'] = 'Option';
+$string['quizquestion'] = 'Question';
+$string['quizcreate'] = 'Create Quiz';
+$string['quiznamestr'] = 'Set a Quiz Name:';
