@@ -36,6 +36,7 @@ $string['currrentsetname'] = 'Current Set Name:';
 $string['currentquestion'] = 'Current Question:';
 $string['deletestr'] = 'Delete';
 $string['errflashcardcreate'] = 'Please fill in the set name and at least one set of question and answer.';
+$string['errflashcardedit'] = 'Please fill at least the set name or a set of question and answer.';
 $string['errquizcreate'] = 'Please fill in all available form inputs and select at least one answer as correct.';
 $string['entereanswer'] = 'Input Answer Value?';
 $string['entereanswer_help'] = 'Starting from one (from top to bottom) enter the value that corresponds to the correct answer within the created answers.';
