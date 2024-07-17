@@ -13,10 +13,11 @@ export const init = () => {
         }
 
         // Create a new div to house the question-answer pair
-        const newDiv = questionDiv.appendChild(document.createElement("div"));
+        const newDiv = document.createElement("div");
         newDiv.appendChild(document.createElement("p"))
             .textContent = "Question " + (parseInt(key) + 1) + ": " + Object.values(questionSet)[key].question_text;
         createMultipleChoiceQuestion(newDiv, Object.values(questionSet)[key].id, answerSet);
+        questionDiv.appendChild(newDiv);
     }
 
     /**
