@@ -32,6 +32,8 @@ export const init = () => {
             // Match answer id to question id
             if (Object.values(answerSet)[key].question_id === questionId) {
                 createInputNode(parent, "someid", ("someName" + questionId), Object.values(answerSet)[key].option_text);
+            } else {
+                window.console.log("Something wrong");
             }
         }
     }
