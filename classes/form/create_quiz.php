@@ -60,7 +60,9 @@ class create_quiz extends \moodleform {
                         $countO++;
                     }
                     $countQ++;
+                    $countO = 1;
                 }
+                $countQ = 1;
             }
 
             $mform->addElement('submit','add', get_string('addquestion','local_stoodle'));
