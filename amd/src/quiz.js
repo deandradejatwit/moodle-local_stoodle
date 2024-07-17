@@ -30,7 +30,7 @@ export const init = () => {
     function createMultipleChoiceQuestion(parent, questionId, answerSet) {
         for (const key in Object.values(answerSet)) {
             // Match answer id to question id
-            const dbId = Object.values(answerSet)[key].stoodle_quiz_questions_id;
+            const dbId = Object.values(answerSet)[key].stoodle_quiz_questionsid;
             if (dbId === questionId) {
                 createInputNode(parent, "someid", ("someName" + questionId), Object.values(answerSet)[key].option_text);
             } else {
