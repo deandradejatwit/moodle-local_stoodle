@@ -42,7 +42,7 @@ class edit_set extends \moodleform
         $SESSION->test = $setcards;
 
         $mform->addElement('hidden', 'setid', $setid);
-        $mform->addElement('static', 'priorquestion', get_string('currrentsetname', 'local_stoodle'), $set->name);
+        $mform->addElement('static', 'priorquestion', get_string('currentsetname', 'local_stoodle'), $set->name);
         $mform->addElement('textarea', 'setname', get_string('setnamestr', 'local_stoodle'));
 
         $mform->setType('setname', PARAM_TEXT);

@@ -18,7 +18,9 @@
  * TODO describe file question_create
  *
  * @package    local_stoodle
- * @copyright  2024 YOUR NAME <your@email.com>
+ * @copyright  2024 Jonathan Kong-Shi kongshij@wit.edu,
+ *             Myles R. Sullivan sullivanm22@wit.edu,
+ *             Jhonathan Deandrade deandradej@wit.edu
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 

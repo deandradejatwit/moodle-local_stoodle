@@ -46,7 +46,7 @@ class select_form extends \moodleform
 
         $submitlabel = get_string('submit');
         $mform->registerNoSubmitButton('editset');
-        $mform->registerNoSubmitButton('createquiz');
+        $mform->registerNoSubmitButton('editquiz');
         $mform->_registerCancelButton('delete');
 
         if ($priorpage == 'flashcard') {
@@ -79,10 +79,12 @@ class select_form extends \moodleform
 
             $align = [
                 $mform->createElement('submit', 'submitform', $submitlabel),
-                $mform->createElement('cancel', 'cancel', get_string('back')),
+                $mform->createElement('submit', 'editquiz', get_string('edit')),
+                $mform->createElement('cancel', 'delete', get_string('delete')),
             ];
+
+            $mform->setType('editquiz', PARAM_ACTION);
             $mform->addGroup($align, 'buttons', '', '', false);
-            $mform->addElement('submit', 'createquiz', get_string('createquiz', 'local_stoodle'));
         }
     }
 }
