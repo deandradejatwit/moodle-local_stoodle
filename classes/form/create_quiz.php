@@ -49,7 +49,7 @@ class create_quiz extends \moodleform {
             $countO = 1;
             $countQ = 1;
 
-            $front = [ $mform->createElement('static','quizname', get_string('currrentquizname', 'local_stoodle'), $quiz->name)];
+            $front = [ $mform->createElement('static','quizname', get_string('currentquizname', 'local_stoodle'), $quiz->name)];
             $mform->addElement($front[0]);
 
             if ($DB->get_records_select('stoodle_quiz_questions', 'stoodle_quizid = ?', [$quiz->id])) {

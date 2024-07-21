@@ -49,7 +49,32 @@ if ($editsetform->is_cancelled()) {
     $questions = required_param_array('questions', PARAM_TEXT);
     $answers = required_param_array('answers', PARAM_TEXT);
 
-    if (!empty($set)) {
+    if (!empty($set) && check_empty($questions, $answers)) {
+
+        $editset = new stdClass;
+
+        $editset->id = $setid;
+        $editset->name = $set;
+        $editset->timemodified = time();
+
+        $DB->update_record('stoodle_flashcard_set', $editset);
+
+        for ($i = 0; $i <= count($questions); $i++) {
+            if (!empty($questions[$i]) && !empty($answers[$i])) {
+
+                $edits = new stdClass;
+
+                $edits->id = $cardid[$i];
+                $edits->question = $questions[$i];
+                $edits->answer = $answers[$i];
+                $edits->timemodified = time();
+                $DB->update_record('stoodle_flashcards', $edits);
+            }
+        }
+
+        $url = new moodle_url('/local/stoodle/flashcard.php');
+        redirect($url);
+    } else if (!empty($set)) {
         $editset = new stdClass;
 
         $editset->id = $setid;

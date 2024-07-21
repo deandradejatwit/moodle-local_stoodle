@@ -44,6 +44,7 @@ $string['entereanswer_help'] = 'Starting from one (from top to bottom) enter the
 $string['flashcardactivityname'] = 'Flashcards';
 $string['flashcardcreate'] = 'Create Flashcards';
 $string['flashcardedit'] = 'Edit Flashcards';
+$string['optionstr'] = 'Enter Option:';
 $string['pluginname'] = 'Stoodle';
 $string['questionstr'] = 'Enter Question:';
 $string['selectanswerstr'] = 'Select As Correct';

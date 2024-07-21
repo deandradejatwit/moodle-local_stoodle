@@ -46,26 +46,31 @@ class edit_quiz extends \moodleform{
         $mform->setType('sequizidtid', PARAM_INT);
 
         foreach ($questions as $question) {
-            $qID = $DB->get_record_select('stoodle_quiz_questions', 'question_text = ?', [$question->question_text]);
+            $count = 0;
+            $mform->addElement('hidden', 'questionid[]', $question->id);
 
-            $mform->addElement('hidden', 'quizid[]', $qID->id);
-
-            $options = $DB->get_records_list('stoodle_quiz_question_options', 'stoodle_quiz_questionsid', array('stoodle_quiz_questionsid' => $qID->id), '', '*');
+            $options = $DB->get_records_list('stoodle_quiz_question_options', 'stoodle_quiz_questionsid', array('stoodle_quiz_questionsid' => $question->id), '', '*');
 
             $mform->addElement('static', 'priorquestion', get_string('currentquestion', 'local_stoodle'), $question->question_text);
             $mform->addElement('textarea', 'questions[]', get_string('questionstr', 'local_stoodle'));
 
             foreach ($options as $option) {
-
+                $mform->addElement('hidden', 'optionid[]', $option->id);
                 $mform->addElement('static', 'prioroption', get_string('currentoption', 'local_stoodle'), $option->option_text);
-                $mform->addElement('textarea', 'options[]', get_string('answerstr', 'local_stoodle'));
+                $mform->addElement('textarea', 'options[]', get_string('optionstr', 'local_stoodle'));
 
                 $mform->setType('options[]', PARAM_TEXT);
+                $count++;
             }
 
-            $mform->setType('quizid[]',  PARAM_INT);
-            $mform->setType('questions[]', PARAM_TEXT);
+            $mform->addElement('hidden','optioncount[]', $count);
+
         }
+
+        $mform->setType('optioncount[]',  PARAM_INT);
+        $mform->setType('optionid[]',  PARAM_INT);
+        $mform->setType('questionid[]',  PARAM_INT);
+        $mform->setType('questions[]', PARAM_TEXT);
         $this->add_action_buttons();
     }
 
