@@ -27,6 +27,7 @@
 require ('../../config.php');
 
 require_login();
+global $error;
 
 $url = new moodle_url('/local/stoodle/quiz_create.php', []);
 $PAGE->set_url($url);
@@ -78,13 +79,17 @@ if ($createquizform->no_submit_button_pressed()) {
         $record->timemodified = time();
         $DB->insert_record('stoodle_quiz', $record);
         redirect(new moodle_url('/local/stoodle/quiz_create.php'));
+    } else if ($DB->get_record_select('stoodle_quiz', 'name = ?', [$name])){
+        $error = true;
     } else {
         $SESSION->question_count = 0;
-        redirect(new moodle_url('/local/stoodle/quiz.php'));
+        redirect(new moodle_url('/local/stoodle/quiz_create.php'));
     }
 }
 echo $OUTPUT->header();
-
+if ($error) {
+    echo $OUTPUT->notification(get_string('errquizcreate', 'local_stoodle'), 'error');
+}
 $createquizform->display();
 
 echo $OUTPUT->footer();

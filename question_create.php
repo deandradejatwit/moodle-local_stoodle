@@ -28,7 +28,7 @@ require ('../../config.php');
 
 require_login();
 global $SESSION;
-global $er;
+global $error;
 
 $url = new moodle_url('/local/stoodle/question_create.php', []);
 $PAGE->set_url($url);
@@ -87,7 +87,7 @@ if ($createquestionform->is_cancelled()) {
             redirect(new moodle_url('/local/stoodle/quiz_create.php'));
         }
     } else {
-        $er = true;
+        $error = true;
     }
 }
 
@@ -109,8 +109,8 @@ function check_empty($arr1)
 
 echo $OUTPUT->header();
 
-if ($er) {
-    echo $OUTPUT->notification(get_string('errquizcreate', 'local_stoodle'), 'error');
+if ($error) {
+    echo $OUTPUT->notification(get_string('errquestioncreate', 'local_stoodle'), 'error');
 }
 $createquestionform->display();
 

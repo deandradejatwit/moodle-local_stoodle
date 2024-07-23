@@ -27,6 +27,7 @@
 require('../../config.php');
 
 require_login();
+global $error;
 
 $url = new moodle_url('/local/stoodle/quiz_edit.php', []);
 $PAGE->set_url($url);
@@ -49,18 +50,19 @@ if ($editquizform->is_cancelled()) {
     $questions = required_param_array('questions', PARAM_TEXT);
     $options = required_param_array('options', PARAM_TEXT);
 
-    if (!empty($quiz) && (check_empty($questions) && check_empty($options))) {
+    if (!empty($quiz) || check_empty($questions) || check_empty($options)) {
 
-        $editquiz = new stdClass;
+        if (!empty($quiz) && !$DB->get_record_select('stoodle_quiz', 'name = ?', [$quiz])) {
+            $editquiz = new stdClass;
 
-        $editquiz->id = $quizid;
-        $editquiz->name = $quiz;
-        $editquiz->timemodified = time();
+            $editquiz->id = $quizid;
+            $editquiz->name = $quiz;
+            $editquiz->timemodified = time();
 
-        $DB->update_record('stoodle_quiz', $editquiz);
+            $DB->update_record('stoodle_quiz', $editquiz);
+        }
 
         for ($i = 0; $i <= count($questions); $i++) {
-            $count=0;
             if (!empty($questions[$i])) {
 
                 $questionedits = new stdClass;
@@ -83,49 +85,13 @@ if ($editquizform->is_cancelled()) {
                 $DB->update_record('stoodle_quiz_question_options', $optionedit);
 
             }
-            $count++;
         }
 
         $url = new moodle_url('/local/stoodle/quiz_edit.php');
         redirect($url);
-    } else if (!empty($quiz)) {
-        $editquiz = new stdClass;
-
-        $editquiz->id = $quizid;
-        $editquiz->name = $quiz;
-        $editquiz->timemodified = time();
-
-        $DB->update_record('stoodle_quiz', $editquiz);
-    } else  if (check_empty($questions) || check_empty($options)){
-        for ($i = 0; $i <= count($questions); $i++) {
-            $count=0;
-            if (!empty($questions[$i])) {
-
-                $questionedits = new stdClass;
-
-                $questionedits->id = $questionid[$i];
-                $questionedits->question_text = $questions[$i];
-                $questionedits->timemodified = time();
-                $DB->update_record('stoodle_quiz_questions', $questionedits);
-
-            }
-        }
-
-        for ($j = 0; $j <= count($options); $j++) {
-            if (!empty($options[$j])) {
-                $optionedit = new stdClass;
-
-                $optionedit->id = $optionid[$j];
-                $optionedit->option_text = $options[$j];
-                $optionedit->timemodified = time();
-                $DB->update_record('stoodle_quiz_question_options', $optionedit);
-
-            }
-        }
+    } else {
+        $error = true;
     }
-
-    $url = new moodle_url('/local/stoodle/quiz_edit.php');
-    redirect($url);
 }
 
 function check_empty($arr1) {
@@ -139,6 +105,9 @@ function check_empty($arr1) {
 
 echo $OUTPUT->header();
 
+if ($error) {
+    echo $OUTPUT->notification(get_string('erredit', 'local_stoodle'), 'error');
+}
 $editquizform->display();
 
 echo $OUTPUT->footer();
