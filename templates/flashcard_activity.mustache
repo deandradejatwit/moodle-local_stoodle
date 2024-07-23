@@ -35,19 +35,20 @@
 <style>
     .flashcards {
         height: 100%;
-        width: 300px;
+        width: 350px;
         margin: auto;
         text-align: center;
     }
 
     .js-card {
-        height: 150px;
-        width: 100%;
+        font-size: 1.25em;
+        height: 200px;
+        width: 350px;
         display: flex;
         align-items: center;
         justify-content: center;
         border-radius: 5px;
-        background-color: green;
+        background-color: #f98012;
         position: relative;
         transition: transform 1s;
         transform-style: preserve-3d;
@@ -76,8 +77,8 @@
     }
 
     .lr-buttons > button {
-        height: 45px;
-        width: 45px;
+        height: 50px;
+        width: 50px;
         border: none;
         border-radius: 100%;
         background-color: black;
@@ -97,7 +98,7 @@
     }
 
     .js-counter {
-        float: left;
+        float: center;
     }
 </style>
 <div class="flashcards">
@@ -107,13 +108,13 @@
             <p id="card-question" class="js-content">This is a card</p>
             <p id="card-answer" class="js-content">This is a back side card</p>
         </div>
-        
+
         <div class="lr-buttons">
             <button class="js-prev">&#60;</button>
             <button class="js-next">&#62;</button>
         </div>
 
         <div class="exit-button">
-            <a href="flashcard.php"><button>Exit</button></a>
+            <a href="flashcard.php"><button class="btn btn-secondary btn-lg">Exit</button></a>
         </div>
     </div>
