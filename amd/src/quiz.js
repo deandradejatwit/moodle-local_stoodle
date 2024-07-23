@@ -1,22 +1,31 @@
 export const init = () => {
-    const questionDiv = document.querySelector(".js-answer-area");
     const questionSet = JSON.parse(document.getElementById("question-set").innerHTML);
     const answerSet = JSON.parse(document.getElementById("answer-set").innerHTML);
-    window.console.log(questionSet);
-    window.console.log(answerSet);
+    const questionDiv = document.querySelector(".js-answer-area");
+    const scoreArea = document.querySelector(".score");
+    const totalQuestions = Object.values(questionSet).length;
+    // window.console.log(questionSet);
+    // window.console.log(answerSet);
 
+    document.querySelector(".submit-button").addEventListener('click', () => {
+        questionValidation();
+    });
+
+    scoreArea.innerHTML = "Score: 0 / " + totalQuestions;
     for (const key in Object.values(questionSet)) {
-        // Check if it's a multiple choice question
-        if (Object.values(questionSet)[key].is_multiple_choice === 0) {
-            window.console.log("Not multiple choice");
-            continue;
-        }
-
         // Create a new div to house the question-answer pair
         const newDiv = document.createElement("div");
         newDiv.appendChild(document.createElement("p"))
             .textContent = "Question " + (parseInt(key) + 1) + ": " + Object.values(questionSet)[key].question_text;
-        createMultipleChoiceQuestion(newDiv, Object.values(questionSet)[key].id, answerSet);
+
+        // Check if it's a multiple choice or open-response question
+        if (Object.values(questionSet)[key].is_multiple_choice === 0) {
+            newDiv.id = "open-response";
+            createOpenResponseQuestion(newDiv, Object.values(questionSet)[key].id);
+        } else {
+            newDiv.id = "multiple-choice";
+            createMultipleChoiceQuestion(newDiv, Object.values(questionSet)[key].id, answerSet);
+        }
         questionDiv.appendChild(newDiv);
     }
 
@@ -32,11 +41,24 @@ export const init = () => {
             // Match answer id to question id
             const dbId = Object.values(answerSet)[key].stoodle_quiz_questionsid;
             if (dbId === questionId) {
-                createInputNode(parent, "someid", ("someName" + questionId), Object.values(answerSet)[key].option_text);
+                createInputNode(parent, "someid", (questionId), Object.values(answerSet)[key].option_text);
             } else {
                 window.console.log("Something wrong: " + dbId + " does not equal " + questionId);
             }
         }
+    }
+
+    /**
+     * Creates a open response question.
+     *
+     * @param {object} parent
+     * @param {string} name
+     */
+    function createOpenResponseQuestion(parent, name) {
+        const textInput = document.createElement("input");
+        textInput.type = "text";
+        textInput.name = name;
+        parent.appendChild(textInput);
     }
 
     /**
@@ -63,40 +85,45 @@ export const init = () => {
         parent.appendChild(radio);
         parent.appendChild(label);
         parent.appendChild(document.createElement("br"));
-        window.console.log("Radio buttons are being created");
     }
-};
 
+    /**
+     * Validates the questions on the quiz. Checks if right or wrong.
+     *
+     */
+    function questionValidation() {
+        let numCorrect = 0;
+        for (const key in Object.values(questionSet)) {
+            // Getting the selected radio button value
+            const question = Object.values(questionSet)[key].id;
+            let option = null;
 
-
-export const other = () => {
-    // fetch("quiz_activity.php").then(res => res.json()).then(data => {
-    //     window.console.log(data);
-    // }).catch(errorMsg => {
-    //     window.console.log(errorMsg);
-    // });
-    var responseClone;
-    fetch("quiz_activity.php")
-        .then((response) => {
-            if (!response.ok) { // Before parsing (i.e. decoding) the JSON data,
-                                // check for any errors.
-                // In case of an error, throw.
-                throw new Error("Something went wrong!");
+            if (document.querySelector('input[name = "' + question + '"]').parentElement.id === "multiple-choice") {
+                option = document.querySelector('input[name = "' + question + '"]:checked');
+            } else {
+                option = document.querySelector('input[name = "' + question + '"]');
             }
-            responseClone = response.clone();
-            return response.json(); // Parse the JSON data.
-        })
-        .then((data) => {
-            // This is where you handle what to do with the response.
-            // alert(data); // Will alert: 42
-            window.console.log(data);
-        })
-        .catch((rejectionReason) => {
-            // This is where you handle errors.
-            window.console.log('Error parsing JSON from response:', rejectionReason, responseClone); // 4
-            responseClone.text() // 5
-            .then(function (bodyText) {
-                window.console.log('Received the following instead of valid JSON:', bodyText); // 6
-            });
-        });
+
+            if (option === null) {
+                alert("Question " + (parseInt(key) + 1) + " is unanswered");
+                return;
+            }
+
+            // Comparing them to the answers
+            for (const answerKey in Object.values(answerSet)) {
+                const answerText = Object.values(answerSet)[answerKey].option_text;
+                const answerIsCorrect = parseInt(Object.values(answerSet)[answerKey].is_correct);
+                if (answerText === option.value && answerIsCorrect === 1) {
+                    window.console.log("Question " + (parseInt(key) + 1) + " is correct");
+                    numCorrect++;
+                    break;
+                } else if (answerText === option.value && answerIsCorrect === 0) {
+                    window.console.log("Question " + (parseInt(key) + 1) + " is wrong");
+                    break;
+                }
+            }
+        }
+
+        scoreArea.innerText = "Score: " + numCorrect + " / " + totalQuestions;
+    }
 };

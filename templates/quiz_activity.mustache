@@ -32,7 +32,21 @@
     {
     }
 }}
+<style>
+    div {
+        margin-bottom: 10px;
+    }
 
+    p {
+        margin-bottom: 10px;
+    }
+
+    input[type="radio"] {
+        margin-top: auto;
+        margin-right: 8px;
+        vertical-align: middle;
+    }
+</style>
 <div class="">
     <div id="question-set" style="display: none;">
         {{new}}
@@ -43,8 +57,8 @@
 
     <p>Question: </p>
     <div class="js-answer-area">
-        
-    </div>
-    <input type="submit">
 
+    </div>
+    <input class="submit-button" type="submit">
+    <p class="score"></p>
 </div>
