@@ -67,6 +67,7 @@ class edit_quiz extends \moodleform{
 
         }
 
+        $mform->setType('quizid',  PARAM_INT);
         $mform->setType('optioncount[]',  PARAM_INT);
         $mform->setType('optionid[]',  PARAM_INT);
         $mform->setType('questionid[]',  PARAM_INT);

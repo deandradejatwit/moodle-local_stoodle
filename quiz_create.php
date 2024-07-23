@@ -83,7 +83,7 @@ if ($createquizform->no_submit_button_pressed()) {
         $error = true;
     } else {
         $SESSION->question_count = 0;
-        redirect(new moodle_url('/local/stoodle/quiz_create.php'));
+        redirect(new moodle_url('/local/stoodle/quiz.php'));
     }
 }
 echo $OUTPUT->header();

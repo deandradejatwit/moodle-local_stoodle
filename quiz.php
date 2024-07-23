@@ -73,8 +73,8 @@ if ($select->no_submit_button_pressed()) {
 } else if ($data = $select->get_data()) {
     $quiz = required_param('quizzes', PARAM_TEXT);
 
-    if ($quizzes == -1) {
-        $url = new moodle_url('/local/stoodle/quiz.php');
+    if ($quiz == -1) {
+        $url = new moodle_url('/local/stoodle/quiz_create.php');
         redirect($url);
     }
     $SESSION->quiz_set_name = $quiz;
