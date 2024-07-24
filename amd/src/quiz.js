@@ -19,7 +19,7 @@ export const init = () => {
             .textContent = "Question " + (parseInt(key) + 1) + ": " + Object.values(questionSet)[key].question_text;
 
         // Check if it's a multiple choice or open-response question
-        if (Object.values(questionSet)[key].is_multiple_choice === 0) {
+        if (parseInt(Object.values(questionSet)[key].is_multiple_choice) === 0) {
             newDiv.id = "open-response";
             createOpenResponseQuestion(newDiv, Object.values(questionSet)[key].id);
         } else {
