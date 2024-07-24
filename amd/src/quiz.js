@@ -5,16 +5,19 @@ export const init = () => {
     const scoreArea = document.querySelector(".score");
     const totalQuestions = Object.values(questionSet).length;
 
+    scoreArea.innerHTML = "Score: 0 / " + totalQuestions;
     document.querySelector(".submit-button").addEventListener('click', () => {
         questionValidation();
     });
 
-    scoreArea.innerHTML = "Score: 0 / " + totalQuestions;
+    // Create questions and options
     for (const key in Object.values(questionSet)) {
-        // Create a new div to house the question-answer pair
         const newDiv = document.createElement("div");
-        newDiv.appendChild(document.createElement("p"))
-            .textContent = "Question " + (parseInt(key) + 1) + ": " + Object.values(questionSet)[key].question_text;
+        newDiv.id = "stoodle-div";
+        const questionText = document.createElement("p");
+        questionText.id = "stoodle-question-text";
+        questionText.textContent = "Question " + (parseInt(key) + 1) + ": " + Object.values(questionSet)[key].question_text;
+        newDiv.appendChild(questionText);
 
         // Check if it's a multiple choice or open-response question
         if (parseInt(Object.values(questionSet)[key].is_multiple_choice) === 0) {
