@@ -4,8 +4,6 @@ export const init = () => {
     const questionDiv = document.querySelector(".js-answer-area");
     const scoreArea = document.querySelector(".score");
     const totalQuestions = Object.values(questionSet).length;
-    // window.console.log(questionSet);
-    // window.console.log(answerSet);
 
     document.querySelector(".submit-button").addEventListener('click', () => {
         questionValidation();
@@ -33,7 +31,7 @@ export const init = () => {
      * Creates a multiple choice question.
      *
      * @param {object} parent
-     * @param {int} questionId
+     * @param {integer} questionId
      * @param {object} answerSet
      */
     function createMultipleChoiceQuestion(parent, questionId, answerSet) {
@@ -42,8 +40,6 @@ export const init = () => {
             const dbId = Object.values(answerSet)[key].stoodle_quiz_questionsid;
             if (dbId === questionId) {
                 createInputNode(parent, "someid", (questionId), Object.values(answerSet)[key].option_text);
-            } else {
-                window.console.log("Something wrong: " + dbId + " does not equal " + questionId);
             }
         }
     }
@@ -94,11 +90,11 @@ export const init = () => {
     function questionValidation() {
         let numCorrect = 0;
         for (const key in Object.values(questionSet)) {
-            // Getting the selected radio button value
             const question = Object.values(questionSet)[key].id;
+            const parent = document.querySelector('input[name = "' + question + '"]').parentElement;
             let option = null;
 
-            if (document.querySelector('input[name = "' + question + '"]').parentElement.id === "multiple-choice") {
+            if (parent.id === "multiple-choice") {
                 option = document.querySelector('input[name = "' + question + '"]:checked');
             } else {
                 option = document.querySelector('input[name = "' + question + '"]');
@@ -111,15 +107,20 @@ export const init = () => {
 
             // Comparing them to the answers
             for (const answerKey in Object.values(answerSet)) {
+                const questionText = "Question " + (parseInt(key) + 1) + ": " + Object.values(questionSet)[key].question_text;
                 const answerText = Object.values(answerSet)[answerKey].option_text;
                 const answerIsCorrect = parseInt(Object.values(answerSet)[answerKey].is_correct);
                 if (answerText === option.value && answerIsCorrect === 1) {
                     window.console.log("Question " + (parseInt(key) + 1) + " is correct");
                     numCorrect++;
+                    parent.children[0].innerText = questionText + " \u{2705}";
                     break;
                 } else if (answerText === option.value && answerIsCorrect === 0) {
                     window.console.log("Question " + (parseInt(key) + 1) + " is wrong");
+                    parent.children[0].innerText = questionText + " \u{274C}";
                     break;
+                } else if (parent.id === "open-response") {
+                    parent.children[0].innerText = questionText + " \u{274C} (manual review required)";
                 }
             }
         }
