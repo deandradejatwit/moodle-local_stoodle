@@ -27,7 +27,7 @@
 require ('../../config.php');
 
 require_login();
-global $er;
+global $error;
 
 $url = new moodle_url('/local/stoodle/flashcard_edit.php', []);
 $PAGE->set_url($url);
@@ -49,47 +49,53 @@ if ($editsetform->is_cancelled()) {
     $questions = required_param_array('questions', PARAM_TEXT);
     $answers = required_param_array('answers', PARAM_TEXT);
 
-    if (!empty($set)) {
-        $editset = new stdClass;
+    if (!empty($set) || check_empty($questions) || check_empty($answers)) {
 
-        $editset->id = $setid;
-        $editset->name = $set;
-        $editset->timemodified = time();
+        if(!empty($set) && !$DB->get_record_select('stoodle_flashcard_set', 'name = ?', [$set])){
+            $editset = new stdClass;
 
-        $DB->update_record('stoodle_flashcard_set', $editset);
-        $url = new moodle_url('/local/stoodle/flashcard.php');
-        redirect($url);
-    } else if (check_empty($questions, $answers)) {
+            $editset->id = $setid;
+            $editset->name = $set;
+            $editset->timemodified = time();
+
+            $DB->update_record('stoodle_flashcard_set', $editset);
+        }
 
         for ($i = 0; $i <= count($questions); $i++) {
-            if (!empty($questions[$i]) && !empty($answers[$i])) {
+            if (!empty($questions[$i])) {
 
                 $edits = new stdClass;
 
                 $edits->id = $cardid[$i];
                 $edits->question = $questions[$i];
+                $edits->timemodified = time();
+                $DB->update_record('stoodle_flashcards', $edits);
+
+            } else if (!empty($answers[$i])){
+                $edits = new stdClass;
+
+                $edits->id = $cardid[$i];
                 $edits->answer = $answers[$i];
                 $edits->timemodified = time();
                 $DB->update_record('stoodle_flashcards', $edits);
             }
         }
 
-        $url = new moodle_url('/local/stoodle/flashcard.php');
+        $url = new moodle_url('/local/stoodle/flashcard_edit.php');
         redirect($url);
-    } else {
-        $er = true;
+    }  else {
+        $error = true;
     }
 }
 
 /**
- * Checks if two arrays are empty
+ * Checks if an array is empty
  *
  * @param array $arr1 First array
- * @param array $arr2 Second array
  */
-function check_empty($arr1, $arr2) {
+function check_empty($arr1) {
     for ($i = 0; $i < count($arr1); $i++) {
-        if (!(empty($arr1[$i]) || empty($arr2[$i]))) {
+        if (!(empty($arr1[$i]))) {
             return true;
         }
     }
@@ -98,8 +104,8 @@ function check_empty($arr1, $arr2) {
 
 echo $OUTPUT->header();
 
-if ($er) {
-    echo $OUTPUT->notification(get_string('errflashcardedit', 'local_stoodle'), 'error');
+if ($error) {
+    echo $OUTPUT->notification(get_string('erredit', 'local_stoodle'), 'error');
 }
 $editsetform->display();
 

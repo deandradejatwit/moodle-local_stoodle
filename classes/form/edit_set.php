@@ -42,18 +42,14 @@ class edit_set extends \moodleform
         $SESSION->test = $setcards;
 
         $mform->addElement('hidden', 'setid', $setid);
-        $mform->addElement('static', 'priorquestion', get_string('currrentsetname', 'local_stoodle'), $set->name);
+        $mform->addElement('static', 'priorquestion', get_string('currentsetname', 'local_stoodle'), $set->name);
         $mform->addElement('textarea', 'setname', get_string('setnamestr', 'local_stoodle'));
 
         $mform->setType('setname', PARAM_TEXT);
         $mform->setType('setid', PARAM_INT);
 
         foreach ($setcards as $setcard) {
-
-
-            $cID = $DB->get_record_select('stoodle_flashcards', 'question = ?', [$setcard->question]);
-
-            $mform->addElement('hidden', 'cardid[]', $cID->id);
+            $mform->addElement('hidden', 'cardid[]', $setcard->id);
 
 
             $mform->addElement('static', 'priorquestion', get_string('currentquestion', 'local_stoodle'), $setcard->question);
@@ -61,10 +57,11 @@ class edit_set extends \moodleform
             $mform->addElement('static', 'prioranswer', get_string('currentanswer', 'local_stoodle'), $setcard->answer);
             $mform->addElement('textarea', 'answers[]', get_string('answerstr', 'local_stoodle'));
 
-            $mform->setType('cardid[]',  PARAM_INT);
-            $mform->setType('questions[]', PARAM_TEXT);
-            $mform->setType('answers[]', PARAM_TEXT);
         }
+
+        $mform->setType('cardid[]',  PARAM_INT);
+        $mform->setType('questions[]', PARAM_TEXT);
+        $mform->setType('answers[]', PARAM_TEXT);
         $this->add_action_buttons();
     }
 }

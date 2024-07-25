@@ -34,28 +34,68 @@ $PAGE->set_title(get_string('pluginname', 'local_stoodle'));
 $PAGE->set_heading("Quiz Menu");  // Replace with get_string.
 
 $SESSION->currentpage = 'quiz';
+$SESSION->question_count = 0;
+$SESSION->quiz_id = null;
+$SESSION->quiz_name = null;
 
 $select = new \local_stoodle\form\select_form();
 if ($select->no_submit_button_pressed()) {
-    $SESSION->question_count = 0;
-    $SESSION->quiz_id = null;
-    $SESSION->quiz_name = null;
-    $url = new moodle_url('/local/stoodle/quiz_create.php');
-    redirect($url);
-} else if ($select->is_cancelled()) {
-    $url = new moodle_url('/local/stoodle/index.php');
-    redirect($url);
-} else if ($data = $select->get_data()) {
-    $set = required_param('card_sets', PARAM_TEXT);
-    if ($set == -1) {
-        $url = new moodle_url('/local/stoodle/quiz.php');
+    $data = $select->get_submitted_data();
+    $quiz = required_param('quizzes', PARAM_TEXT);
+
+    if($quiz == -1){
+        $url = new moodle_url('/local/stoodle/quiz_create.php');
         redirect($url);
     }
-    $SESSION->quiz_set_name = $set;
+
+    $SESSION->edit_quiz_id = $quiz;
+
+    $url = new moodle_url('/local/stoodle/quiz_edit.php');
+    redirect($url);
+} else if ($select->is_cancelled()) {
+    $data = $select->get_submitted_data();
+    $quiz = required_param('quizzes', PARAM_TEXT);
+
+    if($quiz == -1){
+        $url = new moodle_url('/local/stoodle/quiz_create.php');
+        redirect($url);
+    }
+
+    $DB->delete_records_select('stoodle_quiz', 'id = ?', [$quiz]);
+    $questions = $DB->get_records_select('stoodle_quiz_questions', 'stoodle_quizid = ?', [$quiz]);
+        foreach ($questions as $question) {
+            $DB->delete_records_select('stoodle_quiz_question_options', 'stoodle_quiz_questionsid = ?', [$question->id]);
+        }
+    $DB->delete_records_select('stoodle_quiz_questions', 'stoodle_quizid = ?', [$quiz]);
+
+    $url = new moodle_url('/local/stoodle/quiz.php');
+    redirect($url);
+} else if ($data = $select->get_data()) {
+    $quiz = required_param('quizzes', PARAM_TEXT);
+
+    if ($quiz == -1) {
+        $url = new moodle_url('/local/stoodle/quiz_create.php');
+        redirect($url);
+    }
+    $SESSION->quiz_set_name = $quiz;
     $url = new moodle_url('/local/stoodle/quiz.php');
     redirect($url);
 }
 
 echo $OUTPUT->header();
+
 $select->display();
+?>
+
+<html lang="en">
+<body>
+    <div>
+        <a href="quiz_create.php"><button>Create New Quiz</button></a>
+    </div>
+
+    <a href="index.php"><button>Back</button></a>
+</body>
+</html>
+
+<?php
 echo $OUTPUT->footer();
