@@ -20,7 +20,9 @@ namespace local_stoodle\form;
  * Class create_quiz
  *
  * @package    local_stoodle
- * @copyright  2024 YOUR NAME <your@email.com>
+ * @copyright  2024 Jonathan Kong-Shi kongshij@wit.edu,
+ *              Myles R. Sullivan sullivanm22@wit.edu,
+ *              Jhonathan Deandrade deandradej@wit.edu
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -47,7 +49,7 @@ class create_quiz extends \moodleform {
             $countO = 1;
             $countQ = 1;
 
-            $front = [ $mform->createElement('static','quizname', get_string('currrentquizname', 'local_stoodle'), $quiz->name)];
+            $front = [ $mform->createElement('static','quizname', get_string('currentquizname', 'local_stoodle'), $quiz->name)];
             $mform->addElement($front[0]);
 
             if ($DB->get_records_select('stoodle_quiz_questions', 'stoodle_quizid = ?', [$quiz->id])) {
