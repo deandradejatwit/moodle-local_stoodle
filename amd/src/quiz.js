@@ -22,7 +22,7 @@ export const init = () => {
         // Check if it's a multiple choice or open-response question
         if (parseInt(Object.values(questionSet)[key].is_multiple_choice) === 0) {
             newDiv.id = "open-response";
-            createOpenResponseQuestion(newDiv, Object.values(questionSet)[key].id);
+            createOpenResponseQuestion(newDiv, ("option_" + Object.values(questionSet)[key].id));
         } else {
             newDiv.id = "multiple-choice";
             createMultipleChoiceQuestion(newDiv, Object.values(questionSet)[key].id, answerSet);
@@ -42,7 +42,7 @@ export const init = () => {
             // Match answer id to question id
             const dbId = Object.values(answerSet)[key].stoodle_quiz_questionsid;
             if (dbId === questionId) {
-                createInputNode(parent, "someid", (questionId), Object.values(answerSet)[key].option_text);
+                createInputNode(parent, ("option_" + questionId), (questionId), Object.values(answerSet)[key].option_text);
             }
         }
     }
@@ -54,10 +54,12 @@ export const init = () => {
      * @param {string} name
      */
     function createOpenResponseQuestion(parent, name) {
-        const textInput = document.createElement("input");
-        textInput.type = "text";
-        textInput.name = name;
-        parent.appendChild(textInput);
+        const label = document.createElement("label");
+        const textInput = document.createElement("textarea");
+        textInput.id = name;
+        textInput.cols = 100;
+        label.appendChild(textInput);
+        parent.appendChild(label);
     }
 
     /**
@@ -78,10 +80,10 @@ export const init = () => {
 
         // Create the label to go with it
         const label = document.createElement("label");
+        label.appendChild(radio);
         label.appendChild(document.createTextNode(value));
 
         // Append them to the parent
-        parent.appendChild(radio);
         parent.appendChild(label);
         parent.appendChild(document.createElement("br"));
     }
@@ -94,13 +96,13 @@ export const init = () => {
         let numCorrect = 0;
         for (const key in Object.values(questionSet)) {
             const question = Object.values(questionSet)[key].id;
-            const parent = document.querySelector('input[name = "' + question + '"]').parentElement;
+            const parent = document.getElementById("option_" + question).parentElement.parentElement;
             let option = null;
 
             if (parent.id === "multiple-choice") {
                 option = document.querySelector('input[name = "' + question + '"]:checked');
             } else {
-                option = document.querySelector('input[name = "' + question + '"]');
+                option = document.getElementById("option_" + question);
             }
 
             if (option === null) {
