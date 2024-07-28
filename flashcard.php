@@ -41,7 +41,7 @@ if ($select->no_submit_button_pressed()) {
     $data = $select->get_submitted_data();
     $set = required_param('card_sets', PARAM_TEXT);
 
-    if($set == -1){
+    if ($set == -1) {
         $url = new moodle_url('/local/stoodle/flashcard_create.php');
         redirect($url);
     }
@@ -54,7 +54,7 @@ if ($select->no_submit_button_pressed()) {
     $data = $select->get_submitted_data();
     $set = required_param('card_sets', PARAM_TEXT);
 
-    if($set == -1){
+    if ($set == -1) {
         $url = new moodle_url('/local/stoodle/flashcard_create.php');
         redirect($url);
     }
@@ -79,13 +79,39 @@ $select->display();
 ?>
 
 <html lang="en">
-<body>
-    <div>
-        <a href="flashcard_create.php"><button>Create New Set</button></a>
-    </div>
 
-    <a href="index.php"><button>Back</button></a>
+<body>
+    <div class="nav-buttons">
+        <a href="flashcard_create.php"><button class="btn btn-primary">Create New Set</button></a>
+        <a href="index.php"><button class="btn btn-secondary">Back</button></a>
+    </div>
 </body>
+<style>
+    .nav-buttons{
+        margin-left: 202.25px;
+    }
+#id_delete.btn-primary{
+    color: #fff;
+    background-color: #ca3120;
+    border-color: #ca3120;
+}
+#id_delete.btn-primary:hover {
+    color: #fff;
+    background-color: #a9291b;
+    border-color: #9e2619;
+}
+#id_editset.btn-primary{
+    color: #1d2125;
+    background-color: #ced4da;
+    border-color: #ced4da;
+}
+#id_editset.btn-primary:hover {
+    color: #1d2125;
+    background-color: #b8c1ca;
+    border-color: #b1bbc4;
+}
+</style>
+
 </html>
 
 <?php
