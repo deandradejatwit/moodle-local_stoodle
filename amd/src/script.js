@@ -1,25 +1,25 @@
-export const init = (someArray) => {
+export const init = () => {
+    const flashcardSet = JSON.parse(document.querySelector(".flashcard-set").innerHTML);
     const card = document.querySelector(".js-card");
     const card1 = document.getElementById("card-answer");
     const card2 = document.getElementById("card-question");
-    const arrKeys = Object.keys(someArray);
-    // for (let i = 0; i < arrKeys.length; i++) {
-    //     window.console.log(someArray[arrKeys[i]].question);
-    // }
-    // window.console.log(someArray);
+    const arrKeys = Object.keys(flashcardSet);
 
     let currKeyElem = 0;
     let isAnswer = false;
 
-    card2.innerHTML = someArray[arrKeys[currKeyElem]].question;
-    card1.innerHTML = someArray[arrKeys[currKeyElem]].answer;
+    document.querySelector(".js-counter").innerText = "Flashcard No. " + (currKeyElem + 1);
+    card2.innerHTML = flashcardSet[arrKeys[currKeyElem]].question;
+    card1.innerHTML = flashcardSet[arrKeys[currKeyElem]].answer;
 
+    // Clicking the flashcard itself
     card.addEventListener("click", () => {
         isAnswer = !isAnswer;
         card.classList.toggle('is-flipped');
-        document.getElementById("card-answer").innerHTML = someArray[arrKeys[currKeyElem]].answer;
+        document.getElementById("card-answer").innerHTML = flashcardSet[arrKeys[currKeyElem]].answer;
     });
 
+    // Previous Flashcard Button
     document.querySelector('.js-prev').addEventListener('click', () => {
         if (--currKeyElem < 0) {
             currKeyElem = arrKeys.length - 1;
@@ -27,6 +27,7 @@ export const init = (someArray) => {
         checkAnswer(currKeyElem);
     });
 
+    // Next Flashcard Button
     document.querySelector('.js-next').addEventListener('click', () => {
         if (++currKeyElem > arrKeys.length - 1) {
             currKeyElem = 0;
@@ -44,6 +45,7 @@ export const init = (someArray) => {
             card.classList.toggle('is-flipped');
             isAnswer = false;
         }
-        document.getElementById("card-question").innerHTML = someArray[arrKeys[arrId]].question;
+        document.getElementById("card-question").innerHTML = flashcardSet[arrKeys[arrId]].question;
+        document.querySelector(".js-counter").innerText = "Flashcard No. " + (currKeyElem + 1);
     }
 };

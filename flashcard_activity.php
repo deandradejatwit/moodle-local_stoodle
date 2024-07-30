@@ -34,16 +34,16 @@ $PAGE->set_pagelayout('standard');
 $PAGE->set_title('Flashcards');
 $PAGE->set_heading('Flashcards');
 
-$variable = $SESSION->activity_set_name;
-$question1 = [$DB->get_records('stoodle_flashcards', ['stoodle_flashcard_setid' => $variable])];
+$flashcardid = $SESSION->activity_set_name;
+$flashcardset = json_encode($DB->get_records('stoodle_flashcards', ['stoodle_flashcard_setid' => $flashcardid]));
 
 echo $OUTPUT->header();
 
 
-$PAGE->requires->js_call_amd('local_stoodle/script', 'init', $question1);
+$PAGE->requires->js_call_amd('local_stoodle/script', 'init');
 
 $templatecontext = (object)[
-    'texttodisplay' => 'This is some text that will be displayed',
+    'flashcards' => $flashcardset,
 ];
 
 echo $OUTPUT->render_from_template('local_stoodle/flashcard_activity', $templatecontext);
