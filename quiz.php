@@ -89,12 +89,36 @@ $select->display();
 
 <html lang="en">
 <body>
-    <div>
-        <a href="quiz_create.php"><button>Create New Quiz</button></a>
+    <div class="nav-buttons">
+        <a href="quiz_create.php"><button class="btn btn-primary">Create New Quiz</button></a>
+        <a href="index.php"><button class="btn btn-secondary">Back</button></a>
     </div>
-
-    <a href="index.php"><button>Back</button></a>
 </body>
+<style>
+    .nav-buttons{
+        margin-left: 202.25px;
+    }
+#id_delete.btn-primary{
+    color: #fff;
+    background-color: #ca3120;
+    border-color: #ca3120;
+}
+#id_delete.btn-primary:hover {
+    color: #fff;
+    background-color: #a9291b;
+    border-color: #9e2619;
+}
+#id_editquiz.btn-primary{
+    color: #1d2125;
+    background-color: #ced4da;
+    border-color: #ced4da;
+}
+#id_editquiz.btn-primary:hover {
+    color: #1d2125;
+    background-color: #b8c1ca;
+    border-color: #b1bbc4;
+}
+</style>
 </html>
 
 <?php
