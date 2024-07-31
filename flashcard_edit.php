@@ -71,7 +71,8 @@ if ($editsetform->is_cancelled()) {
                 $edits->timemodified = time();
                 $DB->update_record('stoodle_flashcards', $edits);
 
-            } else if (!empty($answers[$i])){
+            }
+            if (!empty($answers[$i])){
                 $edits = new stdClass;
 
                 $edits->id = $cardid[$i];
