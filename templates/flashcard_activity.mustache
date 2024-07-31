@@ -98,23 +98,25 @@
     }
 
     .js-counter {
-        float: center;
+        float: left;
     }
 </style>
 <div class="flashcards">
-        <p class="js-counter">Flashcard No. </p>
+    <div class="flashcard-set" style="display: none;">{{flashcards}}</div>
 
-        <div class="js-card">
-            <p id="card-question" class="js-content">This is a card</p>
-            <p id="card-answer" class="js-content">This is a back side card</p>
-        </div>
+    <p class="js-counter"></p>
 
-        <div class="lr-buttons">
-            <button class="js-prev">&#60;</button>
-            <button class="js-next">&#62;</button>
-        </div>
-
-        <div class="exit-button">
-            <a href="flashcard.php"><button class="btn btn-secondary btn-lg">Exit</button></a>
-        </div>
+    <div class="js-card">
+        <p id="card-question" class="js-content">This is a card</p>
+        <p id="card-answer" class="js-content">This is a back side card</p>
     </div>
+
+    <div class="lr-buttons">
+        <button class="js-prev">&#60;</button>
+        <button class="js-next">&#62;</button>
+    </div>
+
+    <div class="exit-button">
+        <a href="flashcard.php"><button class="btn btn-secondary btn-lg">Exit</button></a>
+    </div>
+</div>

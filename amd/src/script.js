@@ -1,49 +1,48 @@
-export const init = (someArray) => {
-    const card = document.querySelector(".js-card");
-    const card1 = document.getElementById("card-answer");
-    const card2 = document.getElementById("card-question");
-    const arrKeys = Object.keys(someArray);
-    // for (let i = 0; i < arrKeys.length; i++) {
-    //     window.console.log(someArray[arrKeys[i]].question);
-    // }
-    // window.console.log(someArray);
+export const init = () => {
+    const dbFlashcardSet = JSON.parse(document.querySelector(".flashcard-set").innerHTML);
+    const htmlCard = document.querySelector(".js-card");
+    const nextButton = document.querySelector('.js-next');
+    const previousButton = document.querySelector('.js-prev');
+    const dbNames = Object.keys(dbFlashcardSet);
 
-    let currKeyElem = 0;
-    let isAnswer = false;
+    let currFlashcardElem = 0;
+    let onAnswerSide = false;
+    validateFlashcard(currFlashcardElem);
 
-    card2.innerHTML = someArray[arrKeys[currKeyElem]].question;
-    card1.innerHTML = someArray[arrKeys[currKeyElem]].answer;
-
-    card.addEventListener("click", () => {
-        isAnswer = !isAnswer;
-        card.classList.toggle('is-flipped');
-        document.getElementById("card-answer").innerHTML = someArray[arrKeys[currKeyElem]].answer;
+    // Clicking the flashcard itself
+    htmlCard.addEventListener("click", () => {
+        onAnswerSide = !onAnswerSide;
+        htmlCard.classList.toggle('is-flipped');
+        document.getElementById("card-answer").innerHTML = dbFlashcardSet[dbNames[currFlashcardElem]].answer;
     });
 
-    document.querySelector('.js-prev').addEventListener('click', () => {
-        if (--currKeyElem < 0) {
-            currKeyElem = arrKeys.length - 1;
+    // Previous Flashcard Button
+    previousButton.addEventListener('click', () => {
+        if (--currFlashcardElem < 0) {
+            currFlashcardElem = dbNames.length - 1;
         }
-        checkAnswer(currKeyElem);
+        validateFlashcard(currFlashcardElem);
     });
 
-    document.querySelector('.js-next').addEventListener('click', () => {
-        if (++currKeyElem > arrKeys.length - 1) {
-            currKeyElem = 0;
+    // Next Flashcard Button
+    nextButton.addEventListener('click', () => {
+        if (++currFlashcardElem > dbNames.length - 1) {
+            currFlashcardElem = 0;
         }
-        checkAnswer(currKeyElem);
+        validateFlashcard(currFlashcardElem);
     });
 
     /**
-     * Swaps the question and answer on the flashcard
+     * Sets flashcard to question side and displays a question at a specific element.
      *
-     * @param {object} arrId
+     * @param {object} arrElem The flashcard element.
      */
-    function checkAnswer(arrId) {
-        if (isAnswer) {
-            card.classList.toggle('is-flipped');
-            isAnswer = false;
+    function validateFlashcard(arrElem) {
+        if (onAnswerSide) {
+            htmlCard.classList.toggle('is-flipped');
+            onAnswerSide = false;
         }
-        document.getElementById("card-question").innerHTML = someArray[arrKeys[arrId]].question;
+        document.getElementById("card-question").innerHTML = dbFlashcardSet[dbNames[arrElem]].question;
+        document.querySelector(".js-counter").innerText = "Flashcard No. " + (currFlashcardElem + 1);
     }
 };
