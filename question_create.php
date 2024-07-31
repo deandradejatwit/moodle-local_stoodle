@@ -28,7 +28,7 @@ require ('../../config.php');
 
 require_login();
 global $SESSION;
-global $error, $correctError;
+global $error;
 
 $url = new moodle_url('/local/stoodle/question_create.php', []);
 $PAGE->set_url($url);
@@ -46,7 +46,7 @@ if ($createquestionform->is_cancelled()) {
     $optradio = required_param_array('optradio', PARAM_TEXT);
     $question = required_param('question', PARAM_TEXT);
     $answer = required_param_array('answer', PARAM_TEXT);
-    $numcorrect = 0;
+    $numcorrect = 0; $numanswers = 0;
 
     $question_num = $SESSION->question_count;
     $quizID = $SESSION->quiz_id;
@@ -69,7 +69,13 @@ if ($createquestionform->is_cancelled()) {
         $recordquestion->timecreated = time();
         $recordquestion->timemodified = time();
 
-        if(count($answer) > 1){
+        for ($i = 0; $i <= count($answer) - 1; $i++) {
+            if (!empty($answer[$i])) {
+                $numanswers++;
+            }
+        }
+
+        if($numanswers > 1){
             $recordquestion->is_multiple_choice = 1;
         } else {
             $recordquestion->is_multiple_choice = 0;
