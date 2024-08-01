@@ -28,12 +28,33 @@ export const init = () => {
         newDiv.appendChild(questionText);
 
         // Check if it's a multiple choice or open-response question
-        if (parseInt(Object.values(questionSet)[key].is_multiple_choice) === 0) {
-            newDiv.id = "open-response";
-            createOpenResponseQuestion(newDiv, ("option_" + Object.values(questionSet)[key].id));
-        } else {
-            newDiv.id = "multiple-choice";
-            createMultipleChoiceQuestion(newDiv, Object.values(questionSet)[key].id, answerSet);
+        // if (parseInt(Object.values(questionSet)[key].is_multiple_choice) === 0) {
+        //     newDiv.id = "open-response";
+        //     createOpenResponseQuestion(newDiv, ("option_" + Object.values(questionSet)[key].id));
+        // } else {
+        //     newDiv.id = "multiple-choice";
+        //     createMultipleChoiceQuestion(newDiv, Object.values(questionSet)[key].id, answerSet);
+        // }
+        switch (typeSet[key]) {
+            default:
+            case 0:
+                newDiv.id = "open-response";
+                createOpenResponseQuestion(newDiv, ("option_" + Object.values(questionSet)[key].id));
+                break;
+            case 1:
+                newDiv.id = "multiple-choice";
+                for (const element in newSet.get(Object.values(questionSet)[key].question_text)[0]) {
+                    const optionText = newSet.get(Object.values(questionSet)[key].question_text)[0][element];
+                    createInputNodeRadio(newDiv, ("option_" + key), key, optionText);
+                }
+                break;
+            case 2:
+                newDiv.id = "select-all";
+                for (const element in newSet.get(Object.values(questionSet)[key].question_text)[0]) {
+                    const optionText = newSet.get(Object.values(questionSet)[key].question_text)[0][element];
+                    createInputNodeCheckBox(newDiv, ("option_" + key), key, optionText);
+                }
+                break;
         }
         questionDiv.appendChild(newDiv);
     }
@@ -52,7 +73,7 @@ export const init = () => {
             // Match answer id to question id
             const dbId = Object.values(answerSet)[key].stoodle_quiz_questionsid;
             if (dbId === questionId) {
-                createInputNode(parent, ("option_" + questionId), (questionId), Object.values(answerSet)[key].option_text);
+                createInputNodeRadio(parent, ("option_" + questionId), (questionId), Object.values(answerSet)[key].option_text);
             }
         }
     }
@@ -73,14 +94,14 @@ export const init = () => {
     }
 
     /**
-     * Creates a multiple choice question.
+     * Creates a radio button.
      *
      * @param {object} parent
      * @param {string} id
      * @param {string} name
      * @param {string} value
      */
-    function createInputNode(parent, id, name, value) {
+    function createInputNodeRadio(parent, id, name, value) {
         // Create a radio input
         const radio = document.createElement("input");
         radio.type = "radio";
@@ -91,6 +112,32 @@ export const init = () => {
         // Create the label to go with it
         const label = document.createElement("label");
         label.appendChild(radio);
+        label.appendChild(document.createTextNode(value));
+
+        // Append them to the parent
+        parent.appendChild(label);
+        parent.appendChild(document.createElement("br"));
+    }
+
+    /**
+     * Creates a checkbox button.
+     *
+     * @param {object} parent
+     * @param {string} id
+     * @param {string} name
+     * @param {string} value
+     */
+    function createInputNodeCheckBox(parent, id, name, value) {
+        // Create a radio input
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.id = id;
+        checkbox.name = name;
+        checkbox.value = value;
+
+        // Create the label to go with it
+        const label = document.createElement("label");
+        label.appendChild(checkbox);
         label.appendChild(document.createTextNode(value));
 
         // Append them to the parent
