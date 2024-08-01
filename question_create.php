@@ -46,18 +46,12 @@ if ($createquestionform->is_cancelled()) {
     $optradio = required_param_array('optradio', PARAM_TEXT);
     $question = required_param('question', PARAM_TEXT);
     $answer = required_param_array('answer', PARAM_TEXT);
-    $numcorrect = 0; $numanswers = 0;
+    $numanswers = 0;
 
     $question_num = $SESSION->question_count;
     $quizID = $SESSION->quiz_id;
 
-    foreach ($optradio as $radio) {
-        if ($radio == 1) {
-            $numcorrect++;
-        }
-    }
-
-    if (!empty($question) && check_empty($answer) && check_empty($optradio) && $numcorrect == 1) {
+    if (!empty($question) && check_empty($answer) && check_empty($optradio)) {
 
         $recordquestion = new stdClass;
         $recordanswers = new stdClass;
