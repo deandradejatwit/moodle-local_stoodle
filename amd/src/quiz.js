@@ -235,7 +235,7 @@ export const init = () => {
             let optionArray = [];
             let answerArray = [];
             for (const oKey in Object.values(oSet)) {
-                const dbQuestionKey = parseInt(Object.values(qSet)[qKey].question_number);
+                const dbQuestionKey = parseInt(Object.values(qSet)[qKey].id);
                 const dbOptionKey = parseInt(Object.values(oSet)[oKey].stoodle_quiz_questionsid);
                 if (dbQuestionKey === dbOptionKey) {
                     optionArray.push(Object.values(oSet)[oKey].option_text);
