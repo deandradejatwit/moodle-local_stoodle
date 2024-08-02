@@ -173,11 +173,11 @@ export const init = () => {
                 }
                 for (let i = 0; i < newSet.get(dbQuestionText)[1].length; i++) {
                     window.console.log("Attempting comaprison: " + newSet.get(dbQuestionText)[0][i] + " and " + option[i].value);
-                    if (newSet.get(dbQuestionText)[0][i] === option[i].value) {
+                    if (newSet.get(dbQuestionText)[1][i] === option[i].value) {
                         selectAllCorrectCounter++;
                         window.console.log("Success, yay!");
                     } else {
-                        window.console.log(newSet.get(dbQuestionText)[0][i] + " does not equal " + option[i].value);
+                        window.console.log(newSet.get(dbQuestionText)[1][i] + " does not equal " + option[i].value);
                     }
                     window.console.log("Line break -----------------------------------------------------------------------------");
                 }
