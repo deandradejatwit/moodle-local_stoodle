@@ -181,6 +181,7 @@ export const init = () => {
                     window.console.log("Question " + (parseInt(key) + 1) + " is correct");
                     parent.innerText = htmlQuestionText + " " + correctHex;
                 } else {
+                    window.console.log("Counter is " + selectAllCorrectCounter + ", but array is length " + newSet.get(dbQuestionText)[1].length);
                     parent.innerText = htmlQuestionText + " " + incorrectHex;
                 }
             }
@@ -242,11 +243,8 @@ export const init = () => {
                     if (parseInt(Object.values(oSet)[oKey].is_correct) === 1) {
                         answerArray.push(Object.values(oSet)[oKey].option_text);
                     }
-                } else {
-                    window.console.log(dbQuestionKey + " does not match " + dbOptionKey);
                 }
             }
-            window.console.log("line break-------------------------------------------------------------------------------------");
             resultSet.set(Object.values(qSet)[qKey].question_text, [optionArray, answerArray]);
         }
         return resultSet;
