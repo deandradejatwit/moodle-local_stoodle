@@ -7,11 +7,6 @@ export const init = () => {
 
     const newSet = createFullSet(questionSet, answerSet);
     const typeSet = declareQuestionTypes(questionSet, answerSet);
-    window.console.log(questionSet);
-    window.console.log(answerSet);
-    window.console.log([...newSet.entries()]);
-    window.console.log(typeSet);
-    window.console.log(newSet.get("q1")[0][0]);
 
     scoreArea.innerHTML = "Score: 0 / " + totalQuestions;
     document.querySelector(".submit-button").addEventListener('click', () => {
@@ -27,14 +22,6 @@ export const init = () => {
         questionText.textContent = "Question " + (parseInt(key) + 1) + ": " + Object.values(questionSet)[key].question_text;
         newDiv.appendChild(questionText);
 
-        // Check if it's a multiple choice or open-response question
-        // if (parseInt(Object.values(questionSet)[key].is_multiple_choice) === 0) {
-        //     newDiv.id = "open-response";
-        //     createOpenResponseQuestion(newDiv, ("option_" + Object.values(questionSet)[key].id));
-        // } else {
-        //     newDiv.id = "multiple-choice";
-        //     createMultipleChoiceQuestion(newDiv, Object.values(questionSet)[key].id, answerSet);
-        // }
         switch (typeSet[key]) {
             default:
             case 0:
@@ -153,7 +140,6 @@ export const init = () => {
                     parent.innerText = htmlQuestionText + " " + correctHex;
                 } else {
                     parent.innerText = htmlQuestionText + " " + incorrectHex + " (manual review required)";
-                    window.console.log("open response wrong what");
                 }
             } else if (typeSet[key] === 1) {
                 // Check Multiple Choice
@@ -168,7 +154,6 @@ export const init = () => {
                     numCorrect++;
                     parent.innerText = htmlQuestionText + " " + correctHex;
                 } else {
-                    window.console.log("multiple choice wrong what");
                     parent.innerText = htmlQuestionText + " " + incorrectHex;
                 }
             } else if (typeSet[key] === 2) {
@@ -180,7 +165,6 @@ export const init = () => {
                 }
                 const parent = document.querySelector('input[name="' + key + '"]:checked').parentElement.parentElement.children[0];
                 let selectAllCorrectCounter = 0;
-                window.console.log(option);
                 if (newSet.get(dbQuestionText)[1].length !== option.length) {
                     parent.innerText = htmlQuestionText + " " + incorrectHex;
                     continue;
@@ -188,8 +172,6 @@ export const init = () => {
                 for (let i = 0; i < newSet.get(dbQuestionText)[1].length; i++) {
                     if (newSet.get(dbQuestionText)[0][i] === option[i].value) {
                         selectAllCorrectCounter++;
-                    } else {
-                        window.console.log("select all wrong what");
                     }
                 }
                 if (selectAllCorrectCounter === newSet.get(dbQuestionText)[1].length) {
@@ -201,42 +183,6 @@ export const init = () => {
                 }
             }
         }
-
-        // for (const key in Object.values(questionSet)) {
-        //     const question = Object.values(questionSet)[key].id;
-        //     const parent = document.getElementById("option_" + question).parentElement.parentElement;
-        //     let option = null;
-
-        //     if (parent.id === "multiple-choice") {
-        //         option = document.querySelector('input[name = "' + question + '"]:checked');
-        //     } else {
-        //         option = document.getElementById("option_" + question);
-        //     }
-
-        //     if (option === null) {
-        //         alert("Question " + (parseInt(key) + 1) + " is unanswered");
-        //         return;
-        //     }
-
-        //     // Comparing them to the answers
-        //     for (const answerKey in Object.values(answerSet)) {
-        //         const questionText = "Question " + (parseInt(key) + 1) + ": " + Object.values(questionSet)[key].question_text;
-        //         const answerText = Object.values(answerSet)[answerKey].option_text;
-        //         const answerIsCorrect = parseInt(Object.values(answerSet)[answerKey].is_correct);
-        //         if (answerText === option.value && answerIsCorrect === 1) {
-        //             window.console.log("Question " + (parseInt(key) + 1) + " is correct");
-        //             numCorrect++;
-        //             parent.children[0].innerText = questionText + " \u{2705}";
-        //             break;
-        //         } else if (answerText === option.value && answerIsCorrect === 0) {
-        //             window.console.log("Question " + (parseInt(key) + 1) + " is wrong");
-        //             parent.children[0].innerText = questionText + " \u{274C}";
-        //             break;
-        //         } else if (parent.id === "open-response") {
-        //             parent.children[0].innerText = questionText + " \u{274C} (manual review required)";
-        //         }
-        //     }
-        // }
 
         scoreArea.innerText = "Score: " + numCorrect + " / " + totalQuestions;
     }
