@@ -39,7 +39,7 @@ export const init = () => {
             default:
             case 0:
                 newDiv.id = "open-response";
-                createOpenResponseQuestion(newDiv, ("option_" + Object.values(questionSet)[key].id));
+                createOpenResponseQuestion(newDiv, ("option_" + key));
                 break;
             case 1:
                 newDiv.id = "multiple-choice";
@@ -58,7 +58,6 @@ export const init = () => {
         }
         questionDiv.appendChild(newDiv);
     }
-
 
 
     /**
@@ -151,60 +150,88 @@ export const init = () => {
      */
     function questionValidation() {
         let numCorrect = 0;
-        // const questionTypes = declareQuestionTypes(questionSet, answerSet);
-
-        // for (const key in Object.values(questionSet)) {
-        //     const questionText = "Question " + (parseInt(key) + 1) + ": " + Object.values(questionSet)[key].question_text;
-        //     const question = Object.values(questionSet)[key].id;
-        //     let option = null;
-
-        //     if (questionTypes[key] === 0) {
-        //         option = document.getElementById("option_" + question);
-        //     } else if (questionTypes[key] === 1) {
-        //         option = document.querySelector('input[name = "' + question + '"]:checked');
-        //         if (checkMultipleChoice(answerSet, question, option)) {
-        //             window.console.log("Question " + (parseInt(key) + 1) + " is correct");
-        //             numCorrect++;
-        //             parent.children[0].innerText = questionText + " \u{2705}";
-        //         }
-        //     }
-        // }
 
         for (const key in Object.values(questionSet)) {
-            const question = Object.values(questionSet)[key].id;
-            const parent = document.getElementById("option_" + question).parentElement.parentElement;
+            // const questionText = "Question " + (parseInt(key) + 1) + ": " + Object.values(questionSet)[key].question_text;
+            const questionText = Object.values(questionSet)[key].question_text;
             let option = null;
 
-            if (parent.id === "multiple-choice") {
-                option = document.querySelector('input[name = "' + question + '"]:checked');
-            } else {
-                option = document.getElementById("option_" + question);
-            }
-
-            if (option === null) {
-                alert("Question " + (parseInt(key) + 1) + " is unanswered");
-                return;
-            }
-
-            // Comparing them to the answers
-            for (const answerKey in Object.values(answerSet)) {
-                const questionText = "Question " + (parseInt(key) + 1) + ": " + Object.values(questionSet)[key].question_text;
-                const answerText = Object.values(answerSet)[answerKey].option_text;
-                const answerIsCorrect = parseInt(Object.values(answerSet)[answerKey].is_correct);
-                if (answerText === option.value && answerIsCorrect === 1) {
+            if (typeSet[key] === 0) {
+                // Check Open Response
+                option = document.getElementById("option_" + key);
+                if (option.value === newSet.get(questionText)[1][0]) {
                     window.console.log("Question " + (parseInt(key) + 1) + " is correct");
                     numCorrect++;
-                    parent.children[0].innerText = questionText + " \u{2705}";
-                    break;
-                } else if (answerText === option.value && answerIsCorrect === 0) {
-                    window.console.log("Question " + (parseInt(key) + 1) + " is wrong");
-                    parent.children[0].innerText = questionText + " \u{274C}";
-                    break;
-                } else if (parent.id === "open-response") {
-                    parent.children[0].innerText = questionText + " \u{274C} (manual review required)";
+                    // parent.children[0].innerText = questionText + " \u{274C} (manual review required)";
+                } else {
+                    window.console.log("open response wrong what");
+                }
+            } else if (typeSet[key] === 1) {
+                // Check Multiple Choice
+                option = document.querySelector('input[name = "' + key + '"]:checked');
+                if (newSet.get(questionText)[1][0] === option.value) {
+                    window.console.log("Question " + (parseInt(key) + 1) + " is correct");
+                    numCorrect++;
+                } else {
+                    window.console.log("multiple choice wrong what");
+                }
+            } else if (typeSet[key] === 2) {
+                // Check Select All
+                const thing1 = document.querySelectorAll('input[name="' + key + '"]:checked');
+                let selectAllCorrectCounter = 0;
+                window.console.log(thing1);
+                if (newSet.get(questionText)[1].length !== thing1.length) {
+                    continue;
+                }
+                for (let i = 0; i < newSet.get(questionText)[1].length; i++) {
+                    if (newSet.get(questionText)[0][i] === thing1[i].value) {
+                        selectAllCorrectCounter++;
+                    } else {
+                        window.console.log("select all wrong what");
+                    }
+                }
+                if (selectAllCorrectCounter === newSet.get(questionText)[1].length) {
+                    numCorrect++;
+                    window.console.log("Question " + (parseInt(key) + 1) + " is correct");
                 }
             }
         }
+
+        // for (const key in Object.values(questionSet)) {
+        //     const question = Object.values(questionSet)[key].id;
+        //     const parent = document.getElementById("option_" + question).parentElement.parentElement;
+        //     let option = null;
+
+        //     if (parent.id === "multiple-choice") {
+        //         option = document.querySelector('input[name = "' + question + '"]:checked');
+        //     } else {
+        //         option = document.getElementById("option_" + question);
+        //     }
+
+        //     if (option === null) {
+        //         alert("Question " + (parseInt(key) + 1) + " is unanswered");
+        //         return;
+        //     }
+
+        //     // Comparing them to the answers
+        //     for (const answerKey in Object.values(answerSet)) {
+        //         const questionText = "Question " + (parseInt(key) + 1) + ": " + Object.values(questionSet)[key].question_text;
+        //         const answerText = Object.values(answerSet)[answerKey].option_text;
+        //         const answerIsCorrect = parseInt(Object.values(answerSet)[answerKey].is_correct);
+        //         if (answerText === option.value && answerIsCorrect === 1) {
+        //             window.console.log("Question " + (parseInt(key) + 1) + " is correct");
+        //             numCorrect++;
+        //             parent.children[0].innerText = questionText + " \u{2705}";
+        //             break;
+        //         } else if (answerText === option.value && answerIsCorrect === 0) {
+        //             window.console.log("Question " + (parseInt(key) + 1) + " is wrong");
+        //             parent.children[0].innerText = questionText + " \u{274C}";
+        //             break;
+        //         } else if (parent.id === "open-response") {
+        //             parent.children[0].innerText = questionText + " \u{274C} (manual review required)";
+        //         }
+        //     }
+        // }
 
         scoreArea.innerText = "Score: " + numCorrect + " / " + totalQuestions;
     }
