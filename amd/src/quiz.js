@@ -59,24 +59,6 @@ export const init = () => {
         questionDiv.appendChild(newDiv);
     }
 
-
-    /**
-     * Creates a multiple choice question.
-     *
-     * @param {object} parent
-     * @param {integer} questionId
-     * @param {object} answerSet
-     */
-    function createMultipleChoiceQuestion(parent, questionId, answerSet) {
-        for (const key in Object.values(answerSet)) {
-            // Match answer id to question id
-            const dbId = Object.values(answerSet)[key].stoodle_quiz_questionsid;
-            if (dbId === questionId) {
-                createInputNodeRadio(parent, ("option_" + questionId), (questionId), Object.values(answerSet)[key].option_text);
-            }
-        }
-    }
-
     /**
      * Creates a open response question.
      *
@@ -150,49 +132,72 @@ export const init = () => {
      */
     function questionValidation() {
         let numCorrect = 0;
+        const correctHex = "\u{2705}";
+        const incorrectHex = "\u{274C}";
 
         for (const key in Object.values(questionSet)) {
-            // const questionText = "Question " + (parseInt(key) + 1) + ": " + Object.values(questionSet)[key].question_text;
-            const questionText = Object.values(questionSet)[key].question_text;
-            let option = null;
+            const dbQuestionText = Object.values(questionSet)[key].question_text;
+            const htmlQuestionText = "Question " + (parseInt(key) + 1) + ": " + dbQuestionText;
 
             if (typeSet[key] === 0) {
                 // Check Open Response
-                option = document.getElementById("option_" + key);
-                if (option.value === newSet.get(questionText)[1][0]) {
+                const option = document.getElementById("option_" + key);
+                if (option === null) {
+                    alert("Question " + (parseInt(key) + 1) + " is unanswered");
+                    return;
+                }
+                const parent = option.parentElement.parentElement.children[0];
+                if (option.value === newSet.get(dbQuestionText)[1][0]) {
                     window.console.log("Question " + (parseInt(key) + 1) + " is correct");
                     numCorrect++;
-                    // parent.children[0].innerText = questionText + " \u{274C} (manual review required)";
+                    parent.innerText = htmlQuestionText + " " + correctHex;
                 } else {
+                    parent.innerText = htmlQuestionText + " " + incorrectHex + " (manual review required)";
                     window.console.log("open response wrong what");
                 }
             } else if (typeSet[key] === 1) {
                 // Check Multiple Choice
-                option = document.querySelector('input[name = "' + key + '"]:checked');
-                if (newSet.get(questionText)[1][0] === option.value) {
+                const option = document.querySelector('input[name = "' + key + '"]:checked');
+                if (option === null) {
+                    alert("Question " + (parseInt(key) + 1) + " is unanswered");
+                    return;
+                }
+                const parent = option.parentElement.parentElement.children[0];
+                if (newSet.get(dbQuestionText)[1][0] === option.value) {
                     window.console.log("Question " + (parseInt(key) + 1) + " is correct");
                     numCorrect++;
+                    parent.innerText = htmlQuestionText + " " + correctHex;
                 } else {
                     window.console.log("multiple choice wrong what");
+                    parent.innerText = htmlQuestionText + " " + incorrectHex;
                 }
             } else if (typeSet[key] === 2) {
                 // Check Select All
-                const thing1 = document.querySelectorAll('input[name="' + key + '"]:checked');
+                const option = document.querySelectorAll('input[name="' + key + '"]:checked');
+                if (option.length < 1) {
+                    alert("Question " + (parseInt(key) + 1) + " is unanswered");
+                    return;
+                }
+                const parent = document.querySelector('input[name="' + key + '"]:checked').parentElement.parentElement.children[0];
                 let selectAllCorrectCounter = 0;
-                window.console.log(thing1);
-                if (newSet.get(questionText)[1].length !== thing1.length) {
+                window.console.log(option);
+                if (newSet.get(dbQuestionText)[1].length !== option.length) {
+                    parent.innerText = htmlQuestionText + " " + incorrectHex;
                     continue;
                 }
-                for (let i = 0; i < newSet.get(questionText)[1].length; i++) {
-                    if (newSet.get(questionText)[0][i] === thing1[i].value) {
+                for (let i = 0; i < newSet.get(dbQuestionText)[1].length; i++) {
+                    if (newSet.get(dbQuestionText)[0][i] === option[i].value) {
                         selectAllCorrectCounter++;
                     } else {
                         window.console.log("select all wrong what");
                     }
                 }
-                if (selectAllCorrectCounter === newSet.get(questionText)[1].length) {
+                if (selectAllCorrectCounter === newSet.get(dbQuestionText)[1].length) {
                     numCorrect++;
                     window.console.log("Question " + (parseInt(key) + 1) + " is correct");
+                    parent.innerText = htmlQuestionText + " " + correctHex;
+                } else {
+                    parent.innerText = htmlQuestionText + " " + incorrectHex;
                 }
             }
         }
@@ -234,25 +239,6 @@ export const init = () => {
         // }
 
         scoreArea.innerText = "Score: " + numCorrect + " / " + totalQuestions;
-    }
-
-    /**
-     * Validates Multiple Choice questions.
-     *
-     * @param {Object} options
-     * @param {integer} questionId
-     * @param {Object} selectedOption
-     * @return {boolean} True or false depending on if answer is correct.
-     */
-    function checkMultipleChoice(options, questionId, selectedOption) {
-        for (const key in Object.values(options)) {
-            if (Object.values(options)[key].stoodle_quiz_questionsid === questionId) {
-                if (Object.values(options)[key].option_text === selectedOption.value && Object.values(options)[key].is_correct) {
-                    return true;
-                }
-            }
-        }
-        return false;
     }
 
     /**
