@@ -7,6 +7,8 @@ export const init = () => {
 
     const newSet = createFullSet(questionSet, answerSet);
     const typeSet = declareQuestionTypes(questionSet, answerSet);
+    window.console.log(newSet);
+    window.console.log(typeSet);
 
     scoreArea.innerHTML = "Score: 0 / " + totalQuestions;
     document.querySelector(".submit-button").addEventListener('click', () => {
