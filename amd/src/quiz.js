@@ -7,8 +7,6 @@ export const init = () => {
 
     const newSet = createFullSet(questionSet, answerSet);
     const typeSet = declareQuestionTypes(questionSet, answerSet);
-    window.console.log(newSet);
-    window.console.log(typeSet);
 
     scoreArea.innerHTML = "Score: 0 / " + totalQuestions;
     document.querySelector(".submit-button").addEventListener('click', () => {
@@ -172,21 +170,15 @@ export const init = () => {
                     continue;
                 }
                 for (let i = 0; i < newSet.get(dbQuestionText)[1].length; i++) {
-                    window.console.log("Attempting comaprison: " + newSet.get(dbQuestionText)[0][i] + " and " + option[i].value);
                     if (newSet.get(dbQuestionText)[1][i] === option[i].value) {
                         selectAllCorrectCounter++;
-                        window.console.log("Success, yay!");
-                    } else {
-                        window.console.log(newSet.get(dbQuestionText)[1][i] + " does not equal " + option[i].value);
                     }
-                    window.console.log("Line break -----------------------------------------------------------------------------");
                 }
                 if (selectAllCorrectCounter === newSet.get(dbQuestionText)[1].length) {
                     numCorrect++;
                     window.console.log("Question " + (parseInt(key) + 1) + " is correct");
                     parent.innerText = htmlQuestionText + " " + correctHex;
                 } else {
-                    window.console.log("Counter is " + selectAllCorrectCounter + ", but array is length " + newSet.get(dbQuestionText)[1].length);
                     parent.innerText = htmlQuestionText + " " + incorrectHex;
                 }
             }
