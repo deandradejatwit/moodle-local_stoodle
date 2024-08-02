@@ -235,13 +235,18 @@ export const init = () => {
             let optionArray = [];
             let answerArray = [];
             for (const oKey in Object.values(oSet)) {
-                if (Object.values(qSet)[qKey].question_number === Object.values(oSet)[oKey].stoodle_quiz_questionsid) {
+                const dbQuestionKey = parseInt(Object.values(qSet)[qKey].question_number);
+                const dbOptionKey = parseInt(Object.values(oSet)[oKey].stoodle_quiz_questionsid);
+                if (dbQuestionKey === dbOptionKey) {
                     optionArray.push(Object.values(oSet)[oKey].option_text);
                     if (parseInt(Object.values(oSet)[oKey].is_correct) === 1) {
                         answerArray.push(Object.values(oSet)[oKey].option_text);
                     }
+                } else {
+                    window.console.log(dbQuestionKey + " does not match " + dbOptionKey);
                 }
             }
+            window.console.log("line break-------------------------------------------------------------------------------------");
             resultSet.set(Object.values(qSet)[qKey].question_text, [optionArray, answerArray]);
         }
         return resultSet;
