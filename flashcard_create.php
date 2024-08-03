@@ -34,6 +34,7 @@ $PAGE->set_pagelayout('standard');
 $PAGE->set_title(get_string('flashcardcreate', 'local_stoodle'));
 $PAGE->set_heading(get_string('flashcardcreate', 'local_stoodle'));
 
+// instantiates the create_cards constructor to create the create_cards form
 $createcardsform = new \local_stoodle\form\create_cards();
 
 if ($createcardsform->is_cancelled()) {
@@ -44,32 +45,34 @@ if ($createcardsform->is_cancelled()) {
     $question = required_param_array('question', PARAM_TEXT);
     $answer = required_param_array('answer', PARAM_TEXT);
 
-    if (!empty($set) && check_empty($question, $answer)) {
+    if (!empty($set) && check_not_empty($question, $answer)) {
         $recordset = new stdClass;
-        $record = new stdClass;
+        $recordflashcard = new stdClass;
 
         $recordset->name = $set;
         $recordset->usermodified = $USER->id;
         $recordset->timecreated = time();
         $recordset->timemodified = time();
 
+        //checks if created set name does not exists in the flashcard set database, if it does go on with flashcard creation
         if (!$DB->get_record_select('stoodle_flashcard_set', 'name = ?', [$set])) {
             $DB->insert_record('stoodle_flashcard_set', $recordset);
-            $test = $DB->get_record_select('stoodle_flashcard_set', 'name = ?', [$set]);
+            $dbsetinfo = $DB->get_record_select('stoodle_flashcard_set', 'name = ?', [$set]);
 
             for ($i = 0; $i <= count($question) - 1; $i++) {
                 if (!empty($question[$i])&&!empty($answer[$i])) {
-                    $record->stoodle_flashcard_setid = $test->id;
-                    $record->flashcard_number = $i + 1;
-                    $record->question = $question[$i];
-                    $record->answer = $answer[$i];
-                    $record->usermodified = $USER->id;
-                    $record->timecreated = time();
-                    $record->timemodified = time();
-                    $DB->insert_record('stoodle_flashcards', $record);
+                    $recordflashcard->stoodle_flashcard_setid = $dbsetinfo->id;
+                    $recordflashcard->flashcard_number = $i + 1;
+                    $recordflashcard->question = $question[$i];
+                    $recordflashcard->answer = $answer[$i];
+                    $recordflashcard->usermodified = $USER->id;
+                    $recordflashcard->timecreated = time();
+                    $recordflashcard->timemodified = time();
+                    $DB->insert_record('stoodle_flashcards', $recordflashcard);
                 }
             }
 
+            // done with flashcard creation and sent back to flashcard main page
             $url = new moodle_url('/local/stoodle/flashcard.php');
             redirect($url);
         } else {
@@ -87,7 +90,7 @@ if ($createcardsform->is_cancelled()) {
  * @param array $arr1 First array
  * @param array $arr2 Second array
  */
-function check_empty($arr1, $arr2) {
+function check_not_empty($arr1, $arr2) {
     for ($i = 0; $i < count($arr1); $i++) {
         if (!(empty($arr1[$i]) || empty($arr2[$i]))) {
             return true;

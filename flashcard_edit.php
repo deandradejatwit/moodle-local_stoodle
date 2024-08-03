@@ -49,7 +49,7 @@ if ($editsetform->is_cancelled()) {
     $questions = required_param_array('questions', PARAM_TEXT);
     $answers = required_param_array('answers', PARAM_TEXT);
 
-    if (!empty($set) || check_empty($questions) || check_empty($answers)) {
+    if (!empty($set) || check_not_empty($questions) || check_not_empty($answers)) {
 
         if (!empty($set) && !$DB->get_record_select('stoodle_flashcard_set', 'name = ?', [$set])) {
             $editset = new stdClass;
@@ -94,7 +94,7 @@ if ($editsetform->is_cancelled()) {
  *
  * @param array $arr1 First array
  */
-function check_empty($arr1) {
+function check_not_empty($arr1) {
     for ($i = 0; $i < count($arr1); $i++) {
         if (!(empty($arr1[$i]))) {
             return true;
