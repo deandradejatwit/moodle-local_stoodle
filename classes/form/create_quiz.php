@@ -61,10 +61,13 @@ class create_quiz extends \moodleform {
             if ($DB->get_records_select('stoodle_quiz_questions', 'stoodle_quizid = ?', [$quiz->id])) {
                 $questions  = $DB->get_records_select('stoodle_quiz_questions', 'stoodle_quizid = ?', [$quiz->id]);
                 foreach ($questions as $question) {
-                    $answers = $DB->get_records_select('stoodle_quiz_question_options', 'stoodle_quiz_questionsid = ?', [$question->id]);
-                    $mform->addElement('static', 'questiontext', get_string('quizquestion', 'local_stoodle'). ' ' . $countq . ':', $question->question_text);
+                    $answers = $DB->get_records_select('stoodle_quiz_question_options',
+                    'stoodle_quiz_questionsid = ?', [$question->id]);
+                    $mform->addElement('static', 'questiontext', get_string('quizquestion', 'local_stoodle'). ' ' . $countq . ':',
+                    $question->question_text);
                     foreach ($answers as $answer) {
-                        $mform->addElement('static', 'optiontext', get_string('quizoption', 'local_stoodle'). ' ' . $counto . ':', $answer->option_text);
+                        $mform->addElement('static', 'optiontext', get_string('quizoption', 'local_stoodle'). ' ' . $counto . ':',
+                        $answer->option_text);
                         $counto++;
                     }
                     $countq++;

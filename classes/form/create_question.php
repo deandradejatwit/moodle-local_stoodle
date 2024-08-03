@@ -44,7 +44,8 @@ class create_question extends \moodleform {
 
         $startarray = [
             $mform->createElement('textarea', 'answer', get_string('answerstr', 'local_stoodle')),
-            $mform->createElement('advcheckbox', 'optradio', get_string('selectanswerstr', 'local_stoodle'), '', ['group' => 1], [0, 1]),
+            $mform->createElement('advcheckbox', 'optradio', get_string('selectanswerstr', 'local_stoodle'),
+            '', ['group' => 1], [0, 1]),
         ];
 
         $repeatno = 1;

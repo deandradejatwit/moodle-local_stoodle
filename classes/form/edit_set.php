@@ -41,8 +41,9 @@ class edit_set extends \moodleform {
         $mform = $this->_form;
 
         $setid = $SESSION->edit_set_id;
-        $set = $DB->get_record('stoodle_flashcard_set', array('id' => $setid), 'name');
-        $setcards = $DB->get_records_list('stoodle_flashcards', 'stoodle_flashcard_setid', array('stoodle_flashcard_setid' => $setid), '', '*');
+        $set = $DB->get_record('stoodle_flashcard_set', ['id' => $setid], 'name');
+        $setcards = $DB->get_records_list('stoodle_flashcards', 'stoodle_flashcard_setid',
+        ['stoodle_flashcard_setid' => $setid], '', '*');
 
         $SESSION->test = $setcards;
 

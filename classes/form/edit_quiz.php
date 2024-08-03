@@ -41,8 +41,8 @@ class edit_quiz extends \moodleform {
         $mform = $this->_form;
 
         $quizid = $SESSION->edit_quiz_id;
-        $quiz = $DB->get_record('stoodle_quiz', array('id' => $quizid), 'name');
-        $questions = $DB->get_records_list('stoodle_quiz_questions', 'stoodle_quizid', array('stoodle_quizid' => $quizid), '', '*');
+        $quiz = $DB->get_record('stoodle_quiz', ['id' => $quizid], 'name');
+        $questions = $DB->get_records_list('stoodle_quiz_questions', 'stoodle_quizid', ['stoodle_quizid' => $quizid], '', '*');
 
         $mform->addElement('hidden', 'quizid', $quizid);
         $mform->addElement('static', 'priorquiz', get_string('currentquizname', 'local_stoodle'), $quiz->name);
@@ -55,7 +55,8 @@ class edit_quiz extends \moodleform {
             $count = 0;
             $mform->addElement('hidden', 'questionid[]', $question->id);
 
-            $options = $DB->get_records_list('stoodle_quiz_question_options', 'stoodle_quiz_questionsid', array('stoodle_quiz_questionsid' => $question->id), '', '*');
+            $options = $DB->get_records_list('stoodle_quiz_question_options', 'stoodle_quiz_questionsid',
+            ['stoodle_quiz_questionsid' => $question->id], '', '*');
 
             $mform->addElement('static', 'priorquestion', get_string('currentquestion', 'local_stoodle'), $question->question_text);
             $mform->addElement('textarea', 'questions[]', get_string('questionstr', 'local_stoodle'));

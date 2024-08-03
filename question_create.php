@@ -75,7 +75,8 @@ if ($createquestionform->is_cancelled()) {
             $recordquestion->is_multiple_choice = 0;
         }
 
-        if ($DB->get_record_select('stoodle_quiz', 'id = ?', [$quizid]) && !$DB->get_record_select('stoodle_quiz_questions', 'question_text = ?', [$question])) {
+        if ($DB->get_record_select('stoodle_quiz', 'id = ?', [$quizid]) &&
+        !$DB->get_record_select('stoodle_quiz_questions', 'question_text = ?', [$question])) {
             $DB->insert_record('stoodle_quiz_questions', $recordquestion);
             $ques = $DB->get_record_select('stoodle_quiz_questions', 'question_text = ?', [$question]);
 
