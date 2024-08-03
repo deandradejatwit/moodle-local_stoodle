@@ -33,11 +33,10 @@ class create_question extends \moodleform {
         global $DB, $SESSION;
         $mform = $this->_form;
 
-        $mform->addElement('static','quizname', '', get_string('tipstr', 'local_stoodle'));
         $mform->addElement('textarea','question', get_string('questionstr','local_stoodle'));
 
         $startarray = [
-            $mform->createElement('textarea', 'answer', get_string('optionstr', 'local_stoodle')),
+            $mform->createElement('textarea', 'answer', get_string('answerstr', 'local_stoodle')),
             $mform->createElement('advcheckbox', 'optradio', get_string('selectanswerstr', 'local_stoodle'), '', array('group' => 1), array(0, 1)),
         ];
 
@@ -45,9 +44,7 @@ class create_question extends \moodleform {
 
         $repeateloptions = [
             'answer' => [],
-            'optradio' => [],
         ];
-
         $mform->setType('optradio', PARAM_INT);
         $mform->setType('question', PARAM_TEXT);
         $mform->setType('answer', PARAM_TEXT);
