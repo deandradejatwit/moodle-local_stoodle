@@ -14,30 +14,37 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace local_stoodle\form;
-
 /**
  * Class create_question
  *
  * @package    local_stoodle
  * @copyright  2024 Jonathan Kong-Shi kongshij@wit.edu,
- *              Myles R. Sullivan sullivanm22@wit.edu,
- *              Jhonathan Deandrade deandradej@wit.edu
+ *             Myles R. Sullivan sullivanm22@wit.edu,
+ *             Jhonathan Deandrade deandradej@wit.edu
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+namespace local_stoodle\form;
 defined('MOODLE_INTERNAL') || die();
 require_once($CFG->libdir . '/formslib.php');
 
+/**
+ * create repeating Question form.
+ *
+ */
 class create_question extends \moodleform {
+    /**
+     * defining the functionality and structure of form
+     *
+     */
     public function definition() {
         global $DB, $SESSION;
         $mform = $this->_form;
 
-        $mform->addElement('textarea','question', get_string('questionstr','local_stoodle'));
+        $mform->addElement('textarea', 'question', get_string('questionstr', 'local_stoodle'));
 
         $startarray = [
             $mform->createElement('textarea', 'answer', get_string('answerstr', 'local_stoodle')),
-            $mform->createElement('advcheckbox', 'optradio', get_string('selectanswerstr', 'local_stoodle'), '', array('group' => 1), array(0, 1)),
+            $mform->createElement('advcheckbox', 'optradio', get_string('selectanswerstr', 'local_stoodle'), '', ['group' => 1], [0, 1]),
         ];
 
         $repeatno = 1;

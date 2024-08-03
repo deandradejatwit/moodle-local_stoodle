@@ -60,7 +60,7 @@ if ($createcardsform->is_cancelled()) {
             for ($i = 0; $i <= count($question) - 1; $i++) {
                 if (!empty($question[$i])&&!empty($answer[$i])) {
                     $record->stoodle_flashcard_setid = $test->id;
-                    $record->flashcard_number = $i+1;
+                    $record->flashcard_number = $i + 1;
                     $record->question = $question[$i];
                     $record->answer = $answer[$i];
                     $record->usermodified = $USER->id;
@@ -99,7 +99,7 @@ function check_empty($arr1, $arr2) {
 echo $OUTPUT->header();
 if ($error) {
     echo $OUTPUT->notification(get_string('errflashcardcreate', 'local_stoodle'), 'error');
-} else if ($seterror){
+} else if ($seterror) {
     echo $OUTPUT->notification(get_string('errsetname', 'local_stoodle'), 'error');
 }
 

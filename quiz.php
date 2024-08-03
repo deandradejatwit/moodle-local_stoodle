@@ -23,6 +23,7 @@
  *              Jhonathan Deandrade deandradej@wit.edu
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
 require_once('../../config.php');
 require_login();
 global $SESSION;
@@ -43,7 +44,7 @@ if ($select->no_submit_button_pressed()) {
     $data = $select->get_submitted_data();
     $quiz = required_param('quizzes', PARAM_TEXT);
 
-    if($quiz == -1){
+    if ($quiz == -1) {
         $url = new moodle_url('/local/stoodle/quiz_create.php');
         redirect($url);
     }
@@ -56,16 +57,18 @@ if ($select->no_submit_button_pressed()) {
     $data = $select->get_submitted_data();
     $quiz = required_param('quizzes', PARAM_TEXT);
 
-    if($quiz == -1){
+    if ($quiz == -1) {
         $url = new moodle_url('/local/stoodle/quiz_create.php');
         redirect($url);
     }
 
     $DB->delete_records_select('stoodle_quiz', 'id = ?', [$quiz]);
     $questions = $DB->get_records_select('stoodle_quiz_questions', 'stoodle_quizid = ?', [$quiz]);
-        foreach ($questions as $question) {
-            $DB->delete_records_select('stoodle_quiz_question_options', 'stoodle_quiz_questionsid = ?', [$question->id]);
-        }
+
+    foreach ($questions as $question) {
+        $DB->delete_records_select('stoodle_quiz_question_options', 'stoodle_quiz_questionsid = ?', [$question->id]);
+    }
+
     $DB->delete_records_select('stoodle_quiz_questions', 'stoodle_quizid = ?', [$quiz]);
 
     $url = new moodle_url('/local/stoodle/quiz.php');
@@ -122,4 +125,28 @@ $select->display();
 </html>
 
 <?php
+// This file is part of Moodle - https://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+
+/**
+ *
+ *
+ * @package     local_stoodle
+ * @copyright   2024 Jonathan Kong-Shi kongshij@wit.edu,
+ *              Myles R. Sullivan sullivanm22@wit.edu,
+ *              Jhonathan Deandrade deandradej@wit.edu
+ * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 echo $OUTPUT->footer();

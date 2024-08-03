@@ -33,7 +33,8 @@ require_once($CFG->libdir . '/formslib.php');
  */
 class create_cards extends \moodleform {
     /**
-     * defining the functionality and structure of form
+     * defining the functionality and structure of form such as the
+     * repeating function of the question and answer text areas and set name.
      *
      */
     public function definition() {

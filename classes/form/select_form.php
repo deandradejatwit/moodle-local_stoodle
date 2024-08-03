@@ -24,21 +24,19 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 namespace local_stoodle\form;
-
 defined('MOODLE_INTERNAL') || die();
-require_once ($CFG->libdir . '/formslib.php');
+require_once($CFG->libdir . '/formslib.php');
+
 /**
  * create flashcard select form.
  *
  */
-class select_form extends \moodleform
-{
+class select_form extends \moodleform {
     /**
      * defining the functionality and structure of form
      *
      */
-    public function definition()
-    {
+    public function definition() {
         global $DB, $SESSION;
         $mform = $this->_form;
 
@@ -63,7 +61,7 @@ class select_form extends \moodleform
             $align = [
                 $mform->createElement('submit', 'submitform', $submitlabel),
                 $mform->createElement('submit', 'editset', get_string('edit')),
-                $mform->createElement('cancel', 'delete', get_string('delete'))
+                $mform->createElement('cancel', 'delete', get_string('delete')),
             ];
             $mform->addGroup($align, 'buttons', '', '', false);
         } else if ($priorpage == 'quiz') {

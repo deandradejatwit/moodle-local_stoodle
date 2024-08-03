@@ -24,7 +24,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require ('../../config.php');
+require('../../config.php');
 
 require_login();
 global $error;
@@ -68,7 +68,7 @@ if ($createquizform->no_submit_button_pressed()) {
     $url = new moodle_url('/local/stoodle/quiz.php');
     redirect($url);
 } else if ($data = $createquizform->get_data()) {
-    $name = optional_param('quiz','', PARAM_TEXT);
+    $name = optional_param('quiz', '', PARAM_TEXT);
 
     if (!empty($name) && !$DB->get_record_select('stoodle_quiz', 'name = ?', [$name])) {
         $SESSION->quiz_name = $name;
@@ -79,7 +79,7 @@ if ($createquizform->no_submit_button_pressed()) {
         $record->timemodified = time();
         $DB->insert_record('stoodle_quiz', $record);
         redirect(new moodle_url('/local/stoodle/quiz_create.php'));
-    } else if ($DB->get_record_select('stoodle_quiz', 'name = ?', [$name])){
+    } else if ($DB->get_record_select('stoodle_quiz', 'name = ?', [$name])) {
         $error = true;
     } else {
         $SESSION->question_count = 0;

@@ -14,8 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 /**
  * Class edit_quiz
  *
@@ -25,11 +23,19 @@
  *              Jhonathan Deandrade deandradej@wit.edu
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-namespace local_stoodle\form;;
+namespace local_stoodle\form;
 defined('MOODLE_INTERNAL') || die();
 require_once($CFG->libdir . '/formslib.php');
 
-class edit_quiz extends \moodleform{
+/**
+ * create quiz edit form.
+ *
+ */
+class edit_quiz extends \moodleform {
+    /**
+     * defining the functionality and structure of form
+     *
+     */
     public function definition() {
         global $DB, $SESSION;
         $mform = $this->_form;
@@ -63,7 +69,7 @@ class edit_quiz extends \moodleform{
                 $count++;
             }
 
-            $mform->addElement('hidden','optioncount[]', $count);
+            $mform->addElement('hidden', 'optioncount[]', $count);
 
         }
 

@@ -24,7 +24,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require ('../../config.php');
+require('../../config.php');
 
 require_login();
 global $error;
@@ -51,7 +51,7 @@ if ($editsetform->is_cancelled()) {
 
     if (!empty($set) || check_empty($questions) || check_empty($answers)) {
 
-        if(!empty($set) && !$DB->get_record_select('stoodle_flashcard_set', 'name = ?', [$set])){
+        if (!empty($set) && !$DB->get_record_select('stoodle_flashcard_set', 'name = ?', [$set])) {
             $editset = new stdClass;
 
             $editset->id = $setid;
@@ -72,7 +72,7 @@ if ($editsetform->is_cancelled()) {
                 $DB->update_record('stoodle_flashcards', $edits);
 
             }
-            if (!empty($answers[$i])){
+            if (!empty($answers[$i])) {
                 $edits = new stdClass;
 
                 $edits->id = $cardid[$i];
@@ -84,7 +84,7 @@ if ($editsetform->is_cancelled()) {
 
         $url = new moodle_url('/local/stoodle/flashcard_edit.php');
         redirect($url);
-    }  else {
+    } else {
         $error = true;
     }
 }

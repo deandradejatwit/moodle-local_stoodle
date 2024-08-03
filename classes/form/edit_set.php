@@ -14,11 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace local_stoodle\form;
-
-defined('MOODLE_INTERNAL') || die();
-require_once ($CFG->libdir . '/formslib.php');
-
 /**
  * Class edit_set
  *
@@ -28,10 +23,20 @@ require_once ($CFG->libdir . '/formslib.php');
  *             Jhonathan Deandrade deandradej@wit.edu
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class edit_set extends \moodleform
-{
-    public function definition()
-    {
+namespace local_stoodle\form;
+defined('MOODLE_INTERNAL') || die();
+require_once($CFG->libdir . '/formslib.php');
+
+/**
+ * create flashcard edit form.
+ *
+ */
+class edit_set extends \moodleform {
+    /**
+     * defining the functionality and structure of form.
+     *
+     */
+    public function definition() {
         global $DB, $SESSION;
         $mform = $this->_form;
 
@@ -50,7 +55,6 @@ class edit_set extends \moodleform
 
         foreach ($setcards as $setcard) {
             $mform->addElement('hidden', 'cardid[]', $setcard->id);
-
 
             $mform->addElement('static', 'priorquestion', get_string('currentquestion', 'local_stoodle'), $setcard->question);
             $mform->addElement('textarea', 'questions[]', get_string('questionstr', 'local_stoodle'));

@@ -94,6 +94,11 @@ if ($editquizform->is_cancelled()) {
     }
 }
 
+/**
+ * Checks if an array is empty
+ *
+ * @param array $arr1 First array
+ */
 function check_empty($arr1) {
     for ($i = 0; $i < count($arr1); $i++) {
         if (!(empty($arr1[$i]))) {
