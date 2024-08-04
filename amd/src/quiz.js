@@ -5,13 +5,20 @@ export const init = () => {
     const scoreArea = document.querySelector(".score");
     const totalQuestions = Object.values(questionSet).length;
 
-    const newSet = createFullSet(questionSet, answerSet);
-    const typeSet = declareQuestionTypes(questionSet, answerSet);
+    const quizMap = createQuizHash(questionSet, answerSet);
+    const questionTypes = declareQuestionTypes(questionSet, answerSet);
 
     scoreArea.innerHTML = "Score: 0 / " + totalQuestions;
     document.querySelector(".submit-button").addEventListener('click', () => {
         questionValidation();
     });
+
+    window.console.log(quizMap);
+    for (const [key, value] of quizMap.entries()) {
+        window.console.log(key);
+        window.console.log(value);
+        window.console.log("line break---------------");
+    }
 
     // Create questions and options
     for (const key in Object.values(questionSet)) {
@@ -22,7 +29,8 @@ export const init = () => {
         questionText.textContent = "Question " + (parseInt(key) + 1) + ": " + Object.values(questionSet)[key].question_text;
         newDiv.appendChild(questionText);
 
-        switch (typeSet[key]) {
+        // TO-DO: Explain the purpose of this switch statement
+        switch (questionTypes[key]) {
             default:
             case 0:
                 newDiv.id = "open-response";
@@ -30,15 +38,15 @@ export const init = () => {
                 break;
             case 1:
                 newDiv.id = "multiple-choice";
-                for (const element in newSet.get(Object.values(questionSet)[key].question_text)[0]) {
-                    const optionText = newSet.get(Object.values(questionSet)[key].question_text)[0][element];
+                for (const element in quizMap.get(Object.values(questionSet)[key].question_text)[0]) {
+                    const optionText = quizMap.get(Object.values(questionSet)[key].question_text)[0][element];
                     createInputNodeRadio(newDiv, ("option_" + key), key, optionText);
                 }
                 break;
             case 2:
                 newDiv.id = "select-all";
-                for (const element in newSet.get(Object.values(questionSet)[key].question_text)[0]) {
-                    const optionText = newSet.get(Object.values(questionSet)[key].question_text)[0][element];
+                for (const element in quizMap.get(Object.values(questionSet)[key].question_text)[0]) {
+                    const optionText = quizMap.get(Object.values(questionSet)[key].question_text)[0][element];
                     createInputNodeCheckBox(newDiv, ("option_" + key), key, optionText);
                 }
                 break;
@@ -119,14 +127,15 @@ export const init = () => {
      */
     function questionValidation() {
         let numCorrect = 0;
-        const correctHex = "\u{2705}";
-        const incorrectHex = "\u{274C}";
+        const correctIcon = "\u{2705}";
+        const incorrectIcon = "\u{274C}";
 
+        // TO-DO: Explain the purpose of this for-loop
         for (const key in Object.values(questionSet)) {
             const dbQuestionText = Object.values(questionSet)[key].question_text;
             const htmlQuestionText = "Question " + (parseInt(key) + 1) + ": " + dbQuestionText;
 
-            if (typeSet[key] === 0) {
+            if (questionTypes[key] === 0) {
                 // Check Open Response
                 const option = document.getElementById("option_" + key);
                 if (option === null) {
@@ -134,14 +143,14 @@ export const init = () => {
                     return;
                 }
                 const parent = option.parentElement.parentElement.children[0];
-                if (option.value === newSet.get(dbQuestionText)[1][0]) {
+                if (option.value === quizMap.get(dbQuestionText)[1][0]) {
                     window.console.log("Question " + (parseInt(key) + 1) + " is correct");
                     numCorrect++;
-                    parent.innerText = htmlQuestionText + " " + correctHex;
+                    parent.innerText = htmlQuestionText + " " + correctIcon;
                 } else {
-                    parent.innerText = htmlQuestionText + " " + incorrectHex + " (manual review required)";
+                    parent.innerText = htmlQuestionText + " " + incorrectIcon + " (manual review required)";
                 }
-            } else if (typeSet[key] === 1) {
+            } else if (questionTypes[key] === 1) {
                 // Check Multiple Choice
                 const option = document.querySelector('input[name = "' + key + '"]:checked');
                 if (option === null) {
@@ -149,14 +158,14 @@ export const init = () => {
                     return;
                 }
                 const parent = option.parentElement.parentElement.children[0];
-                if (newSet.get(dbQuestionText)[1][0] === option.value) {
+                if (quizMap.get(dbQuestionText)[1][0] === option.value) {
                     window.console.log("Question " + (parseInt(key) + 1) + " is correct");
                     numCorrect++;
-                    parent.innerText = htmlQuestionText + " " + correctHex;
+                    parent.innerText = htmlQuestionText + " " + correctIcon;
                 } else {
-                    parent.innerText = htmlQuestionText + " " + incorrectHex;
+                    parent.innerText = htmlQuestionText + " " + incorrectIcon;
                 }
-            } else if (typeSet[key] === 2) {
+            } else if (questionTypes[key] === 2) {
                 // Check Select All
                 const option = document.querySelectorAll('input[name="' + key + '"]:checked');
                 if (option.length < 1) {
@@ -165,21 +174,21 @@ export const init = () => {
                 }
                 const parent = document.querySelector('input[name="' + key + '"]:checked').parentElement.parentElement.children[0];
                 let selectAllCorrectCounter = 0;
-                if (newSet.get(dbQuestionText)[1].length !== option.length) {
-                    parent.innerText = htmlQuestionText + " " + incorrectHex;
+                if (quizMap.get(dbQuestionText)[1].length !== option.length) {
+                    parent.innerText = htmlQuestionText + " " + incorrectIcon;
                     continue;
                 }
-                for (let i = 0; i < newSet.get(dbQuestionText)[1].length; i++) {
-                    if (newSet.get(dbQuestionText)[1][i] === option[i].value) {
+                for (let i = 0; i < quizMap.get(dbQuestionText)[1].length; i++) {
+                    if (quizMap.get(dbQuestionText)[1][i] === option[i].value) {
                         selectAllCorrectCounter++;
                     }
                 }
-                if (selectAllCorrectCounter === newSet.get(dbQuestionText)[1].length) {
+                if (selectAllCorrectCounter === quizMap.get(dbQuestionText)[1].length) {
                     numCorrect++;
                     window.console.log("Question " + (parseInt(key) + 1) + " is correct");
-                    parent.innerText = htmlQuestionText + " " + correctHex;
+                    parent.innerText = htmlQuestionText + " " + correctIcon;
                 } else {
-                    parent.innerText = htmlQuestionText + " " + incorrectHex;
+                    parent.innerText = htmlQuestionText + " " + incorrectIcon;
                 }
             }
         }
@@ -221,13 +230,14 @@ export const init = () => {
 
 
     /**
-     * Return an array of questions and answers.
+     * Creates a Map by matching questions to their options in their respective sets.
+     * Consists of the question text as the key, and an array containing a set of all options and a set of correct options.
      *
-     * @param {Object} qSet
-     * @param {Object} oSet
+     * @param {Object} qSet Set of all questions
+     * @param {Object} oSet Set of all options
      * @return {Map} Resulting array
      */
-    function createFullSet(qSet, oSet) {
+    function createQuizHash(qSet, oSet) {
         let resultSet = new Map();
         for (const qKey in Object.values(qSet)) {
             let optionArray = [];
@@ -245,5 +255,27 @@ export const init = () => {
             resultSet.set(Object.values(qSet)[qKey].question_text, [optionArray, answerArray]);
         }
         return resultSet;
+    }
+
+    /**
+     * Getter for the array of all answer options in the quizMap.
+     *
+     * @param {Map} map The quiz map.
+     * @param {string} question The key for the map.
+     * @param {number} index The index of the option array.
+     */
+    function getOptionAtIndex(map, question, index) {
+        return map.get(question)[0][index];
+    }
+
+    /**
+     * Getter for the array of all answers in the quizMap.
+     *
+     * @param {Map} map The quiz map.
+     * @param {string} question The key for the map.
+     * @param {number} index The index of the option array.
+     */
+    function getAnswerAtIndex(map, question, index) {
+        return map.get(question)[1][index];
     }
 };
