@@ -37,7 +37,7 @@ class select_form extends \moodleform {
      *
      */
     public function definition() {
-        global $DB, $SESSION;
+        global $DB, $SESSION, $USER;
         $mform = $this->_form;
 
         $priorpage = $SESSION->currentpage;
@@ -51,7 +51,11 @@ class select_form extends \moodleform {
 
             $sets = $DB->get_records('stoodle_flashcard_set', null);
             if (!empty($sets)) {
-                $options = $DB->get_records_menu('stoodle_flashcard_set', [], 'id', 'id, name');
+                $options = $DB->get_records_select_menu('stoodle_flashcard_set', 'usermodified = ?', [$USER->id], 'id', 'id, name');
+
+                if (empty($options)) {
+                    $options['-1'] = 'None';
+                }
             } else {
                 $options['-1'] = 'None';
             }
@@ -68,7 +72,11 @@ class select_form extends \moodleform {
 
             $quizes = $DB->get_records('stoodle_quiz', null);
             if (!empty($quizes)) {
-                $options = $DB->get_records_menu('stoodle_quiz', [], 'id', 'id, name');
+                $options = $DB->get_records_select_menu('stoodle_quiz', 'usermodified = ?', [$USER->id], 'id', 'id, name');
+
+                if (empty($options)) {
+                    $options['-1'] = 'None';
+                }
             } else {
                 $options['-1'] = 'None';
             }
