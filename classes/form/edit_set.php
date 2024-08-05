@@ -33,7 +33,7 @@ require_once($CFG->libdir . '/formslib.php');
  */
 class edit_set extends \moodleform {
     /**
-     * defining the functionality and structure of form.
+     * defining the functionality and structure of edit_set form.
      *
      */
     public function definition() {

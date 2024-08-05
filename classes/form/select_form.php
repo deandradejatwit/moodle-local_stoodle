@@ -33,7 +33,7 @@ require_once($CFG->libdir . '/formslib.php');
  */
 class select_form extends \moodleform {
     /**
-     * defining the functionality and structure of form
+     * defining the functionality and structure of select_form
      *
      */
     public function definition() {

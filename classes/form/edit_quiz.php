@@ -33,7 +33,7 @@ require_once($CFG->libdir . '/formslib.php');
  */
 class edit_quiz extends \moodleform {
     /**
-     * defining the functionality and structure of form
+     * defining the functionality and structure of edit_quiz form
      *
      */
     public function definition() {

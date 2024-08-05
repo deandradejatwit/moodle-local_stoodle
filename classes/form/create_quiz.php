@@ -33,7 +33,7 @@ require_once($CFG->libdir . '/formslib.php');
  */
 class create_quiz extends \moodleform {
     /**
-     * defining the functionality and structure of form
+     * defining the functionality and structure of create_quiz form
      *
      */
     public function definition() {
@@ -45,10 +45,13 @@ class create_quiz extends \moodleform {
 
         $mform->registerNoSubmitButton('add');
 
+        // if no quiz name is set present a text area to set the name
         if (empty($name)) {
             $front = [ $mform->createElement('textarea', 'quiz', get_string('quiznamestr', 'local_stoodle'))];
             $mform->setType('quiz', PARAM_TEXT);
             $mform->addElement($front[0]);
+
+        // list created quiz name and any questions created in create_question form
         } else {
             $quiz = $DB->get_record_select('stoodle_quiz', 'name = ?', [$name]);
             $SESSION->quiz_id = $quiz->id;

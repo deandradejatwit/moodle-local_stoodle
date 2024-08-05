@@ -33,7 +33,7 @@ require_once($CFG->libdir . '/formslib.php');
  */
 class create_question extends \moodleform {
     /**
-     * defining the functionality and structure of form
+     * defining the functionality and structure of create_question form
      *
      */
     public function definition() {

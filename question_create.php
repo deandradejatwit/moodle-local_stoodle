@@ -37,6 +37,7 @@ $PAGE->set_pagelayout('standard');
 $PAGE->set_title(get_string('createquestion', 'local_stoodle'));
 $PAGE->set_heading(get_string('createquestion', 'local_stoodle'));
 
+// instantiates the create_question constructor to create the create_question form
 $createquestionform = new \local_stoodle\form\create_question();
 if ($createquestionform->is_cancelled()) {
     $SESSION->question_count -= 1;
@@ -69,12 +70,14 @@ if ($createquestionform->is_cancelled()) {
             }
         }
 
+        // if more that one answer exist set the question to multiple choice
         if ($numanswers > 1) {
             $recordquestion->is_multiple_choice = 1;
         } else {
             $recordquestion->is_multiple_choice = 0;
         }
 
+        //checks if created quiz name does not exists in the flashcard set database, if it does go on with question creation
         if ($DB->get_record_select('stoodle_quiz', 'id = ?', [$quizid]) &&
         !$DB->get_record_select('stoodle_quiz_questions', 'question_text = ?', [$question])) {
             $DB->insert_record('stoodle_quiz_questions', $recordquestion);
