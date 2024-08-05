@@ -36,14 +36,14 @@ $PAGE->set_pagelayout('standard');
 $PAGE->set_title(get_string('quizcreate', 'local_stoodle'));
 $PAGE->set_heading(get_string('quizcreate', 'local_stoodle'));
 
-// instantiates the create_quiz constructor to create the create_quiz form
+// Instantiates the create_quiz constructor to create the create_quiz form.
 $createquizform = new \local_stoodle\form\create_quiz();
 if ($createquizform->no_submit_button_pressed()) {
     $SESSION->question_count += 1;
     $url = new moodle_url('/local/stoodle/question_create.php');
     redirect($url);
 
-// if cancel button pressed delete quiz name and any created questions from the database
+    // If cancel button pressed delete quiz name and any created questions from the database.
 } else if ($createquizform->is_cancelled()) {
 
     $quizid = $SESSION->quiz_id;
@@ -72,7 +72,7 @@ if ($createquizform->no_submit_button_pressed()) {
 } else if ($data = $createquizform->get_data()) {
     $name = optional_param('quiz', '', PARAM_TEXT);
 
-    //checks if created quiz name does not exists in the flashcard set database, if it does go on with quiz creation
+    // Checks if created quiz name does not exists in the flashcard set database, if it does go on with quiz creation.
     if (!empty($name) && !$DB->get_record_select('stoodle_quiz', 'name = ?', [$name])) {
         $SESSION->quiz_name = $name;
         $record = new stdClass;

@@ -34,7 +34,7 @@ $PAGE->set_pagelayout('standard');
 $PAGE->set_title(get_string('flashcardcreate', 'local_stoodle'));
 $PAGE->set_heading(get_string('flashcardcreate', 'local_stoodle'));
 
-// instantiates the create_cards constructor to create the create_cards form
+// Instantiates the create_cards constructor to create the create_cards form.
 $createcardsform = new \local_stoodle\form\create_cards();
 
 if ($createcardsform->is_cancelled()) {
@@ -54,7 +54,7 @@ if ($createcardsform->is_cancelled()) {
         $recordset->timecreated = time();
         $recordset->timemodified = time();
 
-        //checks if created set name does not exists in the flashcard set database, if it does go on with flashcard creation
+        // Checks if created set name does not exists in the flashcard set database, if it does go on with flashcard creation.
         if (!$DB->get_record_select('stoodle_flashcard_set', 'name = ?', [$set])) {
             $DB->insert_record('stoodle_flashcard_set', $recordset);
             $dbsetinfo = $DB->get_record_select('stoodle_flashcard_set', 'name = ?', [$set]);
@@ -72,7 +72,7 @@ if ($createcardsform->is_cancelled()) {
                 }
             }
 
-            // done with flashcard creation and sent back to flashcard main page
+            // Done with flashcard creation and sent back to flashcard main page.
             $url = new moodle_url('/local/stoodle/flashcard.php');
             redirect($url);
         } else {

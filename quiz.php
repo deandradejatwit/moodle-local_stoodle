@@ -41,12 +41,12 @@ $SESSION->quiz_name = null;
 
 $select = new \local_stoodle\form\select_form();
 
-// if the create button is pressed pass selected quiz to quiz_create create page and redirect
+// If the create button is pressed pass selected quiz to quiz_create create page and redirect.
 if ($select->no_submit_button_pressed()) {
     $data = $select->get_submitted_data();
     $quiz = required_param('quizzes', PARAM_TEXT);
 
-    // if no quiz exist in dropdown redirect to flashcard_create
+    // If no quiz exist in dropdown redirect to flashcard_create.
     if ($quiz == -1) {
         $url = new moodle_url('/local/stoodle/quiz_create.php');
         redirect($url);
@@ -56,7 +56,7 @@ if ($select->no_submit_button_pressed()) {
 
     $url = new moodle_url('/local/stoodle/quiz_edit.php');
     redirect($url);
-// if delete button is pressed delete selected quiz and refresh page
+    // If delete button is pressed delete selected quiz and refresh page.
 } else if ($select->is_cancelled()) {
     $data = $select->get_submitted_data();
     $quiz = required_param('quizzes', PARAM_TEXT);
@@ -78,7 +78,7 @@ if ($select->no_submit_button_pressed()) {
     $url = new moodle_url('/local/stoodle/quiz.php');
     redirect($url);
 
-// if submit is pressed pass selected set to quiz_activity and redirect
+    // If submit is pressed pass selected set to quiz_activity and redirect.
 } else if ($data = $select->get_data()) {
     $quiz = required_param('quizzes', PARAM_TEXT);
 

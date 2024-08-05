@@ -36,7 +36,7 @@ $PAGE->set_pagelayout('standard');
 $PAGE->set_title(get_string('flashcardedit', 'local_stoodle'));
 $PAGE->set_heading(get_string('flashcardedit', 'local_stoodle'));
 
-// instantiates the edit_set constructor to create the edit_set form
+// Instantiates the edit_set constructor to create the edit_set form.
 $editsetform = new \local_stoodle\form\edit_set();
 
 if ($editsetform->is_cancelled()) {
@@ -52,7 +52,7 @@ if ($editsetform->is_cancelled()) {
 
     if (!empty($set) || check_not_empty($questions) || check_not_empty($answers)) {
 
-        // check to see if the new set name is not empty and doesn't already exits
+        // Check to see if the new set name is not empty and doesn't already exits.
         if (!empty($set) && !$DB->get_record_select('stoodle_flashcard_set', 'name = ?', [$set])) {
             $editset = new stdClass;
 
@@ -63,8 +63,7 @@ if ($editsetform->is_cancelled()) {
             $DB->update_record('stoodle_flashcard_set', $editset);
         }
 
-        // loops through both questions and answers array saving
-        // data to the database
+        // Loops through both questions and answers array saving data to the database.
         for ($i = 0; $i <= count($questions); $i++) {
             if (!empty($questions[$i])) {
 

@@ -36,15 +36,15 @@ $PAGE->set_heading("Flashcard Menu");  // Replace with get_string.
 
 $SESSION->currentpage = 'flashcard';
 
-// instantiates the select_form constructor to create the select_form form
+// Instantiates the select_form constructor to create the select_form form.
 $select = new \local_stoodle\form\select_form();
 
-// if the create button is pressed pass selected set to flashcard_create create page and redirect
+// If the create button is pressed pass selected set to flashcard_create create page and redirect.
 if ($select->no_submit_button_pressed()) {
     $data = $select->get_submitted_data();
     $set = required_param('card_sets', PARAM_TEXT);
 
-    // if no set exist in dropdown redirect to flashcard_create
+    // If no set exist in dropdown redirect to flashcard_create.
     if ($set == -1) {
         $url = new moodle_url('/local/stoodle/flashcard_create.php');
         redirect($url);
@@ -54,7 +54,7 @@ if ($select->no_submit_button_pressed()) {
 
     $url = new moodle_url('/local/stoodle/flashcard_edit.php');
     redirect($url);
-// if delete button is pressed delete selected set and refresh page
+    // If delete button is pressed delete selected set and refresh page.
 } else if ($select->is_cancelled()) {
     $data = $select->get_submitted_data();
     $set = required_param('card_sets', PARAM_TEXT);
@@ -70,7 +70,7 @@ if ($select->no_submit_button_pressed()) {
     $url = new moodle_url('/local/stoodle/flashcard.php');
     redirect($url);
 
-// if submit is pressed pass selected set to flashcard_activity and redirect
+    // If submit is pressed pass selected set to flashcard_activity and redirect.
 } else if ($data = $select->get_data()) {
     $set = required_param('card_sets', PARAM_TEXT);
     if ($set == -1) {
