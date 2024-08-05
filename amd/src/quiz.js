@@ -13,46 +13,73 @@ export const init = () => {
         questionValidation();
     });
 
-    window.console.log(quizMap);
+    let index = 0;
     for (const [key, value] of quizMap.entries()) {
-        window.console.log(key);
-        window.console.log(value);
-        window.console.log("line break---------------");
-    }
-
-    // Create questions and options
-    for (const key in Object.values(questionSet)) {
         const newDiv = document.createElement("div");
         newDiv.id = "stoodle-div";
         const questionText = document.createElement("p");
         questionText.id = "stoodle-question-text";
-        questionText.textContent = "Question " + (parseInt(key) + 1) + ": " + Object.values(questionSet)[key].question_text;
+        questionText.textContent = "Question " + (index + 1) + ": " + key;
         newDiv.appendChild(questionText);
 
-        // TO-DO: Explain the purpose of this switch statement
-        switch (questionTypes[key]) {
+        switch (questionTypes[index]) {
             default:
             case 0:
                 newDiv.id = "open-response";
-                createOpenResponseQuestion(newDiv, ("option_" + key));
+                createOpenResponseQuestion(newDiv, ("option_" + index));
                 break;
             case 1:
                 newDiv.id = "multiple-choice";
-                for (const element in quizMap.get(Object.values(questionSet)[key].question_text)[0]) {
-                    const optionText = quizMap.get(Object.values(questionSet)[key].question_text)[0][element];
-                    createInputNodeRadio(newDiv, ("option_" + key), key, optionText);
+                for (const element in value[0]) {
+                    createInputNodeRadio(newDiv, ("option_" + index), index, getOptionAtIndex(quizMap, key, element));
                 }
                 break;
             case 2:
                 newDiv.id = "select-all";
-                for (const element in quizMap.get(Object.values(questionSet)[key].question_text)[0]) {
-                    const optionText = quizMap.get(Object.values(questionSet)[key].question_text)[0][element];
-                    createInputNodeCheckBox(newDiv, ("option_" + key), key, optionText);
+                for (const element in value[0]) {
+                    createInputNodeCheckBox(newDiv, ("option_" + index), index, getOptionAtIndex(quizMap, key, element));
                 }
                 break;
         }
+
         questionDiv.appendChild(newDiv);
+        index++;
     }
+
+    // Create questions and options
+    // for (const key in Object.values(questionSet)) {
+    //     const newDiv = document.createElement("div");
+    //     newDiv.id = "stoodle-div";
+    //     const questionText = document.createElement("p");
+    //     questionText.id = "stoodle-question-text";
+    //     questionText.textContent = "Question " + (parseInt(key) + 1) + ": " + Object.values(questionSet)[key].question_text;
+    //     newDiv.appendChild(questionText);
+
+    //     // TO-DO: Explain the purpose of this switch statement
+    //     switch (questionTypes[key]) {
+    //         default:
+    //         case 0:
+    //             newDiv.id = "open-response";
+    //             createOpenResponseQuestion(newDiv, ("option_" + key));
+    //             break;
+    //         case 1:
+    //             newDiv.id = "multiple-choice";
+    //             for (const element in quizMap.get(Object.values(questionSet)[key].question_text)[0]) {
+    //                 const optionText = quizMap.get(Object.values(questionSet)[key].question_text)[0][element];
+    //                 createInputNodeRadio(newDiv, ("option_" + key), key, optionText);
+    //             }
+    //             break;
+    //         case 2:
+    //             newDiv.id = "select-all";
+    //             for (const element in quizMap.get(Object.values(questionSet)[key].question_text)[0]) {
+    //                 const optionText = quizMap.get(Object.values(questionSet)[key].question_text)[0][element];
+    //                 createInputNodeCheckBox(newDiv, ("option_" + key), key, optionText);
+    //             }
+    //             break;
+    //     }
+
+    //     questionDiv.appendChild(newDiv);
+    // }
 
     /**
      * Creates a open response question.
@@ -126,71 +153,65 @@ export const init = () => {
      *
      */
     function questionValidation() {
-        let numCorrect = 0;
         const correctIcon = "\u{2705}";
         const incorrectIcon = "\u{274C}";
+        let numCorrect = 0;
+        let index = 0;
 
         // TO-DO: Explain the purpose of this for-loop
-        for (const key in Object.values(questionSet)) {
-            const dbQuestionText = Object.values(questionSet)[key].question_text;
-            const htmlQuestionText = "Question " + (parseInt(key) + 1) + ": " + dbQuestionText;
+        for (const [key, value] of quizMap.entries()) {
+            const questionText = "Question " + (index + 1) + ": " + key;
 
-            if (questionTypes[key] === 0) {
+            if (questionTypes[index] === 0) {
                 // Check Open Response
-                const option = document.getElementById("option_" + key);
-                if (option === null) {
-                    alert("Question " + (parseInt(key) + 1) + " is unanswered");
-                    return;
-                }
-                const parent = option.parentElement.parentElement.children[0];
-                if (option.value === quizMap.get(dbQuestionText)[1][0]) {
-                    window.console.log("Question " + (parseInt(key) + 1) + " is correct");
+                const option = document.getElementById("option_" + index);
+                if (option.value === getAnswerAtIndex(quizMap, key, 0)) {
+                    window.console.log("Question " + (index + 1) + " is correct");
                     numCorrect++;
-                    parent.innerText = htmlQuestionText + " " + correctIcon;
+                    questionDiv.children[index].children[0].innerText = questionText + " " + correctIcon;
                 } else {
-                    parent.innerText = htmlQuestionText + " " + incorrectIcon + " (manual review required)";
+                    questionDiv.children[index].children[0].innerText = questionText + incorrectIcon + " (manual review required)";
                 }
-            } else if (questionTypes[key] === 1) {
+            } else if (questionTypes[index] === 1) {
                 // Check Multiple Choice
-                const option = document.querySelector('input[name = "' + key + '"]:checked');
+                const option = document.querySelector('input[name= "' + index + '"]:checked');
                 if (option === null) {
-                    alert("Question " + (parseInt(key) + 1) + " is unanswered");
+                    alert("Question " + (index + 1) + " is unanswered");
                     return;
                 }
-                const parent = option.parentElement.parentElement.children[0];
-                if (quizMap.get(dbQuestionText)[1][0] === option.value) {
-                    window.console.log("Question " + (parseInt(key) + 1) + " is correct");
+                if (getAnswerAtIndex(quizMap, key, 0) === option.value) {
+                    window.console.log("Question " + (index + 1) + " is correct");
                     numCorrect++;
-                    parent.innerText = htmlQuestionText + " " + correctIcon;
+                    questionDiv.children[index].children[0].innerText = questionText + " " + correctIcon;
                 } else {
-                    parent.innerText = htmlQuestionText + " " + incorrectIcon;
+                    questionDiv.children[index].children[0].innerText = questionText + " " + incorrectIcon;
                 }
-            } else if (questionTypes[key] === 2) {
+            } else if (questionTypes[index] === 2) {
                 // Check Select All
-                const option = document.querySelectorAll('input[name="' + key + '"]:checked');
+                const option = document.querySelectorAll('input[name="' + index + '"]:checked');
                 if (option.length < 1) {
-                    alert("Question " + (parseInt(key) + 1) + " is unanswered");
+                    alert("Question " + (index + 1) + " is unanswered");
                     return;
                 }
-                const parent = document.querySelector('input[name="' + key + '"]:checked').parentElement.parentElement.children[0];
                 let selectAllCorrectCounter = 0;
-                if (quizMap.get(dbQuestionText)[1].length !== option.length) {
-                    parent.innerText = htmlQuestionText + " " + incorrectIcon;
+                if (value[1].length !== option.length) {
+                    questionDiv.children[index].children[0].innerText = questionText + " " + incorrectIcon;
                     continue;
                 }
-                for (let i = 0; i < quizMap.get(dbQuestionText)[1].length; i++) {
-                    if (quizMap.get(dbQuestionText)[1][i] === option[i].value) {
+                for (let i = 0; i < value[1].length; i++) {
+                    if (getAnswerAtIndex(quizMap, key, i) === option[i].value) {
                         selectAllCorrectCounter++;
                     }
                 }
-                if (selectAllCorrectCounter === quizMap.get(dbQuestionText)[1].length) {
+                if (selectAllCorrectCounter === value[1].length) {
                     numCorrect++;
-                    window.console.log("Question " + (parseInt(key) + 1) + " is correct");
-                    parent.innerText = htmlQuestionText + " " + correctIcon;
+                    window.console.log("Question " + (index + 1) + " is correct");
+                    questionDiv.children[index].children[0].innerText = questionText + " " + correctIcon;
                 } else {
-                    parent.innerText = htmlQuestionText + " " + incorrectIcon;
+                    questionDiv.children[index].children[0].innerText = questionText + " " + incorrectIcon;
                 }
             }
+            index++;
         }
 
         scoreArea.innerText = "Score: " + numCorrect + " / " + totalQuestions;
