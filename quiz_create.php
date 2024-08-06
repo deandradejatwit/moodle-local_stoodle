@@ -73,7 +73,7 @@ if ($createquizform->no_submit_button_pressed()) {
     $name = optional_param('quiz', '', PARAM_TEXT);
 
     // Checks if created quiz name does not exists in the flashcard set database, if it does go on with quiz creation.
-    if (!empty($name) && !$DB->get_record_select('stoodle_quiz', 'name = ?', [$name])) {
+    if (!empty($name) && !$DB->get_record_select('stoodle_quiz', 'name = ? AND  usermodified = ?', [$name, $USER->id])) {
         $SESSION->quiz_name = $name;
         $record = new stdClass;
         $record->name = $name;
@@ -82,7 +82,7 @@ if ($createquizform->no_submit_button_pressed()) {
         $record->timemodified = time();
         $DB->insert_record('stoodle_quiz', $record);
         redirect(new moodle_url('/local/stoodle/quiz_create.php'));
-    } else if ($DB->get_record_select('stoodle_quiz', 'name = ?', [$name])) {
+    } else if ($DB->get_record_select('stoodle_quiz', 'name = ? AND  usermodified = ?', [$name, $USER->id])) {
         $error = true;
     } else {
         $SESSION->question_count = 0;

@@ -53,7 +53,7 @@ if ($editsetform->is_cancelled()) {
     if (!empty($set) || check_not_empty($questions) || check_not_empty($answers)) {
 
         // Check to see if the new set name is not empty and doesn't already exits.
-        if (!empty($set) && !$DB->get_record_select('stoodle_flashcard_set', 'name = ?', [$set])) {
+        if (!empty($set) && !$DB->get_record_select('stoodle_flashcard_set', 'name = ?  AND  usermodified = ?', [$set, $USER->id])) {
             $editset = new stdClass;
 
             $editset->id = $setid;

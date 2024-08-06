@@ -55,9 +55,9 @@ if ($createcardsform->is_cancelled()) {
         $recordset->timemodified = time();
 
         // Checks if created set name does not exists in the flashcard set database, if it does go on with flashcard creation.
-        if (!$DB->get_record_select('stoodle_flashcard_set', 'name = ?', [$set])) {
+        if (!$DB->get_record_select('stoodle_flashcard_set', 'name = ?  AND  usermodified = ?', [$set, $USER->id])) {
             $DB->insert_record('stoodle_flashcard_set', $recordset);
-            $dbsetinfo = $DB->get_record_select('stoodle_flashcard_set', 'name = ?', [$set]);
+            $dbsetinfo = $DB->get_record_select('stoodle_flashcard_set', 'name = ?  AND  usermodified = ?', [$set, $USER->id]);
 
             for ($i = 0; $i <= count($question) - 1; $i++) {
                 if (!empty($question[$i])&&!empty($answer[$i])) {

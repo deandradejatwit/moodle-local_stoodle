@@ -78,10 +78,10 @@ if ($createquestionform->is_cancelled()) {
         }
 
         // Checks if created quiz name does not exists in the flashcard set database, if it does go on with question creation.
-        if ($DB->get_record_select('stoodle_quiz', 'id = ?', [$quizid]) &&
-        !$DB->get_record_select('stoodle_quiz_questions', 'question_text = ?', [$question])) {
+        if ($DB->get_record_select('stoodle_quiz', 'id = ? AND usermodified = ?', [$quizid, $USER->id]) &&
+        !$DB->get_record_select('stoodle_quiz_questions', 'question_text = ? AND usermodified = ?', [$question, $USER->id])) {
             $DB->insert_record('stoodle_quiz_questions', $recordquestion);
-            $ques = $DB->get_record_select('stoodle_quiz_questions', 'question_text = ?', [$question]);
+            $ques = $DB->get_record_select('stoodle_quiz_questions', 'question_text = ? AND usermodified = ?', [$question, $USER->id]);
 
             for ($i = 0; $i <= count($answer) - 1; $i++) {
                 if (!empty($answer[$i])) {

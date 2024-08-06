@@ -54,7 +54,7 @@ if ($editquizform->is_cancelled()) {
     if (!empty($quiz) || check_not_empty($questions) || check_not_empty($options)) {
 
         // Check to see if the new quiz name is not empty and doesn't already exits.
-        if (!empty($quiz) && !$DB->get_record_select('stoodle_quiz', 'name = ?', [$quiz])) {
+        if (!empty($quiz) && !$DB->get_record_select('stoodle_quiz', 'name = ?  AND  usermodified = ?', [$quiz, $USER->id])) {
             $editquiz = new stdClass;
 
             $editquiz->id = $quizid;

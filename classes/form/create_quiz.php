@@ -37,7 +37,7 @@ class create_quiz extends \moodleform {
      *
      */
     public function definition() {
-        global $DB, $SESSION;
+        global $DB, $SESSION, $USER;
 
         $name = $SESSION->quiz_name;
 
@@ -53,7 +53,7 @@ class create_quiz extends \moodleform {
 
             // List created quiz name and any questions created in create_question form.
         } else {
-            $quiz = $DB->get_record_select('stoodle_quiz', 'name = ?', [$name]);
+            $quiz = $DB->get_record_select('stoodle_quiz', 'name = ? AND usermodified = ?', [$name, $USER->id]);
             $SESSION->quiz_id = $quiz->id;
             $counto = 1;
             $countq = 1;
@@ -61,8 +61,8 @@ class create_quiz extends \moodleform {
             $front = [ $mform->createElement('static', 'quizname', get_string('currentquizname', 'local_stoodle'), $quiz->name)];
             $mform->addElement($front[0]);
 
-            if ($DB->get_records_select('stoodle_quiz_questions', 'stoodle_quizid = ?', [$quiz->id])) {
-                $questions  = $DB->get_records_select('stoodle_quiz_questions', 'stoodle_quizid = ?', [$quiz->id]);
+            if ($DB->get_records_select('stoodle_quiz_questions', 'stoodle_quizid = ? AND usermodified = ?', [$quiz->id,  $USER->id])) {
+                $questions  = $DB->get_records_select('stoodle_quiz_questions', 'stoodle_quizid = ? AND usermodified = ?', [$quiz->id,  $USER->id]);
                 foreach ($questions as $question) {
                     $answers = $DB->get_records_select('stoodle_quiz_question_options',
                     'stoodle_quiz_questionsid = ?', [$question->id]);
