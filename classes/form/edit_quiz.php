@@ -14,8 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 /**
  * Class edit_quiz
  *
@@ -25,18 +23,26 @@
  *              Jhonathan Deandrade deandradej@wit.edu
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-namespace local_stoodle\form;;
+namespace local_stoodle\form;
 defined('MOODLE_INTERNAL') || die();
 require_once($CFG->libdir . '/formslib.php');
 
-class edit_quiz extends \moodleform{
+/**
+ * create quiz edit form.
+ *
+ */
+class edit_quiz extends \moodleform {
+    /**
+     * defining the functionality and structure of edit_quiz form
+     *
+     */
     public function definition() {
         global $DB, $SESSION;
         $mform = $this->_form;
 
         $quizid = $SESSION->edit_quiz_id;
-        $quiz = $DB->get_record('stoodle_quiz', array('id' => $quizid), 'name');
-        $questions = $DB->get_records_list('stoodle_quiz_questions', 'stoodle_quizid', array('stoodle_quizid' => $quizid), '', '*');
+        $quiz = $DB->get_record('stoodle_quiz', ['id' => $quizid], 'name');
+        $questions = $DB->get_records_list('stoodle_quiz_questions', 'stoodle_quizid', ['stoodle_quizid' => $quizid], '', '*');
 
         $mform->addElement('hidden', 'quizid', $quizid);
         $mform->addElement('static', 'priorquiz', get_string('currentquizname', 'local_stoodle'), $quiz->name);
@@ -49,7 +55,8 @@ class edit_quiz extends \moodleform{
             $count = 0;
             $mform->addElement('hidden', 'questionid[]', $question->id);
 
-            $options = $DB->get_records_list('stoodle_quiz_question_options', 'stoodle_quiz_questionsid', array('stoodle_quiz_questionsid' => $question->id), '', '*');
+            $options = $DB->get_records_list('stoodle_quiz_question_options', 'stoodle_quiz_questionsid',
+            ['stoodle_quiz_questionsid' => $question->id], '', '*');
 
             $mform->addElement('static', 'priorquestion', get_string('currentquestion', 'local_stoodle'), $question->question_text);
             $mform->addElement('textarea', 'questions[]', get_string('questionstr', 'local_stoodle'));
@@ -63,7 +70,7 @@ class edit_quiz extends \moodleform{
                 $count++;
             }
 
-            $mform->addElement('hidden','optioncount[]', $count);
+            $mform->addElement('hidden', 'optioncount[]', $count);
 
         }
 

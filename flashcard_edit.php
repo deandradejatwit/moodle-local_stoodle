@@ -24,7 +24,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require ('../../config.php');
+require('../../config.php');
 
 require_login();
 global $error;
@@ -36,6 +36,7 @@ $PAGE->set_pagelayout('standard');
 $PAGE->set_title(get_string('flashcardedit', 'local_stoodle'));
 $PAGE->set_heading(get_string('flashcardedit', 'local_stoodle'));
 
+// Instantiates the edit_set constructor to create the edit_set form.
 $editsetform = new \local_stoodle\form\edit_set();
 
 if ($editsetform->is_cancelled()) {
@@ -49,9 +50,10 @@ if ($editsetform->is_cancelled()) {
     $questions = required_param_array('questions', PARAM_TEXT);
     $answers = required_param_array('answers', PARAM_TEXT);
 
-    if (!empty($set) || check_empty($questions) || check_empty($answers)) {
+    if (!empty($set) || check_not_empty($questions) || check_not_empty($answers)) {
 
-        if(!empty($set) && !$DB->get_record_select('stoodle_flashcard_set', 'name = ?', [$set])){
+        // Check to see if the new set name is not empty and doesn't already exits.
+        if (!empty($set) && !$DB->get_record_select('stoodle_flashcard_set', 'name = ?', [$set])) {
             $editset = new stdClass;
 
             $editset->id = $setid;
@@ -61,6 +63,7 @@ if ($editsetform->is_cancelled()) {
             $DB->update_record('stoodle_flashcard_set', $editset);
         }
 
+        // Loops through both questions and answers array saving data to the database.
         for ($i = 0; $i <= count($questions); $i++) {
             if (!empty($questions[$i])) {
 
@@ -72,7 +75,7 @@ if ($editsetform->is_cancelled()) {
                 $DB->update_record('stoodle_flashcards', $edits);
 
             }
-            if (!empty($answers[$i])){
+            if (!empty($answers[$i])) {
                 $edits = new stdClass;
 
                 $edits->id = $cardid[$i];
@@ -84,7 +87,7 @@ if ($editsetform->is_cancelled()) {
 
         $url = new moodle_url('/local/stoodle/flashcard_edit.php');
         redirect($url);
-    }  else {
+    } else {
         $error = true;
     }
 }
@@ -94,7 +97,7 @@ if ($editsetform->is_cancelled()) {
  *
  * @param array $arr1 First array
  */
-function check_empty($arr1) {
+function check_not_empty($arr1) {
     for ($i = 0; $i < count($arr1); $i++) {
         if (!(empty($arr1[$i]))) {
             return true;

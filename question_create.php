@@ -24,7 +24,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require ('../../config.php');
+require('../../config.php');
 
 require_login();
 global $SESSION;
@@ -37,6 +37,7 @@ $PAGE->set_pagelayout('standard');
 $PAGE->set_title(get_string('createquestion', 'local_stoodle'));
 $PAGE->set_heading(get_string('createquestion', 'local_stoodle'));
 
+// Instantiates the create_question constructor to create the create_question form.
 $createquestionform = new \local_stoodle\form\create_question();
 if ($createquestionform->is_cancelled()) {
     $SESSION->question_count -= 1;
@@ -48,16 +49,16 @@ if ($createquestionform->is_cancelled()) {
     $answer = required_param_array('answer', PARAM_TEXT);
     $numanswers = 0;
 
-    $question_num = $SESSION->question_count;
-    $quizID = $SESSION->quiz_id;
+    $questionnum = $SESSION->question_count;
+    $quizid = $SESSION->quiz_id;
 
-    if (!empty($question) && check_empty($answer) && check_empty($optradio)) {
+    if (!empty($question) && check_not_empty($answer) && check_not_empty($optradio)) {
 
         $recordquestion = new stdClass;
         $recordanswers = new stdClass;
 
-        $recordquestion->stoodle_quizid = $quizID;
-        $recordquestion->question_number = $question_num;
+        $recordquestion->stoodle_quizid = $quizid;
+        $recordquestion->question_number = $questionnum;
         $recordquestion->question_text = $question;
         $recordquestion->usermodified = $USER->id;
         $recordquestion->timecreated = time();
@@ -69,13 +70,16 @@ if ($createquestionform->is_cancelled()) {
             }
         }
 
-        if($numanswers > 1){
+        // If more that one answer exist set the question to multiple choice.
+        if ($numanswers > 1) {
             $recordquestion->is_multiple_choice = 1;
         } else {
             $recordquestion->is_multiple_choice = 0;
         }
 
-        if ($DB->get_record_select('stoodle_quiz', 'id = ?', [$quizID]) && !$DB->get_record_select('stoodle_quiz_questions', 'question_text = ?', [$question])) {
+        // Checks if created quiz name does not exists in the flashcard set database, if it does go on with question creation.
+        if ($DB->get_record_select('stoodle_quiz', 'id = ?', [$quizid]) &&
+        !$DB->get_record_select('stoodle_quiz_questions', 'question_text = ?', [$question])) {
             $DB->insert_record('stoodle_quiz_questions', $recordquestion);
             $ques = $DB->get_record_select('stoodle_quiz_questions', 'question_text = ?', [$question]);
 
@@ -99,13 +103,11 @@ if ($createquestionform->is_cancelled()) {
 }
 
 /**
- * Checks if two arrays are empty
+ * Checks if an array is empty
  *
  * @param array $arr1 First array
- * @param array $arr2 Second array
  */
-function check_empty($arr1)
-{
+function check_not_empty($arr1) {
     for ($i = 0; $i < count($arr1); $i++) {
         if (!(empty($arr1[$i]))) {
             return true;

@@ -3,47 +3,51 @@ export const init = () => {
     const answerSet = JSON.parse(document.getElementById("answer-set").innerHTML);
     const questionDiv = document.querySelector(".js-answer-area");
     const scoreArea = document.querySelector(".score");
-    const totalQuestions = Object.values(questionSet).length;
 
-    const newSet = createFullSet(questionSet, answerSet);
-    const typeSet = declareQuestionTypes(questionSet, answerSet);
+    // Organize information for easier access
+    const quizMap = createQuizHash(questionSet, answerSet);
+    const questionTypes = declareQuestionTypes(questionSet, answerSet);
 
-    scoreArea.innerHTML = "Score: 0 / " + totalQuestions;
+    scoreArea.innerHTML = "Score: 0 / " + quizMap.size;
     document.querySelector(".submit-button").addEventListener('click', () => {
         questionValidation();
     });
 
-    // Create questions and options
-    for (const key in Object.values(questionSet)) {
+    // Create questions and answer options
+    let index = 0;
+    for (const [key, value] of quizMap.entries()) {
+        const optionArray = value[0];
+
+        // Set up div to house quiz question
         const newDiv = document.createElement("div");
         newDiv.id = "stoodle-div";
         const questionText = document.createElement("p");
         questionText.id = "stoodle-question-text";
-        questionText.textContent = "Question " + (parseInt(key) + 1) + ": " + Object.values(questionSet)[key].question_text;
+        questionText.textContent = "Question " + (index + 1) + ": " + key;
         newDiv.appendChild(questionText);
 
-        switch (typeSet[key]) {
+        switch (questionTypes[index]) {
             default:
             case 0:
                 newDiv.id = "open-response";
-                createOpenResponseQuestion(newDiv, ("option_" + key));
+                createOpenResponseQuestion(newDiv, ("option_" + index));
                 break;
             case 1:
                 newDiv.id = "multiple-choice";
-                for (const element in newSet.get(Object.values(questionSet)[key].question_text)[0]) {
-                    const optionText = newSet.get(Object.values(questionSet)[key].question_text)[0][element];
-                    createInputNodeRadio(newDiv, ("option_" + key), key, optionText);
+                for (const element in value[0]) {
+                    createInputNode(newDiv, ("option_" + index), index, optionArray[element], "radio");
                 }
                 break;
             case 2:
                 newDiv.id = "select-all";
-                for (const element in newSet.get(Object.values(questionSet)[key].question_text)[0]) {
-                    const optionText = newSet.get(Object.values(questionSet)[key].question_text)[0][element];
-                    createInputNodeCheckBox(newDiv, ("option_" + key), key, optionText);
+                for (const element in value[0]) {
+                    createInputNode(newDiv, ("option_" + index), index, optionArray[element], "checkbox");
                 }
                 break;
         }
+
         questionDiv.appendChild(newDiv);
+        index++;
     }
 
     /**
@@ -62,50 +66,25 @@ export const init = () => {
     }
 
     /**
-     * Creates a radio button.
+     * Creates an input using a given type.
      *
-     * @param {object} parent
-     * @param {string} id
-     * @param {string} name
-     * @param {string} value
+     * @param {object} parent The node for which the new input node should be parented to.
+     * @param {string} id The id for the new input node.
+     * @param {string} name The name for the input node.
+     * @param {string} value The value for the new input node.
+     * @param {string} type The type of the new input node.
      */
-    function createInputNodeRadio(parent, id, name, value) {
-        // Create a radio input
-        const radio = document.createElement("input");
-        radio.type = "radio";
-        radio.id = id;
-        radio.name = name;
-        radio.value = value;
+    function createInputNode(parent, id, name, value, type) {
+        // Create a checkbox input
+        const input = document.createElement("input");
+        input.type = type;
+        input.id = id;
+        input.name = name;
+        input.value = value;
 
         // Create the label to go with it
         const label = document.createElement("label");
-        label.appendChild(radio);
-        label.appendChild(document.createTextNode(value));
-
-        // Append them to the parent
-        parent.appendChild(label);
-        parent.appendChild(document.createElement("br"));
-    }
-
-    /**
-     * Creates a checkbox button.
-     *
-     * @param {object} parent
-     * @param {string} id
-     * @param {string} name
-     * @param {string} value
-     */
-    function createInputNodeCheckBox(parent, id, name, value) {
-        // Create a radio input
-        const checkbox = document.createElement("input");
-        checkbox.type = "checkbox";
-        checkbox.id = id;
-        checkbox.name = name;
-        checkbox.value = value;
-
-        // Create the label to go with it
-        const label = document.createElement("label");
-        label.appendChild(checkbox);
+        label.appendChild(input);
         label.appendChild(document.createTextNode(value));
 
         // Append them to the parent
@@ -118,73 +97,59 @@ export const init = () => {
      *
      */
     function questionValidation() {
+        const correctIcon = "\u{2705}";
+        const incorrectIcon = "\u{274C}";
         let numCorrect = 0;
-        const correctHex = "\u{2705}";
-        const incorrectHex = "\u{274C}";
+        let index = 0;
 
-        for (const key in Object.values(questionSet)) {
-            const dbQuestionText = Object.values(questionSet)[key].question_text;
-            const htmlQuestionText = "Question " + (parseInt(key) + 1) + ": " + dbQuestionText;
+        // Check selected option against answer in the map
+        for (const [key, value] of quizMap.entries()) {
+            const answerArray = value[1];
+            const htmlQuestionP = questionDiv.children[index].children[0];
+            const questionText = "Question " + (index + 1) + ": " + key;
+            let finalIcon = incorrectIcon;
 
-            if (typeSet[key] === 0) {
+            if (questionTypes[index] === 0) {
                 // Check Open Response
-                const option = document.getElementById("option_" + key);
-                if (option === null) {
-                    alert("Question " + (parseInt(key) + 1) + " is unanswered");
-                    return;
-                }
-                const parent = option.parentElement.parentElement.children[0];
-                if (option.value === newSet.get(dbQuestionText)[1][0]) {
-                    window.console.log("Question " + (parseInt(key) + 1) + " is correct");
+                const option = document.getElementById("option_" + index);
+                if (option.value === answerArray[0]) {
                     numCorrect++;
-                    parent.innerText = htmlQuestionText + " " + correctHex;
-                } else {
-                    parent.innerText = htmlQuestionText + " " + incorrectHex + " (manual review required)";
+                    finalIcon = correctIcon;
                 }
-            } else if (typeSet[key] === 1) {
+            } else if (questionTypes[index] === 1) {
                 // Check Multiple Choice
-                const option = document.querySelector('input[name = "' + key + '"]:checked');
+                const option = document.querySelector('input[name= "' + index + '"]:checked');
                 if (option === null) {
-                    alert("Question " + (parseInt(key) + 1) + " is unanswered");
+                    alert("Question " + (index + 1) + " is unanswered");
                     return;
                 }
-                const parent = option.parentElement.parentElement.children[0];
-                if (newSet.get(dbQuestionText)[1][0] === option.value) {
-                    window.console.log("Question " + (parseInt(key) + 1) + " is correct");
+                if (answerArray[0] === option.value) {
                     numCorrect++;
-                    parent.innerText = htmlQuestionText + " " + correctHex;
-                } else {
-                    parent.innerText = htmlQuestionText + " " + incorrectHex;
+                    finalIcon = correctIcon;
                 }
-            } else if (typeSet[key] === 2) {
+            } else if (questionTypes[index] === 2) {
                 // Check Select All
-                const option = document.querySelectorAll('input[name="' + key + '"]:checked');
+                const option = document.querySelectorAll('input[name="' + index + '"]:checked');
                 if (option.length < 1) {
-                    alert("Question " + (parseInt(key) + 1) + " is unanswered");
+                    alert("Question " + (index + 1) + " is unanswered");
                     return;
                 }
-                const parent = document.querySelector('input[name="' + key + '"]:checked').parentElement.parentElement.children[0];
                 let selectAllCorrectCounter = 0;
-                if (newSet.get(dbQuestionText)[1].length !== option.length) {
-                    parent.innerText = htmlQuestionText + " " + incorrectHex;
-                    continue;
-                }
-                for (let i = 0; i < newSet.get(dbQuestionText)[1].length; i++) {
-                    if (newSet.get(dbQuestionText)[1][i] === option[i].value) {
+                for (let i = 0; i < answerArray.length && answerArray.length === option.length; i++) {
+                    if (answerArray[i] === option[i].value) {
                         selectAllCorrectCounter++;
                     }
                 }
-                if (selectAllCorrectCounter === newSet.get(dbQuestionText)[1].length) {
+                if (selectAllCorrectCounter === answerArray.length) {
                     numCorrect++;
-                    window.console.log("Question " + (parseInt(key) + 1) + " is correct");
-                    parent.innerText = htmlQuestionText + " " + correctHex;
-                } else {
-                    parent.innerText = htmlQuestionText + " " + incorrectHex;
+                    finalIcon = correctIcon;
                 }
             }
+            htmlQuestionP.innerText = questionText + finalIcon;
+            index++;
         }
 
-        scoreArea.innerText = "Score: " + numCorrect + " / " + totalQuestions;
+        scoreArea.innerText = "Score: " + numCorrect + " / " + quizMap.size;
     }
 
     /**
@@ -219,15 +184,15 @@ export const init = () => {
         return questionTypesArray;
     }
 
-
     /**
-     * Return an array of questions and answers.
+     * Creates a Map by matching questions to their options in their respective sets.
+     * Consists of the question text as the key, and an array containing a set of all options and a set of correct options.
      *
-     * @param {Object} qSet
-     * @param {Object} oSet
+     * @param {Object} qSet Set of all questions
+     * @param {Object} oSet Set of all options
      * @return {Map} Resulting array
      */
-    function createFullSet(qSet, oSet) {
+    function createQuizHash(qSet, oSet) {
         let resultSet = new Map();
         for (const qKey in Object.values(qSet)) {
             let optionArray = [];

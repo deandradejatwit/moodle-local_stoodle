@@ -37,6 +37,7 @@ $PAGE->set_pagelayout('standard');
 $PAGE->set_title(get_string('quizedit', 'local_stoodle'));
 $PAGE->set_heading(get_string('quizedit', 'local_stoodle'));
 
+// Instantiates the select_form constructor to create the select_form form.
 $editquizform = new \local_stoodle\form\edit_quiz();
 if ($editquizform->is_cancelled()) {
     $url = new moodle_url('/local/stoodle/quiz.php');
@@ -50,8 +51,9 @@ if ($editquizform->is_cancelled()) {
     $questions = required_param_array('questions', PARAM_TEXT);
     $options = required_param_array('options', PARAM_TEXT);
 
-    if (!empty($quiz) || check_empty($questions) || check_empty($options)) {
+    if (!empty($quiz) || check_not_empty($questions) || check_not_empty($options)) {
 
+        // Check to see if the new quiz name is not empty and doesn't already exits.
         if (!empty($quiz) && !$DB->get_record_select('stoodle_quiz', 'name = ?', [$quiz])) {
             $editquiz = new stdClass;
 
@@ -62,6 +64,7 @@ if ($editquizform->is_cancelled()) {
             $DB->update_record('stoodle_quiz', $editquiz);
         }
 
+        // Loop through quiz array and save edited questions.
         for ($i = 0; $i <= count($questions); $i++) {
             if (!empty($questions[$i])) {
 
@@ -75,6 +78,7 @@ if ($editquizform->is_cancelled()) {
             }
         }
 
+        // Loop through option array and save edited options.
         for ($j = 0; $j <= count($options); $j++) {
             if (!empty($options[$j])) {
                 $optionedit = new stdClass;
@@ -94,7 +98,12 @@ if ($editquizform->is_cancelled()) {
     }
 }
 
-function check_empty($arr1) {
+/**
+ * Checks if an array is empty
+ *
+ * @param array $arr1 First array
+ */
+function check_not_empty($arr1) {
     for ($i = 0; $i < count($arr1); $i++) {
         if (!(empty($arr1[$i]))) {
             return true;
