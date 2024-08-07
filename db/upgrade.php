@@ -24,8 +24,6 @@
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
-
  /**
   * This function updates the database of the local plugin.
   *
@@ -75,9 +73,9 @@ function xmldb_local_stoodle_upgrade($oldversion): bool {
          $table->add_key('usermodified', XMLDB_KEY_FOREIGN, ['usermodified'], 'user', ['id']);
 
          // Conditionally launch create table for stoodle_quiz_questions.
-         if (!$dbman->table_exists($table)) {
+        if (!$dbman->table_exists($table)) {
              $dbman->create_table($table);
-         }
+        }
          // Define table stoodle_quiz_question_options to be created.
         $table = new xmldb_table('stoodle_quiz_question_options');
 
@@ -140,7 +138,6 @@ function xmldb_local_stoodle_upgrade($oldversion): bool {
         if (!$dbman->table_exists($table)) {
             $dbman->create_table($table);
         }
-
 
         upgrade_plugin_savepoint(true, 2024071005, 'local', 'stoodle');
     }
