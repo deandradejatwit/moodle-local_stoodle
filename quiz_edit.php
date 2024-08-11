@@ -102,7 +102,7 @@ if ($editquizform->is_cancelled()) {
                     $optionedit->is_correct = '0';
                     $optionedit->timemodified = time();
                     $DB->update_record('stoodle_quiz_question_options', $optionedit);
-                    $coun++;
+                    $count++;
                 }
             }
 
