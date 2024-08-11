@@ -1,0 +1,122 @@
+{{!
+    This file is part of Moodle - https://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template local_stoodle/flashcard_activity
+
+    Template purpose and description.
+
+    Classes required for JS:
+    * none
+
+    Data attributes required for JS:
+    * none
+
+    Context variables required for this template:
+    * none
+
+    Example context (json):
+    {
+    }
+}}
+<style>
+    .flashcards {
+        height: 100%;
+        width: 350px;
+        margin: auto;
+        text-align: center;
+    }
+
+    .js-card {
+        font-size: 1.25em;
+        height: 200px;
+        width: 350px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 5px;
+        background-color: #f98012;
+        position: relative;
+        transition: transform 1s;
+        transform-style: preserve-3d;
+        cursor: pointer;
+        box-shadow: 0px 3px 18px 3px rgba(0, 0, 0, 0.2);
+    }
+
+    .js-card.is-flipped {
+        transform: rotateY(180deg);
+    }
+
+    .js-content {
+        color: white;
+        position: absolute;
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+        overflow: hidden;
+    }
+
+    #card-answer {
+        transform: rotateY(180deg);
+    }
+
+    .lr-buttons {
+        margin-top: 20px;
+    }
+
+    .lr-buttons > button {
+        height: 50px;
+        width: 50px;
+        border: none;
+        border-radius: 100%;
+        background-color: black;
+        color: white;
+        font-size: 18px;
+        font-weight: bold;
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+
+    .lr-buttons > button:hover {
+        cursor: pointer;
+    }
+
+    .exit-button {
+        margin-top: 20px;
+    }
+
+    .js-counter {
+        float: left;
+    }
+</style>
+<div class="flashcards">
+    <div class="flashcard-set" style="display: none;">{{database_flashcards}}</div>
+
+    <p class="js-counter"></p>
+
+    <div class="js-card">
+        <p id="card-question" class="js-content">This is a card</p>
+        <p id="card-answer" class="js-content">This is a back side card</p>
+    </div>
+
+    <div class="lr-buttons">
+        <button class="js-prev">&#60;</button>
+        <button class="js-next">&#62;</button>
+    </div>
+
+    <div class="exit-button">
+        <a href="flashcard.php"><button class="btn btn-secondary btn-lg">Exit</button></a>
+    </div>
+</div>
