@@ -47,11 +47,13 @@ if ($editquizform->is_cancelled()) {
     $optionid = required_param_array('optionid', PARAM_INT);
     $questionid = required_param_array('questionid', PARAM_INT);
 
+    $yesarr = required_param_array('yes', PARAM_INT);
+
     $quiz = required_param('quizname', PARAM_TEXT);
     $questions = required_param_array('questions', PARAM_TEXT);
     $options = required_param_array('options', PARAM_TEXT);
 
-    if (!empty($quiz) || check_not_empty($questions) || check_not_empty($options)) {
+    if (!empty($quiz) || check_not_empty($questions) || check_not_empty($options) ||  check_not_empty($yesarr)) {
 
         // Check to see if the new quiz name is not empty and doesn't already exits.
         if (!empty($quiz) && !$DB->get_record_select('stoodle_quiz', 'name = ?', [$quiz])) {
@@ -78,16 +80,36 @@ if ($editquizform->is_cancelled()) {
             }
         }
 
+        $count = 0;
         // Loop through option array and save edited options.
-        for ($j = 0; $j <= count($options); $j++) {
-            if (!empty($options[$j])) {
-                $optionedit = new stdClass;
+        for ($j = 0; $j < count($options); $j++) {
+            $optionedit = new stdClass;
 
+            $o = $DB->get_record_select('stoodle_quiz_question_options', 'id = ?', [$optionid[$j]]);
+            $q = $DB->get_record_select('stoodle_quiz_questions', 'id = ?', [$o->stoodle_quiz_questionsid]);
+
+            if ($yesarr[$count] == 0 && $q->is_multiple_choice == 1) {
+                $nextidx = $count + 1;
+                if (isset($yesarr[$nextidx]) && $yesarr[$nextidx] == 1 ) {
+                    $optionedit->id = $optionid[$j];
+                    $optionedit->is_correct = '1';
+                    $optionedit->timemodified = time();
+                    $DB->update_record('stoodle_quiz_question_options', $optionedit);
+                    $count = $count + 2;
+                } else {
+                    $optionedit->id = $optionid[$j];
+                    $optionedit->is_correct = '0';
+                    $optionedit->timemodified = time();
+                    $DB->update_record('stoodle_quiz_question_options', $optionedit);
+                    $count++;
+                }
+            }
+
+            if (!empty($options[$j])) {
                 $optionedit->id = $optionid[$j];
                 $optionedit->option_text = $options[$j];
                 $optionedit->timemodified = time();
                 $DB->update_record('stoodle_quiz_question_options', $optionedit);
-
             }
         }
 
@@ -113,7 +135,6 @@ function check_not_empty($arr1) {
 }
 
 echo $OUTPUT->header();
-
 if ($error) {
     echo $OUTPUT->notification(get_string('erredit', 'local_stoodle'), 'error');
 }

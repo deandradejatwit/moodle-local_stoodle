@@ -25,6 +25,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+
 $string['addquestion'] = 'Add Question';
 $string['answerstr'] = 'Enter Answer:';
 $string['correctstr'] = 'Input The Value Of The Correct Answer';
@@ -44,6 +45,7 @@ $string['errsetname'] = 'A set with that name already exists.';
 $string['flashcardactivityname'] = 'Flashcards';
 $string['flashcardcreate'] = 'Create Flashcards';
 $string['flashcardedit'] = 'Edit Flashcards';
+$string['optioncorrect'] = ' - Answer';
 $string['optionstr'] = 'Enter Option:';
 $string['pluginname'] = 'Stoodle';
 $string['questionstr'] = 'Enter Question:';
@@ -52,7 +54,7 @@ $string['quizedit'] = 'Edit Quiz';
 $string['quiznamestr'] = 'Set a Quiz Name:';
 $string['quizoption'] = 'Option:';
 $string['quizquestion'] = 'Question:';
-$string['selectanswerstr'] = 'Select As Correct';
+$string['selectanswerstr'] = 'Select As Correct:';
 $string['selectquizstr'] = 'Select Quiz';
 $string['selectsetstr'] = 'Select Set';
 $string['setnamestr'] = 'Set Name:';
