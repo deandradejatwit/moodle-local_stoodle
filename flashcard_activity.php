@@ -40,10 +40,10 @@ $flashcardset = json_encode($DB->get_records('stoodle_flashcards', ['stoodle_fla
 echo $OUTPUT->header();
 
 
-$PAGE->requires->js_call_amd('local_stoodle/script', 'init');
+$PAGE->requires->js_call_amd('local_stoodle/flashcard', 'init');
 
 $templatecontext = (object)[
-    'flashcards' => $flashcardset,
+    'database_flashcards' => $flashcardset,
 ];
 
 echo $OUTPUT->render_from_template('local_stoodle/flashcard_activity', $templatecontext);
