@@ -27,7 +27,7 @@
 require('../../config.php');
 
 require_login();
-global $error, $mycoolvar;
+global $error;
 
 $url = new moodle_url('/local/stoodle/quiz_edit.php', []);
 $PAGE->set_url($url);
@@ -48,7 +48,6 @@ if ($editquizform->is_cancelled()) {
     $questionid = required_param_array('questionid', PARAM_INT);
 
     $yesarr = required_param_array('yes', PARAM_INT);
-    $SESSION->test = $yesarr;
 
     $quiz = required_param('quizname', PARAM_TEXT);
     $questions = required_param_array('questions', PARAM_TEXT);
@@ -136,11 +135,9 @@ function check_not_empty($arr1) {
 }
 
 echo $OUTPUT->header();
-echo print($mycoolvar);
 if ($error) {
     echo $OUTPUT->notification(get_string('erredit', 'local_stoodle'), 'error');
 }
 $editquizform->display();
-echo var_dump($SESSION->test);
 
 echo $OUTPUT->footer();
