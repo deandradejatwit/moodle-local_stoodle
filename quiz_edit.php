@@ -89,20 +89,20 @@ if ($editquizform->is_cancelled()) {
             $o = $DB->get_record_select('stoodle_quiz_question_options', 'id = ?', [$optionid[$j]]);
             $q = $DB->get_record_select('stoodle_quiz_questions', 'id = ?', [$o->stoodle_quiz_questionsid]);
 
-            if($yesarr[$count] == 0 && $q->is_multiple_choice == 1) {
+            if ($yesarr[$count] == 0 && $q->is_multiple_choice == 1) {
                 $nextidx = $count + 1;
                 if (isset($yesarr[$nextidx]) && $yesarr[$nextidx] == 1 ) {
                     $optionedit->id = $optionid[$j];
                     $optionedit->is_correct = '1';
                     $optionedit->timemodified = time();
                     $DB->update_record('stoodle_quiz_question_options', $optionedit);
-                    $count = $count+2;
+                    $count = $count + 2;
                 } else {
                     $optionedit->id = $optionid[$j];
                     $optionedit->is_correct = '0';
                     $optionedit->timemodified = time();
                     $DB->update_record('stoodle_quiz_question_options', $optionedit);
-                    $count++;
+                    $coun++;
                 }
             }
 
