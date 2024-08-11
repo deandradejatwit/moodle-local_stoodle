@@ -1,8 +1,8 @@
 # Stoodle #
 
-TODO Describe the plugin shortly here.
+Stoodle is a plugin for Moodle, an open-source learning management system, that can be utilized by any users of Moodle, including students and teachers. Stoodle allows students to study for their courses directly through their course management system without having to use a third party website. 
 
-TODO Provide more detailed description here.
+Stoodle includes two primary studying features: flashcards and quizzes. Flashcards are two-sided note cards, including a prompt on one side and the answer or information regarding the prompt on the other. Within this feature, users are displayed one side of a flashcard at a time starting with the prompt side, allowing them to test and improve their memory on their desired subject. Additionally, users have the ability to create, edit and delete sets of flashcards. Quizzes are short, informal tests of knowledge. Similar to the flashcard feature, users can create, edit and delete quizzes they have made. Stoodle's quiz feature allows for the creation of numerous question types such as mutliple choice, select all that apply, true or false and open response.
 
 ## Installing via uploaded ZIP file ##
 
