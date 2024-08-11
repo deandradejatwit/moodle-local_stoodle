@@ -34,10 +34,9 @@ $PAGE->set_pagelayout('standard');
 $PAGE->set_title('Quiz');
 $PAGE->set_heading('Quiz');
 
-$variable = $SESSION->quiz_set_name;
-$questionset = json_encode($DB->get_records('stoodle_quiz_questions', ['stoodle_quizid' => $variable]));
+$quizname = $SESSION->quiz_set_name;
+$questionset = json_encode($DB->get_records('stoodle_quiz_questions', ['stoodle_quizid' => $quizname]));
 $answerset = json_encode($DB->get_records('stoodle_quiz_question_options'));
-
 
 
 echo $OUTPUT->header();
@@ -45,9 +44,8 @@ echo $OUTPUT->header();
 $PAGE->requires->js_call_amd('local_stoodle/quiz', 'init');
 
 $templatecontext = (object)[
-    'texttodisplay' => 'This is some text that will be displayed',
-    'new' => $questionset,
-    'newtoo' => $answerset,
+    'database_questions' => $questionset,
+    'database_answers' => $answerset,
 ];
 
 echo $OUTPUT->render_from_template('local_stoodle/quiz_activity', $templatecontext);
