@@ -31,8 +31,8 @@ global $DB, $SESSION;
 $PAGE->set_context(context_system::instance());
 $PAGE->set_url(new moodle_url('/local/stoodle/quiz_activity.php'));
 $PAGE->set_pagelayout('standard');
-$PAGE->set_title('Quiz');
-$PAGE->set_heading('Quiz');
+$PAGE->set_title(get_string('quizname', 'local_stoodle'));
+$PAGE->set_heading(get_string('quizname', 'local_stoodle'));
 
 $quizname = $SESSION->quiz_set_name;
 $questionset = json_encode($DB->get_records('stoodle_quiz_questions', ['stoodle_quizid' => $quizname]));

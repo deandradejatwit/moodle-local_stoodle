@@ -41,10 +41,8 @@ $string['errflashcardcreate'] = 'Please fill in the set name and at least one se
 $string['errquestioncreate'] = 'Please fill in all available form inputs and select at least one option as correct.';
 $string['errquizcreate'] = 'A quiz with that name already exists.';
 $string['errsetname'] = 'A set with that name already exists.';
-
-$string['flashcardactivityname'] = 'Flashcards';
 $string['flashcard_menu'] = 'Flashcards Menu';
-
+$string['flashcardactivityname'] = 'Flashcards';
 $string['flashcardcreate'] = 'Create Flashcards';
 $string['flashcardedit'] = 'Edit Flashcards';
 $string['optioncorrect'] = ' - Answer';
@@ -53,6 +51,7 @@ $string['pluginname'] = 'Stoodle';
 $string['questionstr'] = 'Enter Question:';
 $string['quizcreate'] = 'Create Quiz';
 $string['quizedit'] = 'Edit Quiz';
+$string['quizname'] = 'Quiz';
 $string['quiznamestr'] = 'Set a Quiz Name:';
 $string['quizoption'] = 'Option:';
 $string['quizquestion'] = 'Question:';
