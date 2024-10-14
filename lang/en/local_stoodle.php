@@ -25,7 +25,6 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-
 $string['addquestion'] = 'Add Question';
 $string['answerstr'] = 'Enter Answer:';
 $string['correctstr'] = 'Input The Value Of The Correct Answer';
@@ -42,7 +41,10 @@ $string['errflashcardcreate'] = 'Please fill in the set name and at least one se
 $string['errquestioncreate'] = 'Please fill in all available form inputs and select at least one option as correct.';
 $string['errquizcreate'] = 'A quiz with that name already exists.';
 $string['errsetname'] = 'A set with that name already exists.';
+
 $string['flashcardactivityname'] = 'Flashcards';
+$string['flashcard_menu'] = 'Flashcards Menu';
+
 $string['flashcardcreate'] = 'Create Flashcards';
 $string['flashcardedit'] = 'Edit Flashcards';
 $string['optioncorrect'] = ' - Answer';
