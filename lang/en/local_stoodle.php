@@ -51,6 +51,7 @@ $string['pluginname'] = 'Stoodle';
 $string['questionstr'] = 'Enter Question:';
 $string['quizcreate'] = 'Create Quiz';
 $string['quizedit'] = 'Edit Quiz';
+$string['quizmenu'] = 'Quiz Menu';
 $string['quizname'] = 'Quiz';
 $string['quiznamestr'] = 'Set a Quiz Name:';
 $string['quizoption'] = 'Option:';

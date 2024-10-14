@@ -32,7 +32,7 @@ $PAGE->set_context(context_system::instance());
 $PAGE->set_url(new moodle_url('/local/stoodle/quiz.php'));
 $PAGE->set_pagelayout('standard');
 $PAGE->set_title(get_string('pluginname', 'local_stoodle'));
-$PAGE->set_heading("Quiz Menu");  // Replace with get_string.
+$PAGE->set_heading(get_string('quizmenu', 'local_stoodle'));
 
 $SESSION->currentpage = 'quiz';
 $SESSION->question_count = 0;
