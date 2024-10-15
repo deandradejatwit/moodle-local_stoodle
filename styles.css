@@ -1,0 +1,88 @@
+
+/* Flashcard activity styles */
+.flashcards {
+    height: 100%;
+    width: 350px;
+    margin: auto;
+    text-align: center;
+}
+
+.js-card {
+    font-size: 1.25em;
+    height: 200px;
+    width: 350px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    background-color: #f98012;
+    position: relative;
+    transition: transform 1s;
+    transform-style: preserve-3d;
+    cursor: pointer;
+    box-shadow: 0px 3px 18px 3px rgba(0, 0, 0, 0.2);
+}
+
+.js-card.is-flipped {
+    transform: rotateY(180deg);
+}
+
+.js-content {
+    color: white;
+    position: absolute;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    overflow: hidden;
+}
+
+#card-answer {
+    transform: rotateY(180deg);
+}
+
+.lr-buttons {
+    margin-top: 20px;
+}
+
+.lr-buttons > button {
+    height: 50px;
+    width: 50px;
+    border: none;
+    border-radius: 100%;
+    background-color: black;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.lr-buttons > button:hover {
+    cursor: pointer;
+}
+
+.exit-button {
+    margin-top: 20px;
+}
+
+.js-counter {
+    float: left;
+}
+
+
+/* Quiz Activity Styles */
+#stoodle-div {
+    margin-bottom: 10px;
+}
+
+#stoodle-question-text {
+    margin-bottom: 10px;
+}
+
+input[type="radio"] {
+    margin-top: auto;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+.submit-button{
+    margin-bottom: .5em;
+}
