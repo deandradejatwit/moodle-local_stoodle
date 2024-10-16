@@ -15,7 +15,7 @@
     along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 }}
 {{!
-    @template local_stoodle/flashcard_activity
+    @template local_stoodle/quiz
 
     Template purpose and description.
 
@@ -32,22 +32,7 @@
     {
     }
 }}
-<div class="flashcards">
-    <div class="flashcard-set" style="display: none;">{{database_flashcards}}</div>
-
-    <p class="js-counter"></p>
-
-    <div class="js-card">
-        <p id="card-question" class="js-content"></p>
-        <p id="card-answer" class="js-content"></p>
-    </div>
-
-    <div class="lr-buttons">
-        <button class="js-prev">&#60;</button>
-        <button class="js-next">&#62;</button>
-    </div>
-
-    <div class="exit-button">
-        <a href="flashcard.php"><button class="btn btn-secondary btn-lg">Exit</button></a>
-    </div>
+<div class="nav-buttons">
+    <a href="quiz_create.php"><button class="btn btn-primary">Create New Quiz</button></a>
+    <a href="index.php"><button class="btn btn-secondary">Back</button></a>
 </div>
