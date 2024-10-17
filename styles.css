@@ -28,7 +28,7 @@
 }
 
 
-/* flashcard_activity.php */
+/* flashcard_activity.php styles */
 .js-card {
     font-size: 1.25em;
     height: 200px;
@@ -100,11 +100,12 @@
     margin-bottom: 10px;
 }
 
-input[type="radio"] {
+.stoodle-radio-btn {
     margin-top: auto;
     margin-right: 8px;
     vertical-align: middle;
 }
+
 .submit-button{
     margin-bottom: .5em;
 }
