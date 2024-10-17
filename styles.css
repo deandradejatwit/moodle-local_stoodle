@@ -1,12 +1,34 @@
-
-/* Flashcard activity styles */
-.flashcards {
-    height: 100%;
-    width: 350px;
-    margin: auto;
+/* index.php styles */
+.stoodle-body {
     text-align: center;
 }
 
+.stoodle-tools {
+    margin-top: 1em;
+    margin-bottom:2em;
+    display:inline-block;
+    margin-left: 1em;
+    margin-right: 1em;
+}
+
+.flashcard-image {
+    height: auto;
+    width: 225px;
+    margin-bottom:1em;
+}
+
+.quiz-image {
+    height: auto;
+    width: 125px;
+    margin-bottom:1em;
+}
+
+.stoodle-btn {
+    background-color: #f98012;
+}
+
+
+/* flashcard_activity.php */
 .js-card {
     font-size: 1.25em;
     height: 200px;
@@ -69,7 +91,7 @@
 }
 
 
-/* Quiz Activity Styles */
+/* quiz_activity.php styles */
 #stoodle-div {
     margin-bottom: 10px;
 }
