@@ -29,6 +29,13 @@
 
 
 /* flashcard_activity.php styles */
+.stoodle-flashcards {
+    height: 100%;
+    width: 350px;
+    margin: auto;
+    text-align: center;
+}
+
 .js-card {
     font-size: 1.25em;
     height: 200px;
@@ -57,6 +64,7 @@
     overflow: hidden;
 }
 
+/* TODO: Change to stoodle-flashcard-answer */
 #card-answer {
     transform: rotateY(180deg);
 }
