@@ -29,14 +29,7 @@
 
 
 /* flashcard_activity.php styles */
-.stoodle-flashcards {
-    height: 100%;
-    width: 350px;
-    margin: auto;
-    text-align: center;
-}
-
-.js-card {
+.stoodle-js-card {
     font-size: 1.25em;
     height: 200px;
     width: 350px;
@@ -52,11 +45,11 @@
     box-shadow: 0px 3px 18px 3px rgba(0, 0, 0, 0.2);
 }
 
-.js-card.is-flipped {
+.stoodle-js-card.is-flipped {
     transform: rotateY(180deg);
 }
 
-.js-content {
+.stoodle-js-content {
     color: white;
     position: absolute;
     -webkit-backface-visibility: hidden;
@@ -64,16 +57,26 @@
     overflow: hidden;
 }
 
-/* TODO: Change to stoodle-flashcard-answer */
-#card-answer {
+.stoodle-js-counter {
+    float: left;
+}
+
+.stoodle-flashcards {
+    height: 100%;
+    width: 350px;
+    margin: auto;
+    text-align: center;
+}
+
+#stoodle-card-answer {
     transform: rotateY(180deg);
 }
 
-.lr-buttons {
+.stoodle-lr-buttons {
     margin-top: 20px;
 }
 
-.lr-buttons > button {
+.stoodle-lr-buttons > button {
     height: 50px;
     width: 50px;
     border: none;
@@ -86,16 +89,12 @@
     margin-right: 20px;
 }
 
-.lr-buttons > button:hover {
+.stoodle-lr-buttons > button:hover {
     cursor: pointer;
 }
 
-.exit-button {
+.stoodle-exit-button {
     margin-top: 20px;
-}
-
-.js-counter {
-    float: left;
 }
 
 
