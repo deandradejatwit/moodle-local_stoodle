@@ -86,7 +86,10 @@ echo $OUTPUT->header();
 
 $select->display();
 
-$templatecontext = (object)[];
+$templatecontext = (object)[
+    'back_string' => get_string('backstr', 'local_stoodle'),
+    'create_string' => get_string('createsetstr', 'local_stoodle'),
+];
 
 echo $OUTPUT->render_from_template('local_stoodle/flashcard', $templatecontext);
 

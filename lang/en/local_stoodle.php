@@ -31,6 +31,7 @@ $string['backstr'] = 'Back';
 $string['correctstr'] = 'Input The Value Of The Correct Answer';
 $string['createquestion'] = 'Create Question';
 $string['createquiz'] = 'Create Quiz';
+$string['createsetstr'] = 'Create New Set';
 $string['currentanswer'] = 'Current Answer:';
 $string['currentoption'] = 'Current Option:';
 $string['currentquestion'] = 'Current Question:';
