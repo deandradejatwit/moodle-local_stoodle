@@ -149,13 +149,13 @@
 
 
 /* flashcard.php styles */
-#id_editset.btn-primary {
+#id_stoodle-editset.btn-primary {
     color: #1d2125;
     background-color: #ced4da;
     border-color: #ced4da;
 }
 
-#id_editset.btn-primary:hover {
+#id_stoodle-editset.btn-primary:hover {
     color: #1d2125;
     background-color: #b8c1ca;
     border-color: #b1bbc4;
