@@ -44,6 +44,7 @@ $PAGE->requires->js_call_amd('local_stoodle/flashcard', 'init');
 
 $templatecontext = (object)[
     'database_flashcards' => $flashcardset,
+    'exit_string' => get_string('exitstr', 'local_stoodle'),
 ];
 
 echo $OUTPUT->render_from_template('local_stoodle/flashcard_activity', $templatecontext);
