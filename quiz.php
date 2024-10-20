@@ -95,7 +95,9 @@ echo $OUTPUT->header();
 
 $select->display();
 
-$templatecontext = (object)[];
+$templatecontext = (object)[
+    'exit_string' => get_string('exitstr', 'local_stoodle'),
+];
 
 echo $OUTPUT->render_from_template('local_stoodle/quiz', $templatecontext);
 
