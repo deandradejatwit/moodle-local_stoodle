@@ -96,7 +96,6 @@ echo $OUTPUT->header();
 $select->display();
 
 $templatecontext = (object)[
-    'exit_string' => get_string('exitstr', 'local_stoodle'),
     'back_string' => get_string('backstr', 'local_stoodle'),
     'create_quiz' => get_string('createnewquiz', 'local_stoodle'),
 ];

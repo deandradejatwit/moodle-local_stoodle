@@ -46,6 +46,7 @@ $PAGE->requires->js_call_amd('local_stoodle/quiz', 'init');
 $templatecontext = (object)[
     'database_questions' => $questionset,
     'database_answers' => $answerset,
+    'exit_string' => get_string('exitstr', 'local_stoodle'),
 ];
 
 echo $OUTPUT->render_from_template('local_stoodle/quiz_activity', $templatecontext);
