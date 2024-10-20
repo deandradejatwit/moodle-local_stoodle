@@ -33,6 +33,7 @@ $PAGE->set_url(new moodle_url('/local/stoodle/flashcard_activity.php'));
 $PAGE->set_pagelayout('standard');
 $PAGE->set_title(get_string('flashcardactivityname', 'local_stoodle'));
 $PAGE->set_heading(get_string('flashcardactivityname', 'local_stoodle'));
+$PAGE->requires->string_for_js('js_cardnumber', 'local_stoodle');
 
 $flashcardid = $SESSION->activity_set_name;
 $flashcardset = json_encode($DB->get_records('stoodle_flashcards', ['stoodle_flashcard_setid' => $flashcardid]));

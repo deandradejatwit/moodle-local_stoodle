@@ -43,6 +43,7 @@ export const init = () => {
             onAnswerSide = false;
         }
         document.getElementById("stoodle-card-question").innerHTML = dbFlashcardSet[dbNames[arrElem]].question;
-        document.querySelector(".stoodle-js-counter").innerText = "Flashcard No. " + (currFlashcardElem + 1);
+        document.querySelector(".stoodle-js-counter").innerText =
+            M.util.get_string('js_cardnumber', 'local_stoodle', currFlashcardElem + 1);
     }
 };

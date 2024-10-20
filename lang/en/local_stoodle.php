@@ -49,6 +49,7 @@ $string['flashcard_menu'] = 'Flashcards Menu';
 $string['flashcardactivityname'] = 'Flashcards';
 $string['flashcardcreate'] = 'Create Flashcards';
 $string['flashcardedit'] = 'Edit Flashcards';
+$string['js_cardnumber'] = 'Flashcard No. {$a}';
 $string['mainflashcards'] = 'Create, edit, save and study sets of flashcards.';
 $string['mainquiz'] = 'Make and save quizzes to prepare for upcoming exams.';
 $string['maintitle'] = 'Study Tools';
