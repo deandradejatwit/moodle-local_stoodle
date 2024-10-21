@@ -33,6 +33,9 @@ $PAGE->set_url(new moodle_url('/local/stoodle/quiz_activity.php'));
 $PAGE->set_pagelayout('standard');
 $PAGE->set_title(get_string('quizname', 'local_stoodle'));
 $PAGE->set_heading(get_string('quizname', 'local_stoodle'));
+$PAGE->requires->string_for_js('js_quiz_scoretext', 'local_stoodle');
+$PAGE->requires->string_for_js('js_quiz_questiontext', 'local_stoodle');
+$PAGE->requires->string_for_js('js_quiz_unansweredtext', 'local_stoodle');
 
 $quizname = $SESSION->quiz_set_name;
 $questionset = json_encode($DB->get_records('stoodle_quiz_questions', ['stoodle_quizid' => $quizname]));

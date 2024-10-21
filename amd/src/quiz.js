@@ -8,7 +8,7 @@ export const init = () => {
     const quizMap = createQuizHash(questionSet, answerSet);
     const questionTypes = declareQuestionTypes(questionSet, answerSet);
 
-    scoreArea.innerHTML = "Score: 0 / " + quizMap.size;
+    scoreArea.innerHTML = M.util.get_string('js_quiz_scoretext', 'local_stoodle', {current: 0, total: quizMap.size});
     document.querySelector(".submit-button").addEventListener('click', () => {
         questionValidation();
     });
@@ -23,7 +23,7 @@ export const init = () => {
         newDiv.id = "stoodle-div";
         const questionText = document.createElement("p");
         questionText.id = "stoodle-question-text";
-        questionText.textContent = "Question " + (index + 1) + ": " + key;
+        questionText.textContent = M.util.get_string('js_quiz_questiontext', 'local_stoodle', {num: index + 1, text: key});
         newDiv.appendChild(questionText);
 
         switch (questionTypes[index]) {
@@ -109,7 +109,7 @@ export const init = () => {
         for (const [key, value] of quizMap.entries()) {
             const answerArray = value[1];
             const htmlQuestionP = questionDiv.children[index].children[0];
-            const questionText = "Question " + (index + 1) + ": " + key;
+            const questionText = M.util.get_string('js_quiz_questiontext', 'local_stoodle', {num: index + 1, text: key});
             let finalIcon = incorrectIcon;
 
             if (questionTypes[index] === 0) {
@@ -123,7 +123,7 @@ export const init = () => {
                 // Check Multiple Choice
                 const option = document.querySelector('input[name= "' + index + '"]:checked');
                 if (option === null) {
-                    alert("Question " + (index + 1) + " is unanswered");
+                    alert(M.util.get_string('js_quiz_unansweredtext', 'local_stoodle', index + 1));
                     return;
                 }
                 if (answerArray[0] === option.value) {
@@ -134,7 +134,7 @@ export const init = () => {
                 // Check Select All
                 const option = document.querySelectorAll('input[name="' + index + '"]:checked');
                 if (option.length < 1) {
-                    alert("Question " + (index + 1) + " is unanswered");
+                    alert(M.util.get_string('js_quiz_unansweredtext', 'local_stoodle', index + 1));
                     return;
                 }
                 let selectAllCorrectCounter = 0;
@@ -151,8 +151,7 @@ export const init = () => {
             htmlQuestionP.innerText = questionText + finalIcon;
             index++;
         }
-
-        scoreArea.innerText = "Score: " + numCorrect + " / " + quizMap.size;
+        scoreArea.innerText = M.util.get_string('js_quiz_scoretext', 'local_stoodle', {current: numCorrect, total: quizMap.size});
     }
 
     /**
