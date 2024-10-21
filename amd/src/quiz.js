@@ -81,6 +81,9 @@ export const init = () => {
         input.id = id;
         input.name = name;
         input.value = value;
+        if (type === "radio") {
+            input.className = "stoodle-radio-btn";
+        }
 
         // Create the label to go with it
         const label = document.createElement("label");

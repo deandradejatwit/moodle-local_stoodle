@@ -15,9 +15,10 @@
     along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 }}
 {{!
-    @template local_stoodle/flashcard_activity
+    @template local_stoodle/index
 
     Template purpose and description.
+    Template for index.php
 
     Classes required for JS:
     * none
@@ -26,29 +27,24 @@
     * none
 
     Context variables required for this template:
-    * database_flashcards
+    * none
 
     Example context (json):
     {
     }
 }}
 <link rel="stylesheet" href="style/styles.css">
-<div class="stoodle-flashcards">
-    <div class="stoodle-flashcard-set" style="display: none;">{{database_flashcards}}</div>
-
-    <p class="stoodle-js-counter"></p>
-
-    <div class="stoodle-js-card">
-        <p id="stoodle-card-question" class="stoodle-js-content"></p>
-        <p id="stoodle-card-answer" class="stoodle-js-content"></p>
+<div class="stoodle-body">
+    <h3 id="instance-5-header" class="h5 card-title d-inline">Study Tools</h3>
+    <hr>
+    <div class="stoodle-tools">
+        <img class="stoodle-flashcard-image" src="images/flashcards.png" alt="flashcards"><br>
+        <p>Create, edit, save and study sets of flashcards.</p>
+        <a href="flashcard.php"><button type="button" class="btn btn-lg stoodle-btn btn-flashcard">Flashcards</button></a>
     </div>
-
-    <div class="stoodle-lr-buttons">
-        <button class="stoodle-js-prev">&#60;</button>
-        <button class="stoodle-js-next">&#62;</button>
-    </div>
-
-    <div class="stoodle-exit-button">
-        <a href="flashcard.php"><button class="btn btn-secondary btn-lg">Exit</button></a>
+    <div class="stoodle-tools">
+        <img class="stoodle-quiz-image" src="images/quiz.jpg" alt="quiz"><br>
+        <p>Make and save quizzes to prepare for upcoming exams.</p>
+        <a href="quiz.php"><button type="button" class="btn btn-lg stoodle-btn btn-quiz">Quiz</button></a>
     </div>
 </div>

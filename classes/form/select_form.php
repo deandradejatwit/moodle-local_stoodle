@@ -63,9 +63,9 @@ class select_form extends \moodleform {
             $mform->addElement('select', 'card_sets', get_string('selectsetstr', 'local_stoodle'), $options);
 
             $align = [
-                $mform->createElement('submit', 'submitform', $submitlabel),
-                $mform->createElement('submit', 'editset', get_string('edit')),
-                $mform->createElement('cancel', 'delete', get_string('delete')),
+                $mform->createElement('submit', 'stoodle-submitform', $submitlabel),
+                $mform->createElement('submit', 'stoodle-editset', get_string('edit')),
+                $mform->createElement('cancel', 'stoodle-delete', get_string('delete')),
             ];
             $mform->addGroup($align, 'buttons', '', '', false);
         } else if ($priorpage == 'quiz') {
@@ -84,9 +84,9 @@ class select_form extends \moodleform {
             $mform->addElement('select', 'quizzes', get_string('selectquizstr', 'local_stoodle'), $options);
 
             $align = [
-                $mform->createElement('submit', 'submitform', $submitlabel),
-                $mform->createElement('submit', 'editquiz', get_string('edit')),
-                $mform->createElement('cancel', 'delete', get_string('delete')),
+                $mform->createElement('submit', 'stoodle-submitform', $submitlabel),
+                $mform->createElement('submit', 'stoodle-editquiz', get_string('edit')),
+                $mform->createElement('cancel', 'stoodle-delete', get_string('delete')),
             ];
 
             $mform->setType('editquiz', PARAM_ACTION);

@@ -1,13 +1,35 @@
-
-/* Flashcard activity styles */
-.flashcards {
-    height: 100%;
-    width: 350px;
-    margin: auto;
+/* index.php styles */
+.stoodle-body {
     text-align: center;
 }
 
-.js-card {
+.stoodle-tools {
+    margin-top: 1em;
+    margin-bottom:2em;
+    display:inline-block;
+    margin-left: 1em;
+    margin-right: 1em;
+}
+
+.stoodle-flashcard-image {
+    height: auto;
+    width: 225px;
+    margin-bottom:1em;
+}
+
+.stoodle-quiz-image {
+    height: auto;
+    width: 125px;
+    margin-bottom:1em;
+}
+
+.stoodle-btn {
+    background-color: #f98012;
+}
+
+
+/* flashcard_activity.php styles */
+.stoodle-js-card {
     font-size: 1.25em;
     height: 200px;
     width: 350px;
@@ -23,11 +45,11 @@
     box-shadow: 0px 3px 18px 3px rgba(0, 0, 0, 0.2);
 }
 
-.js-card.is-flipped {
+.stoodle-js-card.is-flipped {
     transform: rotateY(180deg);
 }
 
-.js-content {
+.stoodle-js-content {
     color: white;
     position: absolute;
     -webkit-backface-visibility: hidden;
@@ -35,15 +57,26 @@
     overflow: hidden;
 }
 
-#card-answer {
+.stoodle-js-counter {
+    float: left;
+}
+
+.stoodle-flashcards {
+    height: 100%;
+    width: 350px;
+    margin: auto;
+    text-align: center;
+}
+
+#stoodle-card-answer {
     transform: rotateY(180deg);
 }
 
-.lr-buttons {
+.stoodle-lr-buttons {
     margin-top: 20px;
 }
 
-.lr-buttons > button {
+.stoodle-lr-buttons > button {
     height: 50px;
     width: 50px;
     border: none;
@@ -56,20 +89,16 @@
     margin-right: 20px;
 }
 
-.lr-buttons > button:hover {
+.stoodle-lr-buttons > button:hover {
     cursor: pointer;
 }
 
-.exit-button {
+.stoodle-exit-button {
     margin-top: 20px;
 }
 
-.js-counter {
-    float: left;
-}
 
-
-/* Quiz Activity Styles */
+/* quiz_activity.php styles */
 #stoodle-div {
     margin-bottom: 10px;
 }
@@ -78,40 +107,41 @@
     margin-bottom: 10px;
 }
 
-input[type="radio"] {
+.stoodle-radio-btn {
     margin-top: auto;
     margin-right: 8px;
     vertical-align: middle;
 }
-.submit-button{
+
+.stoodle-submit-button {
     margin-bottom: .5em;
 }
 
 
 /* quiz.php styles */
-.nav-buttons {
+.stoodle-nav-buttons {
     margin-left: 202.25px;
 }
 
-#id_delete.btn-primary {
+#id_stoodle-delete.btn-primary {
     color: #fff;
     background-color: #ca3120;
     border-color: #ca3120;
 }
 
-#id_delete.btn-primary:hover {
+#id_stoodle-delete.btn-primary:hover {
     color: #fff;
     background-color: #a9291b;
     border-color: #9e2619;
 }
 
-#id_editquiz.btn-primary {
+#id_stoodle-editquiz.btn-primary {
     color: #1d2125;
     background-color: #ced4da;
     border-color: #ced4da;
 }
 
-#id_editquiz.btn-primary:hover {
+#id_stoodle-editquiz.btn-primary:hover {
     color: #1d2125;
     background-color: #b8c1ca;
     border-color: #b1bbc4;
@@ -119,13 +149,13 @@ input[type="radio"] {
 
 
 /* flashcard.php styles */
-#id_editset.btn-primary {
+#id_stoodle-editset.btn-primary {
     color: #1d2125;
     background-color: #ced4da;
     border-color: #ced4da;
 }
 
-#id_editset.btn-primary:hover {
+#id_stoodle-editset.btn-primary:hover {
     color: #1d2125;
     background-color: #b8c1ca;
     border-color: #b1bbc4;

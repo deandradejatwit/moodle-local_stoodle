@@ -1,8 +1,8 @@
 export const init = () => {
-    const dbFlashcardSet = JSON.parse(document.querySelector(".flashcard-set").innerHTML);
-    const htmlCard = document.querySelector(".js-card");
-    const nextButton = document.querySelector('.js-next');
-    const previousButton = document.querySelector('.js-prev');
+    const dbFlashcardSet = JSON.parse(document.querySelector(".stoodle-flashcard-set").innerHTML);
+    const htmlCard = document.querySelector(".stoodle-js-card");
+    const nextButton = document.querySelector('.stoodle-js-next');
+    const previousButton = document.querySelector('.stoodle-js-prev');
     const dbNames = Object.keys(dbFlashcardSet);
 
     let currFlashcardElem = 0;
@@ -13,7 +13,7 @@ export const init = () => {
     htmlCard.addEventListener("click", () => {
         onAnswerSide = !onAnswerSide;
         htmlCard.classList.toggle('is-flipped');
-        document.getElementById("card-answer").innerHTML = dbFlashcardSet[dbNames[currFlashcardElem]].answer;
+        document.getElementById("stoodle-card-answer").innerHTML = dbFlashcardSet[dbNames[currFlashcardElem]].answer;
     });
 
     // Previous Flashcard Button
@@ -42,7 +42,7 @@ export const init = () => {
             htmlCard.classList.toggle('is-flipped');
             onAnswerSide = false;
         }
-        document.getElementById("card-question").innerHTML = dbFlashcardSet[dbNames[arrElem]].question;
-        document.querySelector(".js-counter").innerText = "Flashcard No. " + (currFlashcardElem + 1);
+        document.getElementById("stoodle-card-question").innerHTML = dbFlashcardSet[dbNames[arrElem]].question;
+        document.querySelector(".stoodle-js-counter").innerText = "Flashcard No. " + (currFlashcardElem + 1);
     }
 };
