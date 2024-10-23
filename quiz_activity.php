@@ -31,8 +31,11 @@ global $DB, $SESSION;
 $PAGE->set_context(context_system::instance());
 $PAGE->set_url(new moodle_url('/local/stoodle/quiz_activity.php'));
 $PAGE->set_pagelayout('standard');
-$PAGE->set_title('Quiz');
-$PAGE->set_heading('Quiz');
+$PAGE->set_title(get_string('quizname', 'local_stoodle'));
+$PAGE->set_heading(get_string('quizname', 'local_stoodle'));
+$PAGE->requires->string_for_js('js_quiz_scoretext', 'local_stoodle');
+$PAGE->requires->string_for_js('js_quiz_questiontext', 'local_stoodle');
+$PAGE->requires->string_for_js('js_quiz_unansweredtext', 'local_stoodle');
 
 $quizname = $SESSION->quiz_set_name;
 $questionset = json_encode($DB->get_records('stoodle_quiz_questions', ['stoodle_quizid' => $quizname]));
@@ -46,6 +49,7 @@ $PAGE->requires->js_call_amd('local_stoodle/quiz', 'init');
 $templatecontext = (object)[
     'database_questions' => $questionset,
     'database_answers' => $answerset,
+    'exit_string' => get_string('exitstr', 'local_stoodle'),
 ];
 
 echo $OUTPUT->render_from_template('local_stoodle/quiz_activity', $templatecontext);

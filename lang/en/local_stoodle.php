@@ -25,12 +25,14 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-
 $string['addquestion'] = 'Add Question';
 $string['answerstr'] = 'Enter Answer:';
+$string['backstr'] = 'Back';
 $string['correctstr'] = 'Input The Value Of The Correct Answer';
+$string['createnewquiz'] = 'Create New Quiz';
 $string['createquestion'] = 'Create Question';
 $string['createquiz'] = 'Create Quiz';
+$string['createsetstr'] = 'Create New Set';
 $string['currentanswer'] = 'Current Answer:';
 $string['currentoption'] = 'Current Option:';
 $string['currentquestion'] = 'Current Question:';
@@ -42,15 +44,25 @@ $string['errflashcardcreate'] = 'Please fill in the set name and at least one se
 $string['errquestioncreate'] = 'Please fill in all available form inputs and select at least one option as correct.';
 $string['errquizcreate'] = 'A quiz with that name already exists.';
 $string['errsetname'] = 'A set with that name already exists.';
+$string['exitstr'] = 'Exit';
+$string['flashcard_menu'] = 'Flashcards Menu';
 $string['flashcardactivityname'] = 'Flashcards';
 $string['flashcardcreate'] = 'Create Flashcards';
 $string['flashcardedit'] = 'Edit Flashcards';
+$string['js_cardnumber'] = 'Flashcard No. {$a}';
+$string['js_quiz_questiontext'] = 'Question {$a->num}: {$a->text}';
+$string['js_quiz_scoretext'] = 'Score: {$a->current} / {$a->total}';
+$string['js_quiz_unansweredtext'] = 'Question {$a} is unanswered.';
+$string['mainflashcards'] = 'Create, edit, save and study sets of flashcards.';
+$string['mainquiz'] = 'Make and save quizzes to prepare for upcoming exams.';
+$string['maintitle'] = 'Study Tools';
 $string['optioncorrect'] = ' - Answer';
 $string['optionstr'] = 'Enter Option:';
 $string['pluginname'] = 'Stoodle';
 $string['questionstr'] = 'Enter Question:';
-$string['quizcreate'] = 'Create Quiz';
 $string['quizedit'] = 'Edit Quiz';
+$string['quizmenu'] = 'Quiz Menu';
+$string['quizname'] = 'Quiz';
 $string['quiznamestr'] = 'Set a Quiz Name:';
 $string['quizoption'] = 'Option:';
 $string['quizquestion'] = 'Question:';

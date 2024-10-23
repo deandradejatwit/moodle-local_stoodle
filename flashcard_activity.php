@@ -31,8 +31,9 @@ global $DB, $SESSION;
 $PAGE->set_context(context_system::instance());
 $PAGE->set_url(new moodle_url('/local/stoodle/flashcard_activity.php'));
 $PAGE->set_pagelayout('standard');
-$PAGE->set_title('Flashcards');
-$PAGE->set_heading('Flashcards');
+$PAGE->set_title(get_string('flashcardactivityname', 'local_stoodle'));
+$PAGE->set_heading(get_string('flashcardactivityname', 'local_stoodle'));
+$PAGE->requires->string_for_js('js_cardnumber', 'local_stoodle');
 
 $flashcardid = $SESSION->activity_set_name;
 $flashcardset = json_encode($DB->get_records('stoodle_flashcards', ['stoodle_flashcard_setid' => $flashcardid]));
@@ -44,6 +45,7 @@ $PAGE->requires->js_call_amd('local_stoodle/flashcard', 'init');
 
 $templatecontext = (object)[
     'database_flashcards' => $flashcardset,
+    'exit_string' => get_string('exitstr', 'local_stoodle'),
 ];
 
 echo $OUTPUT->render_from_template('local_stoodle/flashcard_activity', $templatecontext);

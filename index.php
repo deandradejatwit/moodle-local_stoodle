@@ -35,7 +35,13 @@ $PAGE->set_heading(get_string('pluginname', 'local_stoodle'));
 
 echo $OUTPUT->header();
 
-$templatecontext = (object)[];
+$templatecontext = (object)[
+    'main_title' => get_string('maintitle', 'local_stoodle'),
+    'flashcard_string' => get_string('flashcardactivityname', 'local_stoodle'),
+    'quiz_string' => get_string('quizname', 'local_stoodle'),
+    'flashcard_info' => get_string('mainflashcards', 'local_stoodle'),
+    'quiz_info' => get_string('mainquiz', 'local_stoodle'),
+];
 
 echo $OUTPUT->render_from_template('local_stoodle/index', $templatecontext);
 

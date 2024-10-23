@@ -32,7 +32,7 @@ $PAGE->set_context(context_system::instance());
 $PAGE->set_url(new moodle_url('/local/stoodle/flashcard.php'));
 $PAGE->set_pagelayout('standard');
 $PAGE->set_title(get_string('pluginname', 'local_stoodle'));
-$PAGE->set_heading("Flashcard Menu");  // Replace with get_string.
+$PAGE->set_heading(get_string('flashcard_menu', 'local_stoodle'));
 
 $SESSION->currentpage = 'flashcard';
 
@@ -86,7 +86,10 @@ echo $OUTPUT->header();
 
 $select->display();
 
-$templatecontext = (object)[];
+$templatecontext = (object)[
+    'back_string' => get_string('backstr', 'local_stoodle'),
+    'create_string' => get_string('createsetstr', 'local_stoodle'),
+];
 
 echo $OUTPUT->render_from_template('local_stoodle/flashcard', $templatecontext);
 

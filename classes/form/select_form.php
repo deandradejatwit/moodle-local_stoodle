@@ -43,9 +43,9 @@ class select_form extends \moodleform {
         $priorpage = $SESSION->currentpage;
 
         $submitlabel = get_string('submit');
-        $mform->registerNoSubmitButton('editset');
-        $mform->registerNoSubmitButton('editquiz');
-        $mform->_registerCancelButton('delete');
+        $mform->registerNoSubmitButton('stoodle-editset');
+        $mform->registerNoSubmitButton('stoodle-editquiz');
+        $mform->_registerCancelButton('stoodle-delete');
 
         if ($priorpage == 'flashcard') {
 
