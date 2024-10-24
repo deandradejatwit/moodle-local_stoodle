@@ -27,7 +27,6 @@
 require('../../config.php');
 
 require_login();
-global $error;
 
 $url = new moodle_url('/local/stoodle/quiz_edit.php', []);
 $PAGE->set_url($url);
@@ -48,8 +47,6 @@ if ($editquizform->is_cancelled()) {
     $questionid = required_param_array('questionid', PARAM_INT);
 
     $yesarr = required_param_array('yes', PARAM_INT);
-
-    $quiz = required_param('quizname', PARAM_TEXT);
     $questions = required_param_array('questions', PARAM_TEXT);
     $options = required_param_array('options', PARAM_TEXT);
 
@@ -113,10 +110,10 @@ if ($editquizform->is_cancelled()) {
             }
         }
 
-        $url = new moodle_url('/local/stoodle/quiz_edit.php');
+        $url = new moodle_url('/local/stoodle/quiz.php');
         redirect($url);
     } else {
-        $error = true;
+        redirect(new moodle_url('/local/stoodle/quiz_edit.php'),get_string('erredit', 'local_stoodle'), '', 'error');
     }
 }
 
@@ -135,9 +132,7 @@ function check_not_empty($arr1) {
 }
 
 echo $OUTPUT->header();
-if ($error) {
-    echo $OUTPUT->notification(get_string('erredit', 'local_stoodle'), 'error');
-}
+
 $editquizform->display();
 
 echo $OUTPUT->footer();

@@ -50,9 +50,7 @@ if ($select->no_submit_button_pressed()) {
         redirect($url);
     }
 
-    $SESSION->edit_set_id = $set;
-
-    $url = new moodle_url('/local/stoodle/flashcard_edit.php');
+    $url = new moodle_url('/local/stoodle/flashcard_edit.php', ['edit_set_id' => $set]);
     redirect($url);
     // If delete button is pressed delete selected set and refresh page.
 } else if ($select->is_cancelled()) {
@@ -63,11 +61,9 @@ if ($select->no_submit_button_pressed()) {
         $url = new moodle_url('/local/stoodle/flashcard_create.php');
         redirect($url);
     }
-
-    $SESSION->edit_set_id = $set;
     $DB->delete_records_select('stoodle_flashcard_set', 'id = ?', [$set]);
     $DB->delete_records_select('stoodle_flashcards', 'stoodle_flashcard_setid = ?', [$set]);
-    $url = new moodle_url('/local/stoodle/flashcard.php');
+    $url = new moodle_url('/local/stoodle/flashcard.php', ['edit_set', $set]);
     redirect($url);
 
     // If submit is pressed pass selected set to flashcard_activity and redirect.
@@ -77,8 +73,7 @@ if ($select->no_submit_button_pressed()) {
         $url = new moodle_url('/local/stoodle/flashcard_create.php');
         redirect($url);
     }
-    $SESSION->activity_set_name = $set;
-    $url = new moodle_url('/local/stoodle/flashcard_activity.php');
+    $url = new moodle_url('/local/stoodle/flashcard_activity.php', ['set', $set]);
     redirect($url);
 }
 

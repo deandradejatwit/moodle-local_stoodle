@@ -40,11 +40,13 @@ class edit_quiz extends \moodleform {
         global $DB, $SESSION;
         $mform = $this->_form;
 
-        $quizid = $SESSION->edit_quiz_id;
-        $quiz = $DB->get_record('stoodle_quiz', ['id' => $quizid], 'name');
+        $quizid = optional_param('edit_quiz_id', '', PARAM_TEXT);
+        $mform->addElement('hidden', 'quizid', $quizid);
+        $mform->setType('quizid', PARAM_TEXT);
+
+        $quiz = $DB->get_record('stoodle_quiz', ['id' => $quizid],'name');
         $questions = $DB->get_records_list('stoodle_quiz_questions', 'stoodle_quizid', ['stoodle_quizid' => $quizid], '', '*');
 
-        $mform->addElement('hidden', 'quizid', $quizid);
         $mform->addElement('static', 'priorquiz', get_string('currentquizname', 'local_stoodle'), $quiz->name);
         $mform->addElement('textarea', 'quizname', get_string('quiznamestr', 'local_stoodle'));
 

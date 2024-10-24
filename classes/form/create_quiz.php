@@ -37,9 +37,9 @@ class create_quiz extends \moodleform {
      *
      */
     public function definition() {
-        global $DB, $SESSION;
+        global $DB;
 
-        $name = $SESSION->quiz_name;
+        $name = optional_param('quizname', '', PARAM_TEXT);
 
         $mform = $this->_form;
 
@@ -53,8 +53,10 @@ class create_quiz extends \moodleform {
 
             // List created quiz name and any questions created in create_question form.
         } else {
+            $mform->addElement('hidden', 'quiz', $name);
+            $mform->setType('quiz', PARAM_TEXT);
+
             $quiz = $DB->get_record_select('stoodle_quiz', 'name = ?', [$name]);
-            $SESSION->quiz_id = $quiz->id;
             $counto = 1;
             $countq = 1;
 
