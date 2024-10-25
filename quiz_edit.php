@@ -28,10 +28,9 @@ require('../../config.php');
 
 require_login();
 
-$url = new moodle_url('/local/stoodle/quiz_edit.php', []);
-$PAGE->set_url($url);
 $PAGE->set_context(context_system::instance());
-$PAGE->set_url(new moodle_url('/local/stoodle/quiz_edit.php'));
+$url = new moodle_url('/local/stoodle/quiz_edit.php');
+$PAGE->set_url($url);
 $PAGE->set_pagelayout('standard');
 $PAGE->set_title(get_string('quizedit', 'local_stoodle'));
 $PAGE->set_heading(get_string('quizedit', 'local_stoodle'));
@@ -43,12 +42,13 @@ if ($editquizform->is_cancelled()) {
     redirect($url);
 } else if ($data = $editquizform->get_data()) {
     $quizid = required_param('quizid', PARAM_INT);
+    $quiz = required_param('quizname', PARAM_TEXT);
+    $options = required_param_array('options', PARAM_TEXT);
     $optionid = required_param_array('optionid', PARAM_INT);
+    $questions = required_param_array('questions', PARAM_TEXT);
     $questionid = required_param_array('questionid', PARAM_INT);
 
-    $yesarr = required_param_array('yes', PARAM_INT);
-    $questions = required_param_array('questions', PARAM_TEXT);
-    $options = required_param_array('options', PARAM_TEXT);
+    $yesarr = optional_param_array('yes', [], PARAM_INT);;
 
     if (!empty($quiz) || check_not_empty($questions) || check_not_empty($options) ||  check_not_empty($yesarr)) {
 
@@ -85,7 +85,7 @@ if ($editquizform->is_cancelled()) {
             $o = $DB->get_record_select('stoodle_quiz_question_options', 'id = ?', [$optionid[$j]]);
             $q = $DB->get_record_select('stoodle_quiz_questions', 'id = ?', [$o->stoodle_quiz_questionsid]);
 
-            if ($yesarr[$count] == 0 && $q->is_multiple_choice == 1) {
+            if ($q->is_multiple_choice == 1 && $yesarr[$count] == 0) {
                 $nextidx = $count + 1;
                 if (isset($yesarr[$nextidx]) && $yesarr[$nextidx] == 1 ) {
                     $optionedit->id = $optionid[$j];
@@ -110,10 +110,10 @@ if ($editquizform->is_cancelled()) {
             }
         }
 
-        $url = new moodle_url('/local/stoodle/quiz.php');
+        $url = new moodle_url('/local/stoodle/quiz_edit.php',['edit_quiz_id'=>$quizid] );
         redirect($url);
     } else {
-        redirect(new moodle_url('/local/stoodle/quiz_edit.php'),get_string('erredit', 'local_stoodle'), '', 'error');
+        redirect(new moodle_url('/local/stoodle/quiz_edit.php',['edit_quiz_id'=>$quizid] ),get_string('erredit', 'local_stoodle'), '', 'error');
     }
 }
 

@@ -87,8 +87,11 @@ if ($editsetform->is_cancelled()) {
         $url = new moodle_url('/local/stoodle/flashcard_edit.php');
         redirect($url);
     } else {
-        redirect(new moodle_url('/local/stoodle/flashcard-create.php'),get_string('erredit', 'local_stoodle'), '', 'error');
+        redirect(new moodle_url('/local/stoodle/flashcard_edit.php'),get_string('erredit', 'local_stoodle'), '', 'error');
     }
+} else {
+    $url = new moodle_url('/local/stoodle/flashcard.php');
+    //redirect($url);
 }
 
 /**

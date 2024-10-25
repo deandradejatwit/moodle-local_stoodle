@@ -26,7 +26,6 @@
 
 require_once('../../config.php');
 require_login();
-global $SESSION;
 
 $PAGE->set_context(context_system::instance());
 $PAGE->set_url(new moodle_url('/local/stoodle/flashcard.php'));
@@ -63,7 +62,7 @@ if ($select->no_submit_button_pressed()) {
     }
     $DB->delete_records_select('stoodle_flashcard_set', 'id = ?', [$set]);
     $DB->delete_records_select('stoodle_flashcards', 'stoodle_flashcard_setid = ?', [$set]);
-    $url = new moodle_url('/local/stoodle/flashcard.php', ['edit_set', $set]);
+    $url = new moodle_url('/local/stoodle/flashcard.php');
     redirect($url);
 
     // If submit is pressed pass selected set to flashcard_activity and redirect.

@@ -28,9 +28,10 @@ require('../../config.php');
 
 require_login();
 
+
+$PAGE->set_context(context_system::instance());
 $url = new moodle_url('/local/stoodle/quiz_create.php', []);
 $PAGE->set_url($url);
-$PAGE->set_context(context_system::instance());
 $PAGE->set_pagelayout('standard');
 $PAGE->set_title(get_string('createquiz', 'local_stoodle'));
 $PAGE->set_heading(get_string('createquiz', 'local_stoodle'));

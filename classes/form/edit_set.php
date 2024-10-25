@@ -31,42 +31,51 @@ require_once($CFG->libdir . '/formslib.php');
  * create flashcard edit form.
  *
  */
-class edit_set extends \moodleform {
+class edit_set extends \moodleform
+{
     /**
      * defining the functionality and structure of edit_set form.
      *
      */
-    public function definition() {
-        global $DB, $SESSION;
+    public function definition()
+    {
+        global $DB;
         $mform = $this->_form;
 
-        $setid = required_param('edit_set_id', PARAM_TEXT);
-        $set = $DB->get_record('stoodle_flashcard_set', ['id' => $setid], 'name');
-        $setcards = $DB->get_records_list('stoodle_flashcards', 'stoodle_flashcard_setid',
-        ['stoodle_flashcard_setid' => $setid], '', '*');
+        $setid = optional_param('edit_set_id', '', PARAM_TEXT);
 
-        $SESSION->test = $setcards;
+        if (!empty($setid)) {
+            $set = $DB->get_record('stoodle_flashcard_set', ['id' => $setid], 'name');
+            $setcards = $DB->get_records_list(
+                'stoodle_flashcards',
+                'stoodle_flashcard_setid',
+                ['stoodle_flashcard_setid' => $setid],
+                '',
+                '*'
+            );
 
-        $mform->addElement('hidden', 'setid', $setid);
-        $mform->addElement('static', 'priorquestion', get_string('currentsetname', 'local_stoodle'), $set->name);
-        $mform->addElement('textarea', 'setname', get_string('setnamestr', 'local_stoodle'));
+            $mform->addElement('hidden', 'setid', $setid);
+            $mform->addElement('static', 'priorquestion', get_string('currentsetname', 'local_stoodle'), $set->name);
+            $mform->addElement('textarea', 'setname', get_string('setnamestr', 'local_stoodle'));
 
-        $mform->setType('setname', PARAM_TEXT);
-        $mform->setType('setid', PARAM_INT);
+            $mform->setType('setname', PARAM_TEXT);
+            $mform->setType('setid', PARAM_INT);
 
-        foreach ($setcards as $setcard) {
-            $mform->addElement('hidden', 'cardid[]', $setcard->id);
+            foreach ($setcards as $setcard) {
+                $mform->addElement('hidden', 'cardid[]', $setcard->id);
 
-            $mform->addElement('static', 'priorquestion', get_string('currentquestion', 'local_stoodle'), $setcard->question);
-            $mform->addElement('textarea', 'questions[]', get_string('questionstr', 'local_stoodle'));
-            $mform->addElement('static', 'prioranswer', get_string('currentanswer', 'local_stoodle'), $setcard->answer);
-            $mform->addElement('textarea', 'answers[]', get_string('answerstr', 'local_stoodle'));
+                $mform->addElement('static', 'priorquestion', get_string('currentquestion', 'local_stoodle'), $setcard->question);
+                $mform->addElement('textarea', 'questions[]', get_string('questionstr', 'local_stoodle'));
+                $mform->addElement('static', 'prioranswer', get_string('currentanswer', 'local_stoodle'), $setcard->answer);
+                $mform->addElement('textarea', 'answers[]', get_string('answerstr', 'local_stoodle'));
 
+            }
+
+            $mform->setType('cardid[]', PARAM_INT);
+            $mform->setType('questions[]', PARAM_TEXT);
+            $mform->setType('answers[]', PARAM_TEXT);
         }
+            $this->add_action_buttons();
 
-        $mform->setType('cardid[]',  PARAM_INT);
-        $mform->setType('questions[]', PARAM_TEXT);
-        $mform->setType('answers[]', PARAM_TEXT);
-        $this->add_action_buttons();
     }
 }

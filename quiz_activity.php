@@ -26,7 +26,7 @@
 
 require_once('../../config.php');
 require_login();
-global $DB, $SESSION;
+global $DB;
 
 $PAGE->set_context(context_system::instance());
 $PAGE->set_url(new moodle_url('/local/stoodle/quiz_activity.php'));

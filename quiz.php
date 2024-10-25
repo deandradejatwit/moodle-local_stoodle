@@ -26,7 +26,6 @@
 
 require_once('../../config.php');
 require_login();
-global $SESSION;
 
 $PAGE->set_context(context_system::instance());
 $PAGE->set_url(new moodle_url('/local/stoodle/quiz.php'));
@@ -35,9 +34,6 @@ $PAGE->set_title(get_string('pluginname', 'local_stoodle'));
 $PAGE->set_heading(get_string('quizmenu', 'local_stoodle'));
 
 $SESSION->currentpage = 'quiz';
-$SESSION->question_count = 0;
-$SESSION->quiz_id = null;
-$SESSION->quiz_name = null;
 
 $select = new \local_stoodle\form\select_form();
 
