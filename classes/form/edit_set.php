@@ -31,14 +31,12 @@ require_once($CFG->libdir . '/formslib.php');
  * create flashcard edit form.
  *
  */
-class edit_set extends \moodleform
-{
+class edit_set extends \moodleform {
     /**
      * defining the functionality and structure of edit_set form.
      *
      */
-    public function definition()
-    {
+    public function definition() {
         global $DB;
         $mform = $this->_form;
 

@@ -40,7 +40,7 @@ $PAGE->set_heading(get_string('createquestion', 'local_stoodle'));
 $createquestionform = new \local_stoodle\form\create_question();
 if ($createquestionform->is_cancelled()) {
     $SESSION->question_count -= 1;
-    $url = new moodle_url('/local/stoodle/quiz_create.php', ['quizname'=>$quizname]);
+    $url = new moodle_url('/local/stoodle/quiz_create.php', ['quizname' => $quizname]);
     redirect($url);
 } else if ($data = $createquestionform->get_data()) {
     $optradio = required_param_array('optradio', PARAM_TEXT);
@@ -83,7 +83,8 @@ if ($createquestionform->is_cancelled()) {
         if ($DB->get_record_select('stoodle_quiz', 'id = ?', [$quiz->id]) &&
         !$DB->get_record_select('stoodle_quiz_questions', 'question_text = ? && usermodified = ?', [$question, $USER->id])) {
             $DB->insert_record('stoodle_quiz_questions', $recordquestion);
-            $ques = $DB->get_record_select('stoodle_quiz_questions', 'question_text = ? && usermodified = ?', [$question, $USER->id]);
+            $ques = $DB->get_record_select('stoodle_quiz_questions',
+            'question_text = ? && usermodified = ?', [$question, $USER->id]);
 
             for ($i = 0; $i <= count($answer) - 1; $i++) {
                 if (!empty($answer[$i])) {
@@ -97,12 +98,14 @@ if ($createquestionform->is_cancelled()) {
                     $DB->insert_record('stoodle_quiz_question_options', $recordanswers);
                 }
             }
-            redirect(new moodle_url('/local/stoodle/quiz_create.php', ['quizname'=>$quizname]));
+            redirect(new moodle_url('/local/stoodle/quiz_create.php', ['quizname' => $quizname]));
         } else {
-            redirect(new moodle_url('/local/stoodle/question_create.php', ['quizname'=>$quizname]),get_string('errquizcreate', 'local_stoodle'), '','error');
+            redirect(new moodle_url('/local/stoodle/question_create.php', ['quizname' => $quizname]),
+            get_string('errquizcreate', 'local_stoodle'), '', 'error');
         }
     } else {
-        redirect(new moodle_url('/local/stoodle/question_create.php', ['quizname'=>$quizname]),get_string('errquestioncreate', 'local_stoodle'), '','error');
+        redirect(new moodle_url('/local/stoodle/question_create.php', ['quizname' => $quizname]),
+        get_string('errquestioncreate', 'local_stoodle'), '', 'error');
     }
 }
 

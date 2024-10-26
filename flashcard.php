@@ -72,7 +72,7 @@ if ($select->no_submit_button_pressed()) {
         $url = new moodle_url('/local/stoodle/flashcard_create.php');
         redirect($url);
     }
-    $url = new moodle_url('/local/stoodle/flashcard_activity.php', ['set'=> $set]);
+    $url = new moodle_url('/local/stoodle/flashcard_activity.php', ['set' => $set]);
     redirect($url);
 }
 

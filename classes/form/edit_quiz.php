@@ -31,14 +31,12 @@ require_once($CFG->libdir . '/formslib.php');
  * create quiz edit form.
  *
  */
-class edit_quiz extends \moodleform
-{
+class edit_quiz extends \moodleform {
     /**
      * defining the functionality and structure of edit_quiz form
      *
      */
-    public function definition()
-    {
+    public function definition() {
         global $DB;
         $mform = $this->_form;
 
@@ -69,7 +67,8 @@ class edit_quiz extends \moodleform
                     '*'
                 );
 
-                $mform->addElement('static', 'priorquestion', get_string('currentquestion', 'local_stoodle'), $question->question_text);
+                $mform->addElement('static', 'priorquestion', get_string('currentquestion', 'local_stoodle'),
+                $question->question_text);
                 $mform->addElement('textarea', 'questions[]', get_string('questionstr', 'local_stoodle'));
 
                 foreach ($options as $option) {
@@ -84,7 +83,8 @@ class edit_quiz extends \moodleform
                         );
                         $mform->addElement('textarea', 'options[]', get_string('optionstr', 'local_stoodle'));
                     } else {
-                        $mform->addElement('static', 'prioroption', get_string('currentoption', 'local_stoodle'), $option->option_text);
+                        $mform->addElement('static', 'prioroption', get_string('currentoption', 'local_stoodle'),
+                        $option->option_text);
                         $mform->addElement('textarea', 'options[]', get_string('optionstr', 'local_stoodle'));
                     }
 

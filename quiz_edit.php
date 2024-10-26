@@ -110,10 +110,11 @@ if ($editquizform->is_cancelled()) {
             }
         }
 
-        $url = new moodle_url('/local/stoodle/quiz_edit.php',['edit_quiz_id'=>$quizid] );
+        $url = new moodle_url('/local/stoodle/quiz_edit.php', ['edit_quiz_id' => $quizid] );
         redirect($url);
     } else {
-        redirect(new moodle_url('/local/stoodle/quiz_edit.php',['edit_quiz_id'=>$quizid] ),get_string('erredit', 'local_stoodle'), '', 'error');
+        redirect(new moodle_url('/local/stoodle/quiz_edit.php', ['edit_quiz_id' => $quizid] ),
+        get_string('erredit', 'local_stoodle'), '', 'error');
     }
 }
 

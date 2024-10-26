@@ -41,7 +41,7 @@ $createquizform = new \local_stoodle\form\create_quiz();
 if ($createquizform->no_submit_button_pressed()) {
     $name = required_param('quiz', PARAM_TEXT);
     $SESSION->question_count += 1;
-    $url = new moodle_url('/local/stoodle/question_create.php', ['quizname'=>$name]);
+    $url = new moodle_url('/local/stoodle/question_create.php', ['quizname' => $name]);
     redirect($url);
 
     // If cancel button pressed delete quiz name and any created questions from the database.
@@ -80,7 +80,8 @@ if ($createquizform->no_submit_button_pressed()) {
         $DB->insert_record('stoodle_quiz', $record);
         redirect(new moodle_url('/local/stoodle/quiz_create.php', ['quizname' => $name]));
     } else if (empty($name) && $DB->get_record_select('stoodle_quiz', 'name = ? && usermodified = ?', [$name, $USER->id])) {
-        redirect(new moodle_url('/local/stoodle/quiz_create.php', ['quizname' => $name]),get_string('errquizcreate', 'local_stoodle'), '', 'error');
+        redirect(new moodle_url('/local/stoodle/quiz_create.php', ['quizname' => $name]),
+        get_string('errquizcreate', 'local_stoodle'), '', 'error');
     } else {
         $SESSION->question_count = 0;
         redirect(new moodle_url('/local/stoodle/quiz.php'));

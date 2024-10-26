@@ -40,7 +40,7 @@ $PAGE->requires->string_for_js('js_quiz_unansweredtext', 'local_stoodle');
 $quizname = required_param('quiz_set_id', PARAM_TEXT);
 $questions = $DB->get_records('stoodle_quiz_questions', ['stoodle_quizid' => $quizname, 'usermodified' => $USER->id]);
 
-if($questions == null){
+if ($questions == null) {
     redirect(new moodle_url('/local/stoodle/quiz.php'));
 }
 
