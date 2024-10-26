@@ -27,11 +27,11 @@
 require('../../config.php');
 
 require_login();
-global $error;
 
+
+$PAGE->set_context(context_system::instance());
 $url = new moodle_url('/local/stoodle/quiz_create.php', []);
 $PAGE->set_url($url);
-$PAGE->set_context(context_system::instance());
 $PAGE->set_pagelayout('standard');
 $PAGE->set_title(get_string('createquiz', 'local_stoodle'));
 $PAGE->set_heading(get_string('createquiz', 'local_stoodle'));
@@ -39,33 +39,31 @@ $PAGE->set_heading(get_string('createquiz', 'local_stoodle'));
 // Instantiates the create_quiz constructor to create the create_quiz form.
 $createquizform = new \local_stoodle\form\create_quiz();
 if ($createquizform->no_submit_button_pressed()) {
+    $name = required_param('quiz', PARAM_TEXT);
     $SESSION->question_count += 1;
-    $url = new moodle_url('/local/stoodle/question_create.php');
+    $url = new moodle_url('/local/stoodle/question_create.php', ['quizname' => $name]);
     redirect($url);
 
     // If cancel button pressed delete quiz name and any created questions from the database.
 } else if ($createquizform->is_cancelled()) {
 
-    $quizid = $SESSION->quiz_id;
+    $name = required_param('quiz', PARAM_TEXT);
 
-    if (!empty($quizid)) {
+    if (!empty($name)) {
 
-        $DB->delete_records_select('stoodle_quiz', 'id = ?', [$quizid]);
-        $questions = $DB->get_records_select('stoodle_quiz_questions', 'stoodle_quizid = ?', [$quizid]);
+        $quiz = $DB->get_record_select('stoodle_quiz', 'name = ?', [$name]);
+        $questions = $DB->get_records_select('stoodle_quiz_questions', 'stoodle_quizid = ?', [$quiz->id]);
         foreach ($questions as $question) {
             $DB->delete_records_select('stoodle_quiz_question_options', 'stoodle_quiz_questionsid = ?', [$question->id]);
         }
-        $DB->delete_records_select('stoodle_quiz_questions', 'stoodle_quizid = ?', [$quizid]);
+        $DB->delete_records_select('stoodle_quiz_questions', 'stoodle_quizid = ?', [$quiz->id]);
+        $DB->delete_records_select('stoodle_quiz', 'name = ?', [$name]);
 
         $SESSION->question_count = 0;
-        $SESSION->quiz_name = null;
-        $SESSION->quiz_id = null;
     }
 
 
     $SESSION->question_count = 0;
-    $SESSION->quiz_name = null;
-    $SESSION->quiz_id = null;
 
     $url = new moodle_url('/local/stoodle/quiz.php');
     redirect($url);
@@ -73,26 +71,24 @@ if ($createquizform->no_submit_button_pressed()) {
     $name = optional_param('quiz', '', PARAM_TEXT);
 
     // Checks if created quiz name does not exists in the flashcard set database, if it does go on with quiz creation.
-    if (!empty($name) && !$DB->get_record_select('stoodle_quiz', 'name = ?', [$name])) {
-        $SESSION->quiz_name = $name;
+    if (!empty($name) && !$DB->get_record_select('stoodle_quiz', 'name = ? && usermodified = ?', [$name, $USER->id])) {
         $record = new stdClass;
         $record->name = $name;
         $record->usermodified = $USER->id;
         $record->timecreated = time();
         $record->timemodified = time();
         $DB->insert_record('stoodle_quiz', $record);
-        redirect(new moodle_url('/local/stoodle/quiz_create.php'));
-    } else if ($DB->get_record_select('stoodle_quiz', 'name = ?', [$name])) {
-        $error = true;
+        redirect(new moodle_url('/local/stoodle/quiz_create.php', ['quizname' => $name]));
+    } else if (empty($name) && $DB->get_record_select('stoodle_quiz', 'name = ? && usermodified = ?', [$name, $USER->id])) {
+        redirect(new moodle_url('/local/stoodle/quiz_create.php', ['quizname' => $name]),
+        get_string('errquizcreate', 'local_stoodle'), '', 'error');
     } else {
         $SESSION->question_count = 0;
         redirect(new moodle_url('/local/stoodle/quiz.php'));
     }
 }
 echo $OUTPUT->header();
-if ($error) {
-    echo $OUTPUT->notification(get_string('errquizcreate', 'local_stoodle'), 'error');
-}
+
 $createquizform->display();
 
 echo $OUTPUT->footer();

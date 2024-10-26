@@ -26,7 +26,7 @@
 
 require_once('../../config.php');
 require_login();
-global $DB, $SESSION;
+global $DB;
 
 $PAGE->set_context(context_system::instance());
 $PAGE->set_url(new moodle_url('/local/stoodle/quiz_activity.php'));
@@ -37,8 +37,15 @@ $PAGE->requires->string_for_js('js_quiz_scoretext', 'local_stoodle');
 $PAGE->requires->string_for_js('js_quiz_questiontext', 'local_stoodle');
 $PAGE->requires->string_for_js('js_quiz_unansweredtext', 'local_stoodle');
 
-$quizname = $SESSION->quiz_set_name;
-$questionset = json_encode($DB->get_records('stoodle_quiz_questions', ['stoodle_quizid' => $quizname]));
+$quizname = required_param('quiz_set_id', PARAM_TEXT);
+$questions = $DB->get_records('stoodle_quiz_questions', ['stoodle_quizid' => $quizname, 'usermodified' => $USER->id]);
+
+if ($questions == null) {
+    redirect(new moodle_url('/local/stoodle/quiz.php'));
+}
+
+
+$questionset = json_encode($questions);
 $answerset = json_encode($DB->get_records('stoodle_quiz_question_options'));
 
 

@@ -26,7 +26,6 @@
 
 require_once('../../config.php');
 require_login();
-global $SESSION;
 
 $PAGE->set_context(context_system::instance());
 $PAGE->set_url(new moodle_url('/local/stoodle/quiz.php'));
@@ -35,9 +34,6 @@ $PAGE->set_title(get_string('pluginname', 'local_stoodle'));
 $PAGE->set_heading(get_string('quizmenu', 'local_stoodle'));
 
 $SESSION->currentpage = 'quiz';
-$SESSION->question_count = 0;
-$SESSION->quiz_id = null;
-$SESSION->quiz_name = null;
 
 $select = new \local_stoodle\form\select_form();
 
@@ -52,9 +48,7 @@ if ($select->no_submit_button_pressed()) {
         redirect($url);
     }
 
-    $SESSION->edit_quiz_id = $quiz;
-
-    $url = new moodle_url('/local/stoodle/quiz_edit.php');
+    $url = new moodle_url('/local/stoodle/quiz_edit.php', ["edit_quiz_id" => $quiz]);
     redirect($url);
     // If delete button is pressed delete selected quiz and refresh page.
 } else if ($select->is_cancelled()) {
@@ -86,8 +80,7 @@ if ($select->no_submit_button_pressed()) {
         $url = new moodle_url('/local/stoodle/quiz_create.php');
         redirect($url);
     }
-    $SESSION->quiz_set_name = $quiz;
-    $url = new moodle_url('/local/stoodle/quiz_activity.php');
+    $url = new moodle_url('/local/stoodle/quiz_activity.php', ['quiz_set_id' => $quiz]);
     redirect($url);
 }
 

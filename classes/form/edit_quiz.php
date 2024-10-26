@@ -37,63 +37,78 @@ class edit_quiz extends \moodleform {
      *
      */
     public function definition() {
-        global $DB, $SESSION;
+        global $DB;
         $mform = $this->_form;
 
-        $quizid = $SESSION->edit_quiz_id;
-        $quiz = $DB->get_record('stoodle_quiz', ['id' => $quizid], 'name');
-        $questions = $DB->get_records_list('stoodle_quiz_questions', 'stoodle_quizid', ['stoodle_quizid' => $quizid], '', '*');
-
+        $quizid = optional_param('edit_quiz_id', '', PARAM_TEXT);
         $mform->addElement('hidden', 'quizid', $quizid);
-        $mform->addElement('static', 'priorquiz', get_string('currentquizname', 'local_stoodle'), $quiz->name);
-        $mform->addElement('textarea', 'quizname', get_string('quiznamestr', 'local_stoodle'));
+        $mform->setType('quizid', PARAM_TEXT);
 
-        $mform->setType('quizname', PARAM_TEXT);
-        $mform->setType('sequizidtid', PARAM_INT);
+        if (!empty($quizid)) {
+            $quiz = $DB->get_record('stoodle_quiz', ['id' => $quizid], 'name');
+            $questions = $DB->get_records_list('stoodle_quiz_questions', 'stoodle_quizid', ['stoodle_quizid' => $quizid], '', '*');
 
-        $countq = 0;
-        foreach ($questions as $question) {
-            $counto = 0;
-            $mform->addElement('hidden', 'questionid[]', $question->id);
+            $mform->addElement('static', 'priorquiz', get_string('currentquizname', 'local_stoodle'), $quiz->name);
+            $mform->addElement('textarea', 'quizname', get_string('quiznamestr', 'local_stoodle'));
 
-            $options = $DB->get_records_list('stoodle_quiz_question_options', 'stoodle_quiz_questionsid',
-            ['stoodle_quiz_questionsid' => $question->id], '', '*');
+            $mform->setType('quizname', PARAM_TEXT);
+            $mform->setType('sequizidtid', PARAM_INT);
 
-            $mform->addElement('static', 'priorquestion', get_string('currentquestion', 'local_stoodle'), $question->question_text);
-            $mform->addElement('textarea', 'questions[]', get_string('questionstr', 'local_stoodle'));
+            $countq = 0;
+            foreach ($questions as $question) {
+                $counto = 0;
+                $mform->addElement('hidden', 'questionid[]', $question->id);
 
-            foreach ($options as $option) {
-                $mform->addElement('hidden', 'optionid[]', $option->id);
+                $options = $DB->get_records_list(
+                    'stoodle_quiz_question_options',
+                    'stoodle_quiz_questionsid',
+                    ['stoodle_quiz_questionsid' => $question->id],
+                    '',
+                    '*'
+                );
 
-                if ($option->is_correct == 1) {
-                    $mform->addElement('static', 'prioroption', get_string('currentoption', 'local_stoodle'),
-                    $option->option_text . get_string('optioncorrect', 'local_stoodle'));
-                    $mform->addElement('textarea', 'options[]', get_string('optionstr', 'local_stoodle'));
-                } else {
-                    $mform->addElement('static', 'prioroption', get_string('currentoption', 'local_stoodle'), $option->option_text);
-                    $mform->addElement('textarea', 'options[]', get_string('optionstr', 'local_stoodle'));
+                $mform->addElement('static', 'priorquestion', get_string('currentquestion', 'local_stoodle'),
+                $question->question_text);
+                $mform->addElement('textarea', 'questions[]', get_string('questionstr', 'local_stoodle'));
+
+                foreach ($options as $option) {
+                    $mform->addElement('hidden', 'optionid[]', $option->id);
+
+                    if ($option->is_correct == 1) {
+                        $mform->addElement(
+                            'static',
+                            'prioroption',
+                            get_string('currentoption', 'local_stoodle'),
+                            $option->option_text . get_string('optioncorrect', 'local_stoodle')
+                        );
+                        $mform->addElement('textarea', 'options[]', get_string('optionstr', 'local_stoodle'));
+                    } else {
+                        $mform->addElement('static', 'prioroption', get_string('currentoption', 'local_stoodle'),
+                        $option->option_text);
+                        $mform->addElement('textarea', 'options[]', get_string('optionstr', 'local_stoodle'));
+                    }
+
+                    if ($question->is_multiple_choice == 1 && $option->is_correct == 1) {
+                        $mform->addElement('advcheckbox', 'yes[]', get_string('yes'), '', ['checked="checked"'], [0, 1]);
+                    } else if ($question->is_multiple_choice == 1) {
+                        $mform->addElement('advcheckbox', 'yes[]', get_string('yes'), '', '', [0, 1]);
+                    }
+
+                    $mform->setType('yes[]', PARAM_INT);
+                    $mform->setType('options[]', PARAM_TEXT);
+                    $counto++;
                 }
-
-                if ($question->is_multiple_choice == 1 && $option->is_correct == 1) {
-                    $mform->addElement('advcheckbox', 'yes[]', get_string('yes'), '', ['checked="checked"'], [0, 1]);
-                } else if ($question->is_multiple_choice == 1 ) {
-                    $mform->addElement('advcheckbox', 'yes[]', get_string('yes'), '',  '', [0, 1]);
-                }
-
-                $mform->setType('yes[]',  PARAM_INT);
-                $mform->setType('options[]', PARAM_TEXT);
-                $counto++;
+                $countq++;
+                $mform->addElement('hidden', 'optioncount[]', $counto);
             }
-            $countq++;
-            $mform->addElement('hidden', 'optioncount[]', $counto);
-        }
 
-        $mform->setType('quizid',  PARAM_INT);
-        $mform->setType('optioncount[]',  PARAM_INT);
-        $mform->setType('optionid[]',  PARAM_INT);
-        $mform->setType('questionid[]',  PARAM_INT);
-        $mform->setType('questions[]', PARAM_TEXT);
-        $this->add_action_buttons();
+            $mform->setType('quizid', PARAM_INT);
+            $mform->setType('optioncount[]', PARAM_INT);
+            $mform->setType('optionid[]', PARAM_INT);
+            $mform->setType('questionid[]', PARAM_INT);
+            $mform->setType('questions[]', PARAM_TEXT);
+        }
+            $this->add_action_buttons();
     }
 
 

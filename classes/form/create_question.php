@@ -37,8 +37,12 @@ class create_question extends \moodleform {
      *
      */
     public function definition() {
-        global $DB, $SESSION;
+        global $DB;
         $mform = $this->_form;
+
+        $name = optional_param('quizname', '', PARAM_TEXT);
+        $mform->addElement('hidden', 'quiz', $name);
+        $mform->setType('quiz', PARAM_TEXT);
 
         $mform->addElement('textarea', 'question', get_string('questionstr', 'local_stoodle'));
 
