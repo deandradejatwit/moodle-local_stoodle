@@ -38,6 +38,34 @@ class provider implements \core_privacy\local\metadata\provider {
      * @return collection The updated Moodle privacy collection object.
      */
     public static function get_metadata(collection $collection) {
+        // Description for use of core_form.
+        $collection->add_subsystem_link(
+            'core_form',
+            [],
+            'privacy:metadata:core_form'
+        );
+
+        // Description for mdl_stoodle_flashcards table.
+        $collection->add_database_table(
+            'stoodle_flashcards',
+            [
+                'question' => 'privacy:metadata:stoodle_flashcards:question',
+                'answer' => 'privacy:metadata:stoodle_flashcards:answer',
+                'usermodified' => 'privacy:metadata:stoodle_flashcards:usermodified',
+            ],
+            'privacy:metadata:stoodle_flashcards'
+        );
+
+        // Description for mdl_stoodle_flashcard_set table.
+        $collection->add_database_table(
+            'stoodle_flashcard_set',
+            [
+                'name' => 'privacy:metadata:stoodle_flashcard_set:name',
+                'usermodified' => 'privacy:metadata:stoodle_flashcard_set:usermodified',
+            ],
+            'privacy:metadata:stoodle_flashcard_set'
+        );
+
 
         return $collection;
     }
